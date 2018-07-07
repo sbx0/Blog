@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd ">
+
+	<!-- 首页 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- 配置Spring 如果有多个配置xml param-value中可以用,,,,隔开 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:springConfig.xml</param-value>
+	</context-param>
+	<!-- 监听类，系统启动的时候，通过反射创建监听的对象。这个对象是个侦察兵，他来读取Spring配置 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 配置自定义过滤器 -->
+	<filter>
+		<filter-name>MyStrutsFilter</filter-name>
+		<filter-class>service.MyStrutsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MyStrutsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--&lt;!&ndash; 配置struts2过滤器 &ndash;&gt;-->
+	<!--<filter>-->
+		<!--<filter-name>struts2</filter-name>-->
+		<!--<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>struts2</filter-name>-->
+		<!--<url-pattern>/*</url-pattern>-->
+	<!--</filter-mapping>-->
+</web-app>

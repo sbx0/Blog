@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!-- 导入外部属性文件 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!-- 配置C3P0数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="driverClass" value="${jdbc.driverClass}"></property>
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"></property>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"></property>
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"></property>
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}"></property>
+        <property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"></property>
+    </bean>
+    <!-- 配置SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+        <property name="mappingLocations" value="classpath:/entity/*.hbm.xml"></property>
+    </bean>
+    <!-- 配置Dao层 -->
+    <bean id="baseDao" class="dao.impl.BaseDao">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="articleDao" class="dao.impl.ArticleDaoImpl" parent="baseDao"></bean>
+    <bean id="commentDao" class="dao.impl.CommentDaoImpl" parent="baseDao"></bean>
+    <bean id="userDao" class="dao.impl.UserDaoImpl" parent="baseDao"></bean>
+    <bean id="codeDao" class="dao.impl.CodeDaoImpl" parent="baseDao"></bean>
+    <bean id="statusDao" class="dao.impl.StatusDaoImpl" parent="baseDao"></bean>
+    <bean id="messageDao" class="dao.impl.MessageDaoImpl" parent="baseDao"></bean>
+    <bean id="bugDao" class="dao.impl.BugDaoImpl" parent="baseDao"></bean>
+    <bean id="dataDao" class="dao.impl.DataDaoImpl" parent="baseDao"></bean>
+    <!-- 配置Service层 -->
+    <bean id="articleService" class="service.ArticleService">
+        <property name="articleDao" ref="articleDao"></property>
+    </bean>
+    <bean id="commentService" class="service.CommentService">
+        <property name="commentDao" ref="commentDao"></property>
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+    <bean id="userService" class="service.UserService">
+        <property name="userDao" ref="userDao"></property>
+        <property name="statusDao" ref="statusDao"></property>
+    </bean>
+    <bean id="codeService" class="service.CodeService">
+        <property name="codeDao" ref="codeDao"></property>
+        <property name="statusDao" ref="statusDao"></property>
+    </bean>
+    <bean id="statusService" class="service.StatusService">
+        <property name="statusDao" ref="statusDao"></property>
+    </bean>
+    <bean id="messageService" class="service.MessageService">
+        <property name="messageDao" ref="messageDao"></property>
+    </bean>
+    <bean id="bugService" class="service.BugService">
+        <property name="bugDao" ref="bugDao"></property>
+    </bean>
+    <bean id="dataService" class="service.DataService">
+        <property name="dataDao" ref="dataDao"></property>
+    </bean>
+    <!-- 配置Action层 注意Action对象的作用域为prototype-->
+    <bean id="articleAction" class="action.ArticleAction" scope="prototype">
+        <property name="articleService" ref="articleService"></property>
+        <property name="commentService" ref="commentService"></property>
+        <property name="userService" ref="userService"></property>
+        <property name="statusService" ref="statusService"></property>
+        <property name="messageService" ref="messageService"></property>
+    </bean>
+    <bean id="userAction" class="action.UserAction" scope="prototype">
+        <property name="articleService" ref="articleService"></property>
+        <property name="commentService" ref="commentService"></property>
+        <property name="userService" ref="userService"></property>
+        <property name="codeService" ref="codeService"></property>
+        <property name="statusService" ref="statusService"></property>
+        <property name="messageService" ref="messageService"></property>
+        <property name="dataService" ref="dataService"></property>
+        <property name="bugService" ref="bugService"></property>
+    </bean>
+    <bean id="adminAction" class="action.AdminAction" scope="prototype">
+        <property name="articleService" ref="articleService"></property>
+        <property name="commentService" ref="commentService"></property>
+        <property name="userService" ref="userService"></property>
+        <property name="statusService" ref="statusService"></property>
+        <property name="messageService" ref="messageService"></property>
+        <property name="codeService" ref="codeService"></property>
+    </bean>
+    <bean id="bugAction" class="action.BugAction" scope="prototype">
+        <property name="bugService" ref="bugService"></property>
+    </bean>
+    <bean id="dataAction" class="action.DataAction" scope="prototype">
+        <property name="dataService" ref="dataService"></property>
+    </bean>
+
+    <!-- 配置声明式事务管理 -->
+    <!-- 1)配置事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!-- 2)配置事务通知 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 所有的查询方法 -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 3)配置事务AOP -->
+    <aop:config>
+        <aop:pointcut expression="execution(* service.*.*(..))" id="txPointCut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+</beans>

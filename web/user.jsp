@@ -1,0 +1,233 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: sbx0
+  Date: 2017/4/22
+  Time: 21:13
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<c:if test="${session.WW_TRANS_I18N_LOCALE eq null}">
+    <fmt:setBundle basename="i18N_zh_CN"/>
+</c:if>
+<c:if test="${session.WW_TRANS_I18N_LOCALE eq 'zh_CN'}">
+    <fmt:setBundle basename="i18N_zh_CN"/>
+</c:if>
+<c:if test="${session.WW_TRANS_I18N_LOCALE eq 'zh_TW'}">
+    <fmt:setBundle basename="i18N_zh_TW"/>
+</c:if>
+<c:if test="${session.WW_TRANS_I18N_LOCALE eq 'en_US'}">
+    <fmt:setBundle basename="i18N_en_US"/>
+</c:if>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="<fmt:message key="website.name"/>">
+    <meta name="author" content="<fmt:message key="bloger"/>">
+    <link rel="icon" href="img/favicon.png">
+
+    <title>${user.user_name} - <fmt:message key="website.name"/></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/messenger.css" rel="stylesheet">
+    <link href="css/messenger-theme-flat.css" rel="stylesheet">
+    <link href="css/viewer.min.css" rel="stylesheet">
+    <link href="css/blog.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<s:include value="head.jsp"></s:include>
+<div id="container" class="container">
+
+    <div class="blog-header">
+        <h1 class="blog-title">
+            ${user.user_name}
+            <%--<c:if test="${user.user_id eq '1'}">--%>
+                <%--<img src="img/zhanzhang.png" class="status-img" title="称号：站长">--%>
+            <%--</c:if>--%>
+            <%--<c:if test="${user.user_is_admin eq '1'}">--%>
+                <%--<img src="img/admin.png" class="status-img" title="称号：管理员">--%>
+            <%--</c:if>--%>
+            <%--<c:forEach items="${statuses}" var="status">--%>
+                <%--<c:if test="${status.name eq '欧皇'}">--%>
+                    <%--<img src="img/ouhuang.png" class="status-img" title="称号：欧皇">--%>
+                <%--</c:if>--%>
+                <%--<c:if test="${status.name eq 'VIP'}">--%>
+                    <%--<img src="img/vip.png" class="status-img" title="称号：VIP">--%>
+                <%--</c:if>--%>
+            <%--</c:forEach>--%>
+        </h1>
+        <p class="lead blog-description">
+            ${user.user_signature}
+        </p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-9 blog-main">
+            <c:choose>
+                <c:when test="${empty pageBean.list}">
+                    <div>
+                        <h2><fmt:message key="user.no.article"/></h2>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <!-- c:forEach循环遍历 -->
+                    <c:forEach items="${pageBean.list}" var="article" varStatus="articleStatus">
+                        <c:choose>
+                            <c:when test="${article.article_title eq '#weibo#'}">
+                                <div class="blog-post">
+                                    <p class="blog-post-meta">
+                                        <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
+                                    </p>
+                                    <p>
+                                            ${article.article_content}
+                                    </p>
+                                    <a href="article-one?id=${article.article_id}">
+                                        <fmt:message
+                                                key="read.more"/>(${article.article_comment}/${article.article_views})
+                                    </a>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="blog-post">
+                                    <h2 class="blog-post-title">${article.article_title}</h2>
+                                    <p class="blog-post-meta">
+                                        <fmt:formatDate value="${article.article_time}" type="both"
+                                                        pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
+                                    </p>
+                                    <p>${article.article_content}</p>
+                                    <a href="article-one?id=${article.article_id}">
+                                        <fmt:message
+                                                key="read.more"/>(${article.article_comment}/${article.article_views})
+                                    </a>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                        <!-- /.blog-post -->
+                    </c:forEach>
+                    <nav>
+                        <ul class="pager">
+                            <c:choose>
+                                <c:when test="${pageBean.totalPage eq 1}">
+                                    <li class="previous disabled">
+                                        <a><fmt:message key="prev.page"/></a>
+                                    </li>
+                                    <li>
+                                        <span>${pageBean.currentPage}/${pageBean.totalPage}</span>
+                                    </li>
+                                    <li class="next disabled">
+                                        <a><fmt:message key="next.page"/></a>
+                                    </li>
+                                </c:when>
+                                <c:when test="${pageBean.currentPage eq 1}">
+                                    <li class="previous disabled">
+                                        <a><fmt:message key="prev.page"/></a>
+                                    </li>
+                                    <li>
+                                        <span>${pageBean.currentPage}/${pageBean.totalPage}</span>
+                                    </li>
+                                    <li class="next">
+                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage+1}"><fmt:message
+                                                key="next.page"/></a>
+                                    </li>
+                                </c:when>
+                                <c:when test="${pageBean.currentPage eq pageBean.totalPage}">
+                                    <li class="previous">
+                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage-1}"><fmt:message
+                                                key="prev.page"/></a>
+                                    </li>
+                                    <li>
+                                        <span>${pageBean.currentPage}/${pageBean.totalPage}</span>
+                                    </li>
+                                    <li class="next disabled">
+                                        <a><fmt:message key="next.page"/></a>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="previous">
+                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage-1}"><fmt:message
+                                                key="prev.page"/></a>
+                                    </li>
+                                    <li>
+                                        <span>${pageBean.currentPage}/${pageBean.totalPage}</span>
+                                    </li>
+                                    <li class="next">
+                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage+1}"><fmt:message
+                                                key="next.page"/></a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
+                    </nav>
+                </c:otherwise>
+            </c:choose>
+
+        </div>
+        <!-- /.blog-main -->
+
+        <div class="col-sm-3 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <h4><fmt:message key="user.data"/></h4>
+                <p>
+                    <fmt:message key="integral"/>：${user.user_integral}<br>
+                    <c:choose>
+                        <c:when test="${user.user_is_admin == 1}">
+                            <fmt:message key="authority"/>：<a><fmt:message key="user.admin"/></a><br>
+                        </c:when>
+                        <c:otherwise>
+                            <fmt:message key="authority"/>：<a><fmt:message key="user.ordinary"/></a><br>
+                        </c:otherwise>
+                    </c:choose>
+                    <fmt:message key="user.birthday"/>：<a><fmt:formatDate value="${user.user_birthday}" type="both"
+                                                                          pattern="yyyy-MM-dd"></fmt:formatDate></a><br>
+                    <fmt:message key="user.register.time"/>： <a><fmt:formatDate value="${user.user_register_time}"
+                                                                                type="both"
+                                                                                pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></a><br>
+                </p>
+            </div>
+            <div class="sidebar-module hidden-xs">
+                <h4><fmt:message key="follow.me"/></h4>
+                <ol class="list-unstyled">
+                    <li><a href="http://weibo.com/ihomemwh">Weibo</a></li>
+                    <li><a href="https://github.com/sbx0">GitHub</a></li>
+                    <li><a href="https://twitter.com/sbx00">Twitter</a></li>
+                    <li><a href="https://www.facebook.com/sbx00">Facebook</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.blog-sidebar -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+<s:include value="foot.jsp"></s:include>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var viewer = new Viewer(document.getElementById('container'))
+    })
+</script>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="entity.Code" table="CODES">
+		<id name="id" type="java.lang.Integer">
+			<column name="id" not-null="true"></column>
+			<generator class="native"></generator>
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" not-null="true"></column>
+		</property>
+		<property name="code" type="java.lang.String">
+			<column name="code" length="17" not-null="true"></column>
+		</property>
+		<property name="create_time" type="timestamp">
+			<column name="create_time" not-null="true"></column>
+		</property>
+		<property name="stop_time" type="timestamp">
+			<column name="stop_time" not-null="true"></column>
+		</property>
+		<property name="effect" type="java.lang.String">
+			<column name="effect" not-null="true"></column>
+		</property>
+		<!-- 配置n-1的关联关系 -->
+		<many-to-one name="user" class="entity.User" lazy="false" fetch="join">
+			<!-- 外键列的字段名/列名 -->
+			<column name="user_id" not-null="true"></column>
+		</many-to-one>
+	</class>
+</hibernate-mapping>
