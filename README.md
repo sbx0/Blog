@@ -2,6 +2,7 @@
 Java Web 项目
 
 更新日志（不完整）：
+详细的开发日志在 http://blog.ducsr.cn/article-user?id=2
 
 **----- 2018-06-08 -----**
 * common-fileupload.jar 升级为最新的1.3.3
