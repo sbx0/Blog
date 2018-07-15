@@ -66,20 +66,31 @@
             <li class="active">反馈中心</li>
         </ol>
 
+        <div id="rate" class="jumbotron"></div>
+
         <div class="row">
             <div class="col-sm-12 margin-bottom-10">
                 <button id="showSubButton" class="btn btn-danger">
                     提交反馈
                 </button>
-                <button class="btn btn-default">
-                    我的反馈
-                </button>
-                <button class="btn btn-default">
-                    我的任务
-                </button>
-                <button id="solveBugBtn" data-toggle="modal" data-target="#solveBug" class="btn btn-success">
-                    解决反馈
-                </button>
+                <c:choose>
+                    <c:when test="${sessionScope.user ne null}">
+                        <button id="mySubmitBugBtn" data-toggle="modal" data-target="#mySubmitBug"
+                                class="btn btn-default">
+                            我的反馈
+                        </button>
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="${sessionScope.user.user_is_admin eq 1}">
+                        <button id="myBugBtn" data-toggle="modal" data-target="#myBug" class="btn btn-default">
+                            我的任务
+                        </button>
+                        <button id="solveBugBtn" data-toggle="modal" data-target="#solveBug" class="btn btn-success">
+                            解决反馈
+                        </button>
+                    </c:when>
+                </c:choose>
             </div>
             <div class="col-sm-12 col-md-6">
                 <h4>最近提交</h4>
@@ -103,6 +114,46 @@
                         <div class="bounce3"></div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myBug" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySubmitBug">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">我的任务</h4>
+                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="myBugList" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mySubmitBug" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySubmitBug">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">我的反馈</h4>
+                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="mySubmitBugList" class="list-group"></div>
             </div>
         </div>
     </div>
@@ -167,7 +218,7 @@
                             <textarea id="bugBewirte" class="form-control" rows="3" name="bug.bewrite"></textarea>
                         </div>
                         <div class="form-group">
-                            <div id="photo" class="margin-bottom-10"></div>
+                            <div id="photo" class="margin-bottom-10 imgRestrict"></div>
                         </div>
                         <div class="form-group">
                             <form id="upload" name="upload" method="post" action="/UploadServlet"
@@ -218,60 +269,182 @@
         showBugs(1)
 
         img = ""
+
+        getRate()
     })
 
+    // 解决率
+    function getRate() {
+        $.ajax({
+            url: "bug-rate",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                var rate = data.rate
+                $("#rate").html("<h1><a href=\"javascript:void(0)\" title=\"反馈实时解决率\">" + rate + "</a></h1>")
+            }
+        })
+    }
+
+    // 我的任务 按钮点击
+    $("#myBugBtn").click(function () {
+        $("#myBugList").html(buildLoadding("加载中"))
+        $.ajax({
+            url: "bug-mission",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                $("#myBugList").html("")
+                var state = data.state
+                if (state == 0) {
+                    var bugs = data.bugs
+                    if (bugs.length == 0) {
+                        $("#myBugList").html("<p class=\"text-center\">暂无任务</p>")
+                    } else {
+                        var id
+                        var name
+                        var grade
+                        for (var i = 0; i < bugs.length; i++) {
+                            id = bugs[i].id
+                            name = bugs[i].name
+                            grade = bugs[i].grade
+                            $("#myBugList").append(buildBugItem(id, grade, name, 1))
+                        }
+                    }
+                } else {
+                    $("#myBugList").html("<p class=\"text-center\">获取失败</p>")
+                }
+            }
+        })
+    })
+
+    // 我的反馈 按钮点击
+    $("#mySubmitBugBtn").click(function () {
+        $("#mySubmitBugList").html(buildLoadding("加载中"))
+        $.ajax({
+            url: "bug-my",
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                $("#mySubmitBugList").html("")
+                var state = data.state
+                if (state == 0) {
+                    var bugs = data.bugs
+                    if (bugs.length == 0) {
+                        $("#mySubmitBugList").html("<p class=\"text-center\">暂无反馈</p>")
+                    } else {
+                        var id
+                        var name
+                        var grade
+                        for (var i = 0; i < bugs.length; i++) {
+                            id = bugs[i].id
+                            name = bugs[i].name
+                            grade = bugs[i].grade
+                            $("#mySubmitBugList").append(buildBugItem(id, grade, name, 1))
+                        }
+                    }
+                } else {
+                    $("#mySubmitBugList").html("<p class=\"text-center\">获取失败</p>")
+                }
+            }
+        })
+    })
+
+    // 构造 加载
+    function buildLoadding(text) {
+        var loadding = "<div class=\"spinner\">\n" +
+            "<p class=\"text-center\">" + text + "</p>\n" +
+            "<div class=\"bounce1\"></div>\n" +
+            "<div class=\"bounce2\"></div>\n" +
+            "<div class=\"bounce3\"></div>\n" +
+            "</div>"
+        return loadding
+    }
+
+    // 构造 页脚
+    function buildPager(id1, fun1, a1, id2, fun2, a2) {
+        var pager = "<ul class=\"pager\">\n" +
+            "\t\t<li class=\"previous\">\n" +
+            "\t\t\t<a id=\"" + id1 + "\" href=\"" + fun1 + "\" >" + a1 + "</a>\n" +
+            "\t\t</li>\n" +
+            "\t\t<li class=\"next\">\n" +
+            "\t\t\t<a id=\"" + id2 + "\" href=\"" + fun2 + "\" >" + a2 + "</a>\n" +
+            "\t\t</li>\n" +
+            "\t</ul>"
+        return pager
+    }
+
+    // 解决反馈 按钮点击
     $("#solveBugBtn").click(function () {
         $.ajax({
             url: "bug-get",
             type: "POST",
             dataType: "json",
             success: function (data) {
+                $("#solveBugList").html("")
                 var state = data.state
                 if (state == 0) {
-                    var id = data.id
-                    var name = data.name
-                    var grade = data.grade
-                    $("#solveBugList").html(buildBugItem(id, grade, name, 1))
+                    var bugs = data.bugs
+                    if (bugs.length == 0) {
+                        $("#solveBugList").html("<p class=\"text-center\">没有待处理的反馈</p>")
+                    } else {
+                        var id
+                        var name
+                        var grade
+                        for (var i = 0; i < bugs.length; i++) {
+                            id = bugs[i].id
+                            name = bugs[i].name
+                            grade = bugs[i].grade
+                            $("#solveBugList").append(buildBugItem(id, grade, name, 1))
+                        }
+                    }
+                    // $("#solveBugList").append(buildPager("skip", "javascript:void(0)", "跳过", "accept", "javascript:void(0)", "接受"))
                 } else {
                     $("#solveBugList").html("<p class=\"text-center\">获取失败</p>")
                 }
                 $("#solveBugLoadding").hide()
             }
         })
-
     })
 
+    // 图片上传
     document.getElementById("submit").onclick = function () {
         var xhr = new XMLHttpRequest();
         var formData = new FormData();
         var fileInput = document.getElementById("file");
         var file = fileInput.files[0];
-        var json
-        var url
-        formData.append('myFile', file);
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                json = JSON.parse(this.responseText)
-                url = "http://upload.ducsr.cn/" + json.url
+        if (file != null) {
+            var json
+            var url
+            formData.append('myFile', file);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    json = JSON.parse(this.responseText)
+                    url = "http://upload.ducsr.cn/" + json.url
+                }
             }
-        }
-        xhr.open("POST", "http://upload.ducsr.cn/UploadServlet");
-        xhr.onload = function () {
-            if (this.status === 200) {
-                $("#uploadImg").modal('toggle')
-                img = "<img src='" + url + "' class='img-responsive'>"
-                $("#photo").html(img)
-                fileInput.value = ""
+            xhr.open("POST", "http://upload.ducsr.cn/UploadServlet");
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    $("#uploadImg").modal('toggle')
+                    img = "<img src=\"" + url + "\">"
+                    $("#photo").html(img)
+                    fileInput.value = ""
+                }
             }
+            xhr.send(formData)
+            xhr = null
+        } else {
+            alert("未找到文件")
         }
-        xhr.send(formData)
-        xhr = null
     }
 
+    // 检测人机
     $("#isRobot").click(function () {
         loadding()
     })
 
+    // 人机检测
     function loadding() {
         $("#replay").hide()
         $("#checkHuman").show()
@@ -282,10 +455,12 @@
         }, 1000)
     }
 
+    // 提交反馈模态框显示 按钮点击
     $("#showSubButton").click(function () {
         $("#submitBug").modal('toggle')
     })
 
+    //提交反馈 按钮点击
     $("#subBugButton").click(function () {
         if ($("#bugName").val() == "" || $("#bugName").val().length == 0) {
             alert("请输入缺陷名")
@@ -312,6 +487,8 @@
                 $("#submitBugLoadding").hide()
                 $("#bugName").val("")
                 $("#bugBewirte").val("")
+                $("#file").val("")
+                $("#photo").html("")
                 if (state == 0) {
                     alert("提交成功。")
                     newbugs_page = 1

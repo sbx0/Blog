@@ -8,9 +8,21 @@ import java.util.List;
 public class BugDaoImpl extends BaseDao implements BugDao {
 
     @Override
-    public Bug getUnprocessed() {
-        String hql = "FROM Bug b WHERE b.state = ? ORDER BY b.grade DESC";
-        return (Bug) getSession().createQuery(hql).setParameter(0, 0).setMaxResults(1).uniqueResult();
+    public List<Bug> getMySubmitBug(int id) {
+        String hql = "FROM Bug b WHERE b.submitter.user_id = ? AND b.state = ? ORDER BY b.id DESC";
+        return getSession().createQuery(hql).setParameter(0, id).setParameter(1, 0).setMaxResults(20).list();
+    }
+
+    @Override
+    public List<Bug> getMyBug(int id) {
+        String hql = "FROM Bug b WHERE b.solver.user_id = ? AND b.state = ? ORDER BY b.grade DESC";
+        return getSession().createQuery(hql).setParameter(0, id).setParameter(1, 0).setMaxResults(10).list();
+    }
+
+    @Override
+    public List<Bug> getUnprocessed() {
+        String hql = "FROM Bug b WHERE b.state = ? AND b.solver.user_id = null ORDER BY b.grade DESC";
+        return getSession().createQuery(hql).setParameter(0, 0).setMaxResults(20).list();
     }
 
     @Override

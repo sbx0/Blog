@@ -219,6 +219,11 @@
     })
 
     function loadData(page, pageSize, select) {
+        if (pageSize > 10000000) {
+            $("#pageSize").val("10000000")
+            pageSize = 10000000
+            alert("最多查询10000000条记录")
+        }
         var url = "admin-"
         if (select == 1) {
             url += "article"
@@ -331,12 +336,12 @@
                 tableBody += "<td>" + body[i].comment_floor + "</td>"
                 tableBody += "<td>" + body[i].user_id + "</td>"
                 tableBody += "<td>" + body[i].article_id + "</td>"
-                tableBody += "<td><a id ='" + body[i].comment_id + "' name='showComment'>查看</a>"
+                tableBody += "<td><a id ='" + body[i].comment_id + "' name='showComment' href='javascript:void(0)'>查看</a>"
                 tableBody += "<td>" + comment_time + "</td>"
                 tableBody += "<td>" +
                     "<a name='deleteComment' href='article-deleteC?id=" + body[i].comment_id + "&a_id=" + body[i].article_id + "' class='text-danger'>" + i18N.delete + "</a>" +
                     "&nbsp;" +
-                    "<a id ='" + body[i].comment_id + "' name='updateComment'>" + i18N.update + "</a>"
+                    "<a id ='" + body[i].comment_id + "' name='updateComment' href='javascript:void(0)'>" + i18N.update + "</a>"
                 "</td>"
                 tableBody += "</tr>"
                 $("#table-body").append(tableBody)

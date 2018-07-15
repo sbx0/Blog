@@ -2,6 +2,8 @@ package action;
 
 import entity.Bug;
 import entity.User;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import service.BugService;
 
 import java.util.Date;
@@ -15,13 +17,64 @@ public class BugAction extends BaseAction {
     private int what;
     private final int pageSize = 10;
 
+    public String rate() {
+        getJson().put("rate", bugService.rate());
+        return "json";
+    }
+
+    public String mission() {
+        User user = (User) getSession().get("user");
+        if (user != null && user.getUser_is_admin() == 1) {
+            List<Bug> bugs = bugService.getMyBug(user.getUser_id());
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < bugs.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", bugs.get(i).getId());
+                jsonObject.put("name", bugs.get(i).getName());
+                jsonObject.put("grade", bugs.get(i).getGrade());
+                jsonArray.element(jsonObject);
+            }
+            getJson().put("bugs", jsonArray);
+            getJson().put("state", 0);
+        } else {
+            getJson().put("state", 1);
+        }
+        return "json";
+    }
+
+    public String my() {
+        User user = (User) getSession().get("user");
+        if (user != null) {
+            List<Bug> bugs = bugService.getMySubmitBug(user.getUser_id());
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < bugs.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", bugs.get(i).getId());
+                jsonObject.put("name", bugs.get(i).getName());
+                jsonObject.put("grade", bugs.get(i).getGrade());
+                jsonArray.element(jsonObject);
+            }
+            getJson().put("bugs", jsonArray);
+            getJson().put("state", 0);
+        } else {
+            getJson().put("state", 1);
+        }
+        return "json";
+    }
+
     public String get() {
         User user = (User) getSession().get("user");
         if (user != null && user.getUser_is_admin() == 1) {
-            bug = bugService.getUnprocessed();
-            getJson().put("id", bug.getId());
-            getJson().put("name", bug.getName());
-            getJson().put("grade", bug.getGrade());
+            List<Bug> bugs = bugService.getUnprocessed();
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < bugs.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", bugs.get(i).getId());
+                jsonObject.put("name", bugs.get(i).getName());
+                jsonObject.put("grade", bugs.get(i).getGrade());
+                jsonArray.element(jsonObject);
+            }
+            getJson().put("bugs", jsonArray);
             getJson().put("state", 0);
         } else {
             getJson().put("state", 1);
