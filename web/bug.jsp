@@ -65,8 +65,8 @@
         <div class="col-sm-9 blog-main margin-top-20">
             <ol class="breadcrumb">
                 <li><a href="tools.jsp">工具</a></li>
-                <li><a href="bugs.jsp">BUG反馈中心</a></li>
-                <li class="active">BUG详情</li>
+                <li><a href="bugs.jsp">反馈中心</a></li>
+                <li class="active">反馈详情</li>
             </ol>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -131,8 +131,8 @@
                     <div class="form-group">
                         <label for="bugState">缺陷状态</label>
                         <select id="bugState" class="form-control" name="bug.state">
-                            <option value="0">新提交</option>
-                            <option value="1" selected="selected">已处理</option>
+                            <option value="0" selected="selected">新提交</option>
+                            <option value="1">已处理</option>
                             <option value="2">关闭</option>
                         </select>
                     </div>

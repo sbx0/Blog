@@ -60,6 +60,7 @@
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="js/wangEditor.min.js"></script>
 </head>
 <c:choose>
 <c:when test="${sessionScope.user eq null}">
@@ -84,23 +85,25 @@
         </c:when>
         <c:otherwise>
             <form id="postForm" class="margin-bottom-10 margin-top-20" action="">
-                <div class="blog-main margin-bottom-10 ueditor">
-                    <script type="text/plain" id="editor"></script>
+                <div class="blog-main margin-bottom-10">
+                    <div id="editor"></div>
                 </div>
+
                 <!-- /.blog-main -->
                 <div class="blog-sidebar">
                     <div class="sidebar-module">
 
                         <div class="form-group">
                             <c:choose>
-                                <c:when test="${article.article_title ne '#weibo#'}">
+                            <c:when test="${article.article_title ne '#weibo#'}">
                                 <label>文章标题</label>
                                 <input type="text"
-                                </c:when>
-                                <c:otherwise>
-                                <input type="hidden"
-                                </c:otherwise>
-                            </c:choose>  name="article.article_title" id="article_title" class="form-control" value="${article.article_title}"/>
+                            </c:when>
+                            <c:otherwise>
+                            <input type="hidden"
+                            </c:otherwise>
+                            </c:choose> name="article.article_title" id="article_title" class="form-control"
+                                   value="${article.article_title}"/>
                         </div>
                         <c:choose>
                             <c:when test="${saveOrUpdate == 'update'}">
@@ -108,38 +111,48 @@
                                     <c:when test="${sessionScope.user.user_is_admin eq 1}">
                                         <div class="form-group">
                                             <label>用户ID</label>
-                                            <input type="text" name="article.article_author.user_id" value="${article.article_author.user_id}" class="form-control"/>
+                                            <input type="text" name="article.article_author.user_id"
+                                                   value="${article.article_author.user_id}" class="form-control"/>
                                         </div>
                                         <div class="form-group">
                                             <label>评论数</label>
-                                            <input type="text" name="article.article_comment" value="${article.article_comment}" class="form-control"/>
+                                            <input type="text" name="article.article_comment"
+                                                   value="${article.article_comment}" class="form-control"/>
                                         </div>
                                         <div class="form-group">
                                             <label>阅读数</label>
-                                            <input type="text" name="article.article_views" value="${article.article_views}" class="form-control"/>
+                                            <input type="text" name="article.article_views"
+                                                   value="${article.article_views}" class="form-control"/>
                                         </div>
                                         <div class="form-group">
                                             <label>文章ID</label>
-                                            <input type="text" name="article.article_id" value="${article.article_id}" class="form-control" readonly/>
+                                            <input type="text" name="article.article_id" value="${article.article_id}"
+                                                   class="form-control" readonly/>
                                         </div>
                                         <div class="form-group">
                                             <label>发布时间</label>
-                                            <input type="text" name="article.article_time" value="${article.article_time}" class="form-control" readonly/>
+                                            <input type="text" name="article.article_time"
+                                                   value="${article.article_time}" class="form-control" readonly/>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
                                         <input type="hidden" name="article.article_id" value="${article.article_id}"/>
-                                        <input type="hidden" name="article.article_time" value="${article.article_time}"/>
-                                        <input type="hidden" name="article.article_author.user_id" value="${article.article_author.user_id}"/>
-                                        <input type="hidden" name="article.article_views" value="${article.article_views}"/>
-                                        <input type="hidden" name="article.article_comment" value="${article.article_comment}"/>
+                                        <input type="hidden" name="article.article_time"
+                                               value="${article.article_time}"/>
+                                        <input type="hidden" name="article.article_author.user_id"
+                                               value="${article.article_author.user_id}"/>
+                                        <input type="hidden" name="article.article_views"
+                                               value="${article.article_views}"/>
+                                        <input type="hidden" name="article.article_comment"
+                                               value="${article.article_comment}"/>
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
                         </c:choose>
                     </div>
 
-                    <input type="hidden" name="article.article_content" id="article_content" value='${article.article_content}'/>
+                    <input type="hidden" name="article.article_content" id="article_content"
+                           value='${article.article_content}'/>
                     <div class="btn-group" role="group" aria-label="..." style="width: 100%">
                         <button id="commentButton" type="submit" class="btn btn-primary" style="width: 100%">
                             发表文章
@@ -161,65 +174,76 @@
     $(document).ready(function () {
 
         //实例化编辑器
-        var ue = UE.getEditor('editor')
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'italic',  // 斜体
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'image',  // 插入图片
+            'code',  // 插入代码
+            'undo',  // 撤销
+            'redo'  // 重复
+        ]
+        editor.create()
 
-        ue.addListener("ready", function () {
-            // editor准备好之后才可以使用
-            ue.setContent($("#article_content").val())
-            $("img").addClass("imgRestrict")
-        });
+        editor.txt.html($("#article_content").val())
 
-        var commentState = null
-        $("#commentButton").click(function () {
-            var html = ue.getContent()
-            $("#article_content").val(html)
-            var url = "article-post"
-            if ($("#article_content").val() == null || $("#article_content").val().trim().length == 0 || $("#article_content").val() == "") {
-                alert("请输入文章内容！")
-                $("#article_content").val("")
-                return false
-            } else if ($("#article_title").val() == null || $("#article_title").val().trim().length == 0 || $("#article_title").val() == "") {
-                alert("请输入标题！")
-                $("#article_title").val("")
-                return false
-            } else if ($("#article_title").val().trim().length > 30) {
-                alert("标题最长30个字符！")
-                $("#article_title").val($("#article_title").val().trim().substring(0, 30))
-                return false
-            } else {
-                if (commentState != null) return false
-                commentState = "pending"
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: $("#postForm").serialize(),
-                    dataType: "json",
-                    success: function (data) {
-                        // 接收json数据
-                        var saveOrUpdate = data.saveOrUpdate
-                        var status = data.status
-                        if (status == 0) {
-                            if (saveOrUpdate == 'save') {
-                                setCookie("msg", data.msg, 1)
-                                window.location.href = "article-list"
-                            } else if (saveOrUpdate == 'update') {
-                                window.location.href = "article-one?id=${article.article_id}"
-                            }
-                        } else if (status == 1) {
-                            if (saveOrUpdate == 'save') {
-                                alert("服务器异常！发表博文失败！")
-                            } else if (saveOrUpdate == 'update') {
-                                alert("服务器异常！修改博文失败！")
-                            }
+    })
+
+    var commentState = null
+    $("#commentButton").click(function () {
+        var html = editor.txt.html()
+        $("#article_content").val(html)
+        var url = "article-post"
+        if ($("#article_content").val() == null || $("#article_content").val().trim().length == 0 || $("#article_content").val() == "") {
+            alert("请输入文章内容！")
+            $("#article_content").val("")
+            return false
+        } else if ($("#article_title").val() == null || $("#article_title").val().trim().length == 0 || $("#article_title").val() == "") {
+            alert("请输入标题！")
+            $("#article_title").val("")
+            return false
+        } else if ($("#article_title").val().trim().length > 30) {
+            alert("标题最长30个字符！")
+            $("#article_title").val($("#article_title").val().trim().substring(0, 30))
+            return false
+        } else {
+            if (commentState != null) return false
+            commentState = "pending"
+            $.ajax({
+                type: "post",
+                url: url,
+                data: $("#postForm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    // 接收json数据
+                    var saveOrUpdate = data.saveOrUpdate
+                    var status = data.status
+                    if (status == 0) {
+                        if (saveOrUpdate == 'save') {
+                            setCookie("msg", data.msg, 1)
+                            window.location.href = "article-list"
+                        } else if (saveOrUpdate == 'update') {
+                            window.location.href = "article-one?id=${article.article_id}"
                         }
-                        commentState = null
-                    }, error: function (e) {
-                        alert("服务器出错！")
+                    } else if (status == 1) {
+                        if (saveOrUpdate == 'save') {
+                            alert("服务器异常！发表博文失败！")
+                        } else if (saveOrUpdate == 'update') {
+                            alert("服务器异常！修改博文失败！")
+                        }
                     }
-                })
-                return false
-            }
-        })
+                    commentState = null
+                }, error: function (e) {
+                    alert("服务器出错！")
+                }
+            })
+            return false
+        }
     })
 </script>
 </body>

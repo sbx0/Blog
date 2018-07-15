@@ -100,7 +100,7 @@
                                     <p class="blog-post-meta">
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
-                                    <p>
+                                    <p class="imgRestrict">
                                             ${article.article_content}
                                     </p>
                                     <a href="article-one?id=${article.article_id}">
@@ -116,10 +116,9 @@
                                         <fmt:formatDate value="${article.article_time}" type="both"
                                                         pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
                                     </p>
-                                    <p>${article.article_content}</p>
+                                    <p class="imgRestrict">${article.article_content}</p>
                                     <a href="article-one?id=${article.article_id}">
-                                        <fmt:message
-                                                key="read.more"/>(${article.article_comment}/${article.article_views})
+                                        <fmt:message key="read.more"/>(${article.article_comment}/${article.article_views})
                                     </a>
                                 </div>
                             </c:otherwise>
@@ -205,15 +204,6 @@
                                                                                 type="both"
                                                                                 pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></a><br>
                 </p>
-            </div>
-            <div class="sidebar-module hidden-xs">
-                <h4><fmt:message key="follow.me"/></h4>
-                <ol class="list-unstyled">
-                    <li><a href="http://weibo.com/ihomemwh">Weibo</a></li>
-                    <li><a href="https://github.com/sbx0">GitHub</a></li>
-                    <li><a href="https://twitter.com/sbx00">Twitter</a></li>
-                    <li><a href="https://www.facebook.com/sbx00">Facebook</a></li>
-                </ol>
             </div>
         </div>
         <!-- /.blog-sidebar -->

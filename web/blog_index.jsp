@@ -71,7 +71,7 @@
                             <textarea id="postTextarea" name="article.article_content" class="form-control"
                                       placeholder="你不想说点什么吗？" cols="80"></textarea>
                         </div>
-                        <div id="photo" class="margin-bottom-10">
+                        <div id="photo" class="margin-bottom-10 imgRestrict">
                         </div>
                         <div class="btn-group" role="group">
                             <button id="cleanBtn" type="button" class="btn btn-default btn-danger">清空</button>
@@ -218,28 +218,28 @@
             </div>
 
             <%--<div class="sidebar-module">--%>
-                <%--<h5><fmt:message key="article.month.hotrank"/></h5>--%>
-                <%--<ol class="list-unstyled">--%>
-                    <%--<c:choose>--%>
-                        <%--<c:when test="${hotRankingList eq null || fn:length(hotRankingList) eq 0}">--%>
-                            <%--<p class="text-center">暂无博文</p>--%>
-                        <%--</c:when>--%>
-                        <%--<c:otherwise>--%>
-                            <%--<c:forEach items="${hotRankingList}" var="article" varStatus="articleStatus">--%>
-                                <%--<li>--%>
-                                        <%--${articleStatus.index+1}.--%>
-                                    <%--<a href="article-one?id=${article.article_id}">--%>
-                                            <%--${article.article_title}--%>
-                                    <%--</a>--%>
-                                    <%--<fmt:message key="hotrank"/>--%>
-                                    <%--:--%>
-                                    <%--<fmt:parseNumber integerOnly="true"--%>
-                                                     <%--value="${article.article_views/10+article.article_comment*5}"/>--%>
-                                <%--</li>--%>
-                            <%--</c:forEach>--%>
-                        <%--</c:otherwise>--%>
-                    <%--</c:choose>--%>
-                <%--</ol>--%>
+            <%--<h5><fmt:message key="article.month.hotrank"/></h5>--%>
+            <%--<ol class="list-unstyled">--%>
+            <%--<c:choose>--%>
+            <%--<c:when test="${hotRankingList eq null || fn:length(hotRankingList) eq 0}">--%>
+            <%--<p class="text-center">暂无博文</p>--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+            <%--<c:forEach items="${hotRankingList}" var="article" varStatus="articleStatus">--%>
+            <%--<li>--%>
+            <%--${articleStatus.index+1}.--%>
+            <%--<a href="article-one?id=${article.article_id}">--%>
+            <%--${article.article_title}--%>
+            <%--</a>--%>
+            <%--<fmt:message key="hotrank"/>--%>
+            <%--:--%>
+            <%--<fmt:parseNumber integerOnly="true"--%>
+            <%--value="${article.article_views/10+article.article_comment*5}"/>--%>
+            <%--</li>--%>
+            <%--</c:forEach>--%>
+            <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
+            <%--</ol>--%>
             <%--</div>--%>
 
             <div class="sidebar-module hidden-xs">
@@ -305,26 +305,32 @@
         var formData = new FormData();
         var fileInput = document.getElementById("file");
         var file = fileInput.files[0];
-        var json
-        var url
-        formData.append('myFile', file);
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                json = JSON.parse(this.responseText)
-                url = "http://upload.ducsr.cn/" + json.url
+        if (file != null) {
+
+
+            var json
+            var url
+            formData.append('myFile', file);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    json = JSON.parse(this.responseText)
+                    url = "http://upload.ducsr.cn/" + json.url
+                }
             }
-        }
-        xhr.open("POST", "http://upload.ducsr.cn/UploadServlet");
-        xhr.onload = function () {
-            if (this.status === 200) {
-                $("#uploadImg").modal('toggle')
-                img = "<img src=\"" + url + "\">"
-                $("#photo").html(img)
-                fileInput.value = ""
+            xhr.open("POST", "http://upload.ducsr.cn/UploadServlet");
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    $("#uploadImg").modal('toggle')
+                    img = "<img src=\"" + url + "\">"
+                    $("#photo").html(img)
+                    fileInput.value = ""
+                }
             }
+            xhr.send(formData)
+            xhr = null
+        } else {
+            alert("未找到文件")
         }
-        xhr.send(formData)
-        xhr = null
     }
 
     $("#imgBtn").click(function () {

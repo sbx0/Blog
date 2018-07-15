@@ -3,6 +3,7 @@ package service;
 import dao.impl.BugDaoImpl;
 import entity.Bug;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class BugService {
@@ -12,8 +13,30 @@ public class BugService {
         this.bugDao = bugDao;
     }
 
+    // 反馈解决率
+    public String rate() {
+        double newBugsCount = bugDao.countNewBugs();
+        double solvedBugsCount = bugDao.countSolvedBugs();
+        double all = newBugsCount + solvedBugsCount;
+        double rate = solvedBugsCount / all;
+        NumberFormat fmt = NumberFormat.getPercentInstance();
+        fmt.setMaximumFractionDigits(2);
+        String sRate = fmt.format(rate);
+        return sRate;
+    }
+
+    // 获取提交的反馈
+    public List<Bug> getMySubmitBug(int id) {
+        return bugDao.getMySubmitBug(id);
+    }
+
+    // 获取任务
+    public List<Bug> getMyBug(int id) {
+        return bugDao.getMyBug(id);
+    }
+
     // 获取未处理的Bug 按重要程度排列
-    public Bug getUnprocessed() {
+    public List<Bug> getUnprocessed() {
         return bugDao.getUnprocessed();
     }
 

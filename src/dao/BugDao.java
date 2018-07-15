@@ -5,8 +5,15 @@ import entity.Bug;
 import java.util.List;
 
 public interface BugDao {
+
+    // 获取提交的反馈
+    public List<Bug> getMySubmitBug(int id);
+
+    // 获取任务
+    public List<Bug> getMyBug(int id);
+
     // 获取未处理的Bug 按重要程度排序
-    public Bug getUnprocessed();
+    public List<Bug> getUnprocessed();
 
     // 移除用户信息
     public void removeUser(int id);

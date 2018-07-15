@@ -17,7 +17,11 @@ h6, .h6 {
     color: #333;
 }
 
-.imgRestrict img{
+.modal-body .list-group {
+    margin-bottom: 0px;
+}
+
+.imgRestrict img {
     max-height: 300px;
 }
 

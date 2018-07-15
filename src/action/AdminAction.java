@@ -22,6 +22,7 @@ public class AdminAction extends BaseAction {
     private String api_key;
 
     public String article() {
+        if (pageSize > 10000000) pageSize = 10000000;
         List<Article> articles = articleService.queryForPage(pageSize, page).getList();
         JSONArray tableTitle = new JSONArray();
         tableTitle.add("#");
@@ -37,6 +38,7 @@ public class AdminAction extends BaseAction {
     }
 
     public String user() {
+        if (pageSize > 10000000) pageSize = 10000000;
         List<User> users = userService.queryForPage(pageSize, page).getList();
         JSONArray tableTitle = new JSONArray();
         tableTitle.add("#");
@@ -55,7 +57,8 @@ public class AdminAction extends BaseAction {
     }
 
     public String comment() {
-        List<Comment> comments = commentService.queryForPage(pageSize,page).getList();
+        if (pageSize > 10000000) pageSize = 10000000;
+        List<Comment> comments = commentService.queryForPage(pageSize, page).getList();
         JSONArray tableTitle = new JSONArray();
         tableTitle.add("#");
         tableTitle.add("楼层");
@@ -65,7 +68,7 @@ public class AdminAction extends BaseAction {
         tableTitle.add("评论时间");
         tableTitle.add("操作");
         getJson().put("body", commentService.toJsonArray(comments));
-        getJson().put("title",tableTitle);
+        getJson().put("title", tableTitle);
         return "json";
     }
 
