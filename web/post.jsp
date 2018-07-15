@@ -192,59 +192,61 @@
 
         editor.txt.html($("#article_content").val())
 
+        var commentState = null
+        $("#commentButton").click(function () {
+            var html = editor.txt.html()
+            $("#article_content").val(html)
+            var url = "article-post"
+            if ($("#article_content").val() == null || $("#article_content").val().trim().length == 0 || $("#article_content").val() == "") {
+                alert("请输入文章内容！")
+                $("#article_content").val("")
+                return false
+            } else if ($("#article_title").val() == null || $("#article_title").val().trim().length == 0 || $("#article_title").val() == "") {
+                alert("请输入标题！")
+                $("#article_title").val("")
+                return false
+            } else if ($("#article_title").val().trim().length > 30) {
+                alert("标题最长30个字符！")
+                $("#article_title").val($("#article_title").val().trim().substring(0, 30))
+                return false
+            } else {
+                if (commentState != null) return false
+                commentState = "pending"
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: $("#postForm").serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        // 接收json数据
+                        var saveOrUpdate = data.saveOrUpdate
+                        var status = data.status
+                        if (status == 0) {
+                            if (saveOrUpdate == 'save') {
+                                setCookie("msg", data.msg, 1)
+                                window.location.href = "article-list"
+                            } else if (saveOrUpdate == 'update') {
+                                window.location.href = "article-one?id=${article.article_id}"
+                            }
+                        } else if (status == 1) {
+                            if (saveOrUpdate == 'save') {
+                                alert("服务器异常！发表博文失败！")
+                            } else if (saveOrUpdate == 'update') {
+                                alert("服务器异常！修改博文失败！")
+                            }
+                        }
+                        commentState = null
+                    }, error: function (e) {
+                        alert("服务器出错！")
+                    }
+                })
+                return false
+            }
+        })
+
     })
 
-    var commentState = null
-    $("#commentButton").click(function () {
-        var html = editor.txt.html()
-        $("#article_content").val(html)
-        var url = "article-post"
-        if ($("#article_content").val() == null || $("#article_content").val().trim().length == 0 || $("#article_content").val() == "") {
-            alert("请输入文章内容！")
-            $("#article_content").val("")
-            return false
-        } else if ($("#article_title").val() == null || $("#article_title").val().trim().length == 0 || $("#article_title").val() == "") {
-            alert("请输入标题！")
-            $("#article_title").val("")
-            return false
-        } else if ($("#article_title").val().trim().length > 30) {
-            alert("标题最长30个字符！")
-            $("#article_title").val($("#article_title").val().trim().substring(0, 30))
-            return false
-        } else {
-            if (commentState != null) return false
-            commentState = "pending"
-            $.ajax({
-                type: "post",
-                url: url,
-                data: $("#postForm").serialize(),
-                dataType: "json",
-                success: function (data) {
-                    // 接收json数据
-                    var saveOrUpdate = data.saveOrUpdate
-                    var status = data.status
-                    if (status == 0) {
-                        if (saveOrUpdate == 'save') {
-                            setCookie("msg", data.msg, 1)
-                            window.location.href = "article-list"
-                        } else if (saveOrUpdate == 'update') {
-                            window.location.href = "article-one?id=${article.article_id}"
-                        }
-                    } else if (status == 1) {
-                        if (saveOrUpdate == 'save') {
-                            alert("服务器异常！发表博文失败！")
-                        } else if (saveOrUpdate == 'update') {
-                            alert("服务器异常！修改博文失败！")
-                        }
-                    }
-                    commentState = null
-                }, error: function (e) {
-                    alert("服务器出错！")
-                }
-            })
-            return false
-        }
-    })
+
 </script>
 </body>
 </html>
