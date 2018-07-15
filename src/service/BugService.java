@@ -2,6 +2,7 @@ package service;
 
 import dao.impl.BugDaoImpl;
 import entity.Bug;
+import net.sf.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -118,32 +119,61 @@ public class BugService {
         return bugDao.queryByPage(sql, size, offset);
     }
 
-//    public Bug getDetail(Bug b) {
-//        if (b.getGrade().equals("1")) {
-//            b.setGrade("建议");
-//        } else if (b.getGrade().equals("2")) {
-//            b.setGrade("低级");
-//        } else if (b.getGrade().equals("3")) {
-//            b.setGrade("一般");
-//        } else if (b.getGrade().equals("4")) {
-//            b.setGrade("严重");
-//        } else if (b.getGrade().equals("5")) {
-//            b.setGrade("致命");
-//        } else {
-//            b.setGrade("未知");
-//        }
-//        if (b.getState().equals("0")) {
-//            b.setState("新提交");
-//        } else if (b.getState().equals("1")) {
-//            b.setState("已处理");
-//        } else if (b.getState().equals("2")) {
-//            b.setState("重开");
-//        } else if (b.getState().equals("3")) {
-//            b.setState("关闭");
-//        } else {
-//            b.setState("未知");
-//        }
-//        return b;
-//    }
+    // toJson
+    public JSONObject toJson(Bug bug) {
+        JSONObject jsonBug = new JSONObject();
+        jsonBug.put("id", bug.getId());
+        jsonBug.put("name", bug.getName());
+        jsonBug.put("grade", bug.getGrade());
+        jsonBug.put("state", bug.getState());
+        return jsonBug;
+    }
+
+    // 将分级转化成文字
+    public String gradeToString(int num) {
+        String grade;
+        switch (num) {
+            case 1:
+                grade = "建议";
+                break;
+            case 2:
+                grade = "低级";
+                break;
+            case 3:
+                grade = "一般";
+                break;
+            case 4:
+                grade = "严重";
+                break;
+            case 5:
+                grade = "致命";
+                break;
+            default:
+                grade = "未知";
+        }
+        return grade;
+    }
+
+    // 将状态转化成文字
+    public String stateToString(int num) {
+        String state;
+        switch (num) {
+            case 0:
+                state = "新提交";
+                break;
+            case 1:
+                state = "已处理";
+                break;
+            case 2:
+                state = "重开";
+                break;
+            case 3:
+                state = "关闭";
+                break;
+            default:
+                state = "未知";
+        }
+        return state;
+    }
 
 }
