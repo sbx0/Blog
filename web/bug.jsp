@@ -77,12 +77,12 @@
                     <p>
                     <h4>
                         评级:
-                        <strong class="text-danger">
+                        <strong id="grade">
                             ${bug.grade}
                         </strong>
                         &nbsp;
                         状态:
-                        <strong class="text-danger">
+                        <strong id="state">
                             ${bug.state}
                         </strong>
                     </h4>
@@ -164,7 +164,70 @@
     $(document).ready(function () {
         $("#toolsTab").addClass("active")
         var viewer = new Viewer(document.getElementById('container'))
+
+        var grade = $("#grade").html().toString().trim()
+        var state = $("#state").html().toString().trim()
+
+        $("#grade").html(gradeToString(grade))
+        $("#state").html(stateToString(state))
     })
+
+    function stateToString(num) {
+        var state
+        switch (num) {
+            case "0":
+                state = "新提交"
+                $("#state").addClass("text-primary")
+                break
+            case "1":
+                state = "已处理"
+                $("#state").addClass("text-success")
+                break
+            case "2":
+                state = "重开"
+                $("#state").addClass("text-primary")
+                break
+            case "3":
+                state = "关闭"
+                $("#state").addClass("text-success")
+                break
+            default:
+                state = "未知"
+                $("#state").addClass("text-muted")
+        }
+        return state
+    }
+
+    function gradeToString(num) {
+        var grade
+        switch (num) {
+            case "1":
+                grade = "建议"
+                $("#grade").addClass("text-primary")
+                break
+            case "2":
+                grade = "低级"
+                $("#grade").addClass("text-success")
+                break
+            case "3":
+                grade = "一般"
+                $("#grade").addClass("text-info")
+                break
+            case "4":
+                grade = "严重"
+                $("#grade").addClass("text-warning")
+                break
+            case "5":
+                grade = "致命"
+                $("#grade").addClass("text-danger")
+                break
+            default:
+                grade = "未知"
+                $("#grade").addClass("text-muted")
+        }
+        return grade
+    }
+
     $("#subBugButton").click(function () {
         if ($("#bugReplay").val() == "" || $("#bugReplay").val().length == 0) {
             alert("请输入留言")

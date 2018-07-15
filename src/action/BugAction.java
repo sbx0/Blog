@@ -3,7 +3,6 @@ package action;
 import entity.Bug;
 import entity.User;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import service.BugService;
 
 import java.util.Date;
@@ -28,11 +27,7 @@ public class BugAction extends BaseAction {
             List<Bug> bugs = bugService.getMyBug(user.getUser_id());
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < bugs.size(); i++) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", bugs.get(i).getId());
-                jsonObject.put("name", bugs.get(i).getName());
-                jsonObject.put("grade", bugs.get(i).getGrade());
-                jsonArray.element(jsonObject);
+                jsonArray.element(bugService.toJson(bugs.get(i)));
             }
             getJson().put("bugs", jsonArray);
             getJson().put("state", 0);
@@ -48,11 +43,7 @@ public class BugAction extends BaseAction {
             List<Bug> bugs = bugService.getMySubmitBug(user.getUser_id());
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < bugs.size(); i++) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", bugs.get(i).getId());
-                jsonObject.put("name", bugs.get(i).getName());
-                jsonObject.put("grade", bugs.get(i).getGrade());
-                jsonArray.element(jsonObject);
+                jsonArray.element(bugService.toJson(bugs.get(i)));
             }
             getJson().put("bugs", jsonArray);
             getJson().put("state", 0);
@@ -68,11 +59,7 @@ public class BugAction extends BaseAction {
             List<Bug> bugs = bugService.getUnprocessed();
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < bugs.size(); i++) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", bugs.get(i).getId());
-                jsonObject.put("name", bugs.get(i).getName());
-                jsonObject.put("grade", bugs.get(i).getGrade());
-                jsonArray.element(jsonObject);
+                jsonArray.element(bugService.toJson(bugs.get(i)));
             }
             getJson().put("bugs", jsonArray);
             getJson().put("state", 0);
