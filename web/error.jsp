@@ -29,23 +29,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="<fmt:message key="website.name"/>">
     <meta name="author" content="<fmt:message key="bloger"/>">
     <link rel="icon" href="img/favicon.png">
 
-    <title>出错了！菜鸡三连！！！ - <fmt:message key="website.name"/></title>
+    <title>抱歉 - <fmt:message key="website.name"/></title>
 
-    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="css/messenger.css" rel="stylesheet">
     <link href="css/messenger-theme-flat.css" rel="stylesheet">
     <link href="css/viewer.min.css" rel="stylesheet">
+    <link href="css/signin.css" rel="stylesheet">
     <link href="css/blog.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -56,17 +51,13 @@
 
 </head>
 <body>
-<link href="css/signin.css" rel="stylesheet">
+
+<%-- Head begin --%>
 <div class="container">
     <ul class="nav nav-tabs">
         <li id="indexTab" role="presentation">
-            <a href="index.jsp">
+            <a href="article-list">
                 <fmt:message key="index"/>
-            </a>
-        </li>
-        <li id="searchTab" role="presentation">
-            <a href="search.jsp">
-                <fmt:message key="search"/>
             </a>
         </li>
         <li id="toolsTab" role="presentation">
@@ -77,25 +68,9 @@
         <c:choose>
             <c:when test="${sessionScope.user eq null}">
                 <li role="presentation" class="dropdown" style="float: right">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button"
-                       aria-haspopup="true"
-                       aria-expanded="false">
+                    <a data-toggle="modal" data-target="#languageModal" href="javascript:void(0)">
                         <fmt:message key="language"/>
-                        <span class="caret">
-                        </span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li role="presentation">
-                            <a href="javascript:void(0)" name="cn_CN">
-                                中文
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" name="en_US">
-                                English
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li id="loginTab" role="presentation" style="float: right">
                     <a id="showLoginModal" href="javascript:void(0)">
@@ -105,62 +80,15 @@
             </c:when>
             <c:otherwise>
                 <li role="presentation" class="dropdown" style="float: right">
-                    <a id="user-name-a" class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)"
-                       role="button"
-                       aria-haspopup="true"
-                       aria-expanded="false">
-                            ${sessionScope.user.user_name}<span class="caret"></span>
+                    <a data-toggle="modal" data-target="#languageModal" href="javascript:void(0)">
+                        <fmt:message key="language"/>
                     </a>
-                    <ul class="dropdown-menu">
-                        <c:if test="${sessionScope.user.user_is_admin eq 1}">
-                            <li role="presentation">
-                                <a href="admin/index.jsp">
-                                    <fmt:message key="admin"/>
-                                </a>
-                            </li>
-                            <li class="divider">
-
-                            </li>
-                        </c:if>
-                        <li role="presentation">
-                            <a data-toggle="modal" data-target="#languageModal" href="javascript:void(0)">
-                                <fmt:message key="language"/>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="article-user?id=${sessionScope.user.user_id}">
-                                <fmt:message key="personal.page"/>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" id="message">
-                                <fmt:message key="msg"/>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="javascript:void(0)" id="showCodes">
-                                <fmt:message key="package"/>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="post.jsp">
-                                <fmt:message key="post"/>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="activity.jsp" class="gif-color-1">
-                                <fmt:message key="activity"/>
-                            </a>
-                        </li>
-                        <li class="divider">
-
-                        </li>
-                        <li role="presentation">
-                            <a id="logout" href="javascript:void(0)">
-                                <fmt:message key="logout"/>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li role="presentation" class="dropdown" style="float: right">
+                    <a id="user-name-a" data-toggle="modal" data-target="#menuModal" href="javascript:void(0)">
+                            ${sessionScope.user.user_name}
+                        <span id="unread-count" class="badge"></span>
+                    </a>
                 </li>
             </c:otherwise>
         </c:choose>
@@ -174,11 +102,12 @@
             </span>
         </button>
     </div>
+
 </div>
 
-<div id="codesModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+<div id="codesModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
      aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -201,9 +130,108 @@
     </div>
 </div>
 
-<div id="languageModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+<div id="menuModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
      aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+                <h4 class="modal-title">
+                    菜单
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                <h4>
+
+                    <div class="row margin-bottom-10">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                <a href="activity.jsp" class="btn btn-default menu-a" role="button">
+                                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+                                    <strong>
+                                        火爆积分游戏上线！
+                                    </strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <c:if test="${sessionScope.user.user_is_admin eq 1}">
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12">
+                                    <a href="admin_index.jsp" class="btn btn-default menu-a" role="button">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <fmt:message key="admin"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <div class="row margin-bottom-10">
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <a href="javascript:void(0)" id="message" class="btn btn-default menu-a" role="button">
+                                    <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                                    <fmt:message key="msg"/>
+                                    <span id="msg-count" class="badge"></span>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="javascript:void(0)" id="showCodes" class="btn btn-default menu-a"
+                                   role="button">
+                                    <span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
+                                    <fmt:message key="package"/>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="post.jsp" class="btn btn-success menu-a" role="button">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    <fmt:message key="post"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row margin-bottom-10">
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <a href="article-user?id=${sessionScope.user.user_id}" class="btn btn-default menu-a"
+                                   role="button">
+                                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                                    <fmt:message key="personal.page"/>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="user-info?id=${sessionScope.user.user_id}" class="btn btn-default menu-a"
+                                   role="button">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    <fmt:message key="user.data"/>
+                                </a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a id="logout" href="javascript:void(0)" class="btn btn-danger menu-a" role="button">
+                                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                    <fmt:message key="logout"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="languageModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -215,17 +243,39 @@
                     <fmt:message key="language"/>
                 </h4>
             </div>
-            <div class="modal-body">
-                <a href="javascript:void(0)" name="cn_CN">中文</a><br>
-                <a href="javascript:void(0)" name="en_US">English</a>
+            <div class="modal-body text-center">
+
+                <div class="row margin-bottom-10">
+                    <div class="col-xs-12">
+                        <div class="col-xs-4">
+                            <a href="javascript:void(0)" name="zh_CN" class="btn btn-success btn-md"
+                               role="button">简体中文</a>
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="javascript:void(0)" name="zh_TW" class="btn btn-danger btn-md"
+                               role="button">繁体中文</a>
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="javascript:void(0)" name="en_US" class="btn btn-danger btn-md" role="button">English</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row margin-top-20">
+                    <div class="col-xs-12">
+                        <p class="text-warning">红色标注表示翻譯尚未完成。</p>
+                        <p class="text-warning">The red label indicates that the translation has not been completed.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
 
-<div id="loginModal" class="modal fade bs-example-modal-sm"
+<div id="loginModal" class="modal fade bs-example-modal-md"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -249,12 +299,12 @@
                                     </a>
                                 </p>
                             </span>
-                            <label for="inputEmail" class="sr-only">
+                            <label for="inputEmail">
                                 <fmt:message key="email"/>
                             </label>
                             <input id="inputEmail" type="text" class="form-control" name="user.user_email"
                                    placeholder="<fmt:message key='email'/>"/>
-                            <label for="inputPassword" class="sr-only">
+                            <label for="inputPassword">
                                 <fmt:message key="password"/>
                             </label>
                             <input id="inputPassword" type="password" class="form-control" name="user.user_password"
@@ -270,9 +320,9 @@
     </div>
 </div>
 
-<div id="registerModal" class="modal fade bs-example-modal-sm"
+<div id="registerModal" class="modal fade bs-example-modal-md"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -286,17 +336,17 @@
             </div>
             <div class="modal-body">
                 <form id="registerForm" class="form-signin">
-                    <label for="registerName" class="sr-only">
+                    <label for="registerName">
                         <fmt:message key="user.name"/>
                     </label>
                     <input type="text" id="registerName" name="user.user_name" class="form-control"
                            placeholder="<fmt:message key="user.name"/>">
-                    <label for="registerEmail" class="sr-only">
+                    <label for="registerEmail">
                         <fmt:message key="email"/>
                     </label>
                     <input type="text" id="registerEmail" name="user.user_email" class="form-control"
                            placeholder="<fmt:message key="email"/>">
-                    <label for="registerPassword" class="sr-only">
+                    <label for="registerPassword">
                         <fmt:message key="password"/>
                     </label>
                     <input type="password" id="registerPassword" name="user.user_password" class="form-control"
@@ -309,16 +359,15 @@
         </div>
     </div>
 </div>
+<%-- Head End --%>
+
 <div class="container">
     <div class="row margin-bottom-10 margin-top-20 text-center">
-        <h2>
-            我是谁？！<br>我在哪？！<br>谁在打我？！<br>
-        </h2>
-        <h4 class="text-danger">
-            很抱歉，系统出现了一些不可预见的错误<br>
-            或<br>
-            该页面已被删除
-        </h4>
+        <strong>
+            <h3 class="text-danger">
+                由于不可抗力，该页面无法正常显示
+            </h3>
+        </strong>
         <p>
             您可以在
             <strong>
@@ -326,40 +375,62 @@
                     反馈中心
                 </a>
             </strong>
-            提交您遇到的问题
+            提交您遇到的问题，<strong>无需登陆</strong>
         </p>
     </div>
 </div>
 
+<%-- Foot begin --%>
 <footer class="blog-footer">
+    <p>
+        <a href="index.jsp" class="text-danger">真首页</a>
+        |
+        <a href="bugs.jsp" class="text-danger">意见反馈</a>
+    </p>
+    <p>
+        当前在线数:
+        <strong>
+                <span id="loginCount" class="text-danger">
+                    加载中
+                </span>
+        </strong>
+        &nbsp;
+        <span id="maxLoginDate">
+                    加载中
+        </span>
+    </p>
     <p>
         <fmt:message key="copyright"/>
     </p>
 </footer>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script src="js/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/message.js"></script>
+<script src="js/messenger.min.js"></script>
+<script src="js/messenger-theme-flat.js"></script>
 <script src="js/base.js"></script>
 <script src="js/time-format.js"></script>
 <script src="js/browser-check.js"></script>
 <script src="js/code.js"></script>
 <script src="js/cookie.js"></script>
-<script src="js/message.js"></script>
-<script src="js/messenger.min.js"></script>
-<script src="js/messenger-theme-flat.js"></script>
 <script src="js/viewer.min.js"></script>
 <script src="js/i18N.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-7377922292358202",
+        enable_page_level_ads: true
+    });
+</script>
 <c:if test="${session.WW_TRANS_I18N_LOCALE eq null}">
-    <script src="js/i18N_cn_CN.js"></script>
+    <script src="js/i18N_zh_CN.js"></script>
 </c:if>
 <c:if test="${session.WW_TRANS_I18N_LOCALE ne null}">
     <script src="js/i18N_<s:property value="#session.WW_TRANS_I18N_LOCALE"/>.js"></script>
 </c:if>
+<%-- Foot end --%>
 </body>
 </html>

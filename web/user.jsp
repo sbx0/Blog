@@ -29,20 +29,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="<fmt:message key="website.name"/>">
     <meta name="author" content="<fmt:message key="bloger"/>">
     <link rel="icon" href="img/favicon.png">
 
     <title>${user.user_name} - <fmt:message key="website.name"/></title>
 
-    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="css/messenger.css" rel="stylesheet">
     <link href="css/messenger-theme-flat.css" rel="stylesheet">
     <link href="css/viewer.min.css" rel="stylesheet">
@@ -92,7 +86,6 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <!-- c:forEach循环遍历 -->
                     <c:forEach items="${pageBean.list}" var="article" varStatus="articleStatus">
                         <c:choose>
                             <c:when test="${article.article_title eq '#weibo#'}">
@@ -123,7 +116,6 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
-                        <!-- /.blog-post -->
                     </c:forEach>
                     <nav>
                         <ul class="pager">
@@ -183,7 +175,6 @@
             </c:choose>
 
         </div>
-        <!-- /.blog-main -->
 
         <div class="col-sm-3 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
@@ -206,13 +197,10 @@
                 </p>
             </div>
         </div>
-        <!-- /.blog-sidebar -->
 
     </div>
-    <!-- /.row -->
 
 </div>
-<!-- /.container -->
 <s:include value="foot.jsp"></s:include>
 </body>
 </html>

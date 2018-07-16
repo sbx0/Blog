@@ -185,12 +185,11 @@
 
         </div>
 
-        <div class="alert fade in col-sm-12 col-md-6" role="alert">
+        <div class="alert fade in col-sm-12 col-md-6 hidden" role="alert">
             <h4>游戏规则</h4>
-            <p>
-
-            </p>
+            <p></p>
         </div>
+
     </div>
 
 </div>

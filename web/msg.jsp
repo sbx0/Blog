@@ -37,13 +37,8 @@
 
     <title>消息中心 - <fmt:message key="website.name"/></title>
 
-    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="css/messenger.css" rel="stylesheet">
     <link href="css/messenger-theme-flat.css" rel="stylesheet">
     <link href="css/blog.css" rel="stylesheet">
@@ -79,7 +74,6 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <div class="panel panel-default">
-                            <!-- Default panel contents -->
                             <div id="user_name" class="panel-heading">加载中</div>
                             <div id="chatroom" class="panel-body chat-div">
                             </div>
@@ -107,7 +101,7 @@
                             <span class="input-group-btn">
                         <button id="goChat" class="btn btn-default" type="button">开始</button>
                     </span>
-                        </div><!-- /input-group -->
+                        </div>
                     </div>
                 </div>
             </c:otherwise>
