@@ -29,7 +29,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="<fmt:message key="website.name"/>">
     <meta name="author" content="<fmt:message key="bloger"/>">
     <link rel="icon" href="img/favicon.png">
@@ -43,13 +42,8 @@
         </c:otherwise>
     </c:choose>
 
-    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="css/messenger.css" rel="stylesheet">
     <link href="css/messenger-theme-flat.css" rel="stylesheet">
     <link href="css/viewer.min.css" rel="stylesheet">
@@ -127,7 +121,6 @@
                         </ul>
                     </nav>
                 </div>
-                <!-- /.blog-main -->
 
                 <div class="col-sm-3 blog-sidebar margin-top-20">
                     <div class="sidebar-module sidebar-module-inset">
@@ -189,10 +182,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.blog-sidebar -->
             </div>
-            <!-- /.row -->
-
         </div>
 
         <div id="changeComment" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
@@ -227,7 +217,6 @@
                 </div>
             </div>
         </div>
-        <!-- /.container -->
     </c:otherwise>
 </c:choose>
 

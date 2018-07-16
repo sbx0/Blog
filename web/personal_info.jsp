@@ -36,13 +36,8 @@
 
     <title>个人资料编辑 - <fmt:message key="website.name"/></title>
 
-    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
     <link href="css/messenger.css" rel="stylesheet">
     <link href="css/messenger-theme-flat.css" rel="stylesheet">
     <link href="css/viewer.min.css" rel="stylesheet">
@@ -219,77 +214,70 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.blog-main -->
-
-                    <!-- /.blog-sidebar -->
                 </div>
-                <!-- /.row -->
-
             </div>
-            <!-- /.container -->
             <s:include value="foot.jsp"></s:include>
-            <script type="text/javascript">
+</body>
+</html>
+<script type="text/javascript">
 
-                $("#deleteAccount").click(function () {
-                    if (confirm("确认删除？操作一旦完成无法恢复！")) {
+    $("#deleteAccount").click(function () {
+        if (confirm("确认删除？操作一旦完成无法恢复！")) {
+            $.ajax({
+                type: "POST",
+                url: "user-delete",
+                dataType: "json",
+                success: function (data) {
+                    var status = data.status
+                    if (status == 0) {
+                        alert("注销成功")
                         $.ajax({
                             type: "POST",
-                            url: "user-delete",
+                            url: "user-logout",
                             dataType: "json",
                             success: function (data) {
                                 var status = data.status
                                 if (status == 0) {
-                                    alert("注销成功")
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "user-logout",
-                                        dataType: "json",
-                                        success: function (data) {
-                                            var status = data.status
-                                            if (status == 0) {
-                                                alert("退出登录")
-                                                location.replace(location.href)
-                                            } else {
-                                                alert("系统异常，错误代码：" + status)
-                                            }
-                                        }
-                                    });
+                                    alert("退出登录")
+                                    location.replace(location.href)
                                 } else {
                                     alert("系统异常，错误代码：" + status)
                                 }
                             }
                         });
+                    } else {
+                        alert("系统异常，错误代码：" + status)
                     }
-                })
+                }
+            });
+        }
+    })
 
-                $("#submitButton").click(function () {
-                    if ($("#user.user_name").val == "" || $("#user.user_name").val.length == 0) {
-                        alert("请输入用户名")
-                        return false
-                    } else if ($("#user.user_signature").val == "" || $("#user.user_signature").val.length == 0) {
-                        alert("请输入签名")
-                        return false
-                    }
-                    $("#submitLoadding").show()
-                    $.ajax({
-                        cache: true,
-                        type: "POST",
-                        url: "user-update",
-                        data: $('#personal_info').serialize(),
-                        async: false,
-                        success: function (data) {
-                            var status = data.status
-                            if (status == 0) {
-                                alert("修改成功")
-                                location.replace(location.href)
-                            } else {
-                                alert("服务器异常，异常码：" + status)
-                            }
-                        }
-                    });
-                    $("#submitLoadding").hide()
-                })
-
-            </script>
-</body>
-</html>
+    $("#submitButton").click(function () {
+        if ($("#user.user_name").val == "" || $("#user.user_name").val.length == 0) {
+            alert("请输入用户名")
+            return false
+        } else if ($("#user.user_signature").val == "" || $("#user.user_signature").val.length == 0) {
+            alert("请输入签名")
+            return false
+        }
+        $("#submitLoadding").show()
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "user-update",
+            data: $('#personal_info').serialize(),
+            async: false,
+            success: function (data) {
+                var status = data.status
+                if (status == 0) {
+                    alert("修改成功")
+                    location.replace(location.href)
+                } else {
+                    alert("服务器异常，异常码：" + status)
+                }
+            }
+        });
+        $("#submitLoadding").hide()
+    })
+</script>
