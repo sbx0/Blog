@@ -415,7 +415,8 @@
                         提交反馈
                     </a>
                 </h4>
-                <div id="subBugHelp" class="alert alert-warning alert-dismissible fade in browser-check-alert hide" role="alert">
+                <div id="subBugHelp" class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
+                     role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -484,6 +485,34 @@
     </div>
 </div>
 
+<div id="confirm" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="submitBug">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-danger">
+                    注意
+                </h4>
+                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
+                     role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="confirmClock" class="hidden" value="0"/>
+                    <p id="confirmMsg"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="confirmOk" type="button" class="btn btn-primary ok" data-dismiss="modal">确认</button>
+                    <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="js/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.min.js"></script>
@@ -503,11 +532,34 @@
     (adsbygoogle = window.adsbygoogle || []).push({
         google_ad_client: "ca-pub-7377922292358202",
         enable_page_level_ads: true
-    });
+    })
 
     $("#bugBewirteClean").click(function () {
-        $("#bugBewirte").val("")
+        confirmUpdate("确认清空？", "clean")
     })
+
+    // 魔改版confirm
+    function confirmUpdate(msg, clock) {
+        $("#confirm").modal('show')
+        $("#confirmMsg").html(msg)
+        $("#confirmClock").val(clock)
+    }
+
+    $("#confirmOk").click(function () {
+        var clock = $("#confirmClock").val()
+        switch (clock) {
+            case "clean":
+                clean.call()
+                break
+            default:
+                alert("异常")
+        }
+
+    })
+
+    var clean = function bugBewirteClean() {
+        $("#bugBewirte").val("")
+    }
 
     $("#bugBewirteQuick").click(function () {
         var url = window.location.href
