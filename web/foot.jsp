@@ -52,11 +52,15 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 id="modelTitle" class="modal-title">提交反馈</h4>
-                <div id="subBugHelp" class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
-                     role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <a href="bugs.jsp">
+                        提交反馈
+                    </a>
+                </h4>
+                <div id="subBugHelp" class="alert alert-warning alert-dismissible fade in browser-check-alert hide" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <form id="bugSubForm" class="margin-top-20">
@@ -115,13 +119,6 @@
                                 提交
                             </button>
                         </div>
-                        <div class="list-group" id="submitBugLoadding" hidden>
-                            <div class="spinner">
-                                <div class="bounce1"></div>
-                                <div class="bounce2"></div>
-                                <div class="bounce3"></div>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -163,6 +160,7 @@
 
     $(document).ready(function () {
         img = ""
+        isRobot = true
     })
 
     // 图片上传
