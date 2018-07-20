@@ -54,26 +54,35 @@
 <div id="container" class="container">
 
     <div class="blog-header">
-        <h1 class="blog-title">
-            ${user.user_name}
-            <%--<c:if test="${user.user_id eq '1'}">--%>
-                <%--<img src="img/zhanzhang.png" class="status-img" title="称号：站长">--%>
-            <%--</c:if>--%>
-            <%--<c:if test="${user.user_is_admin eq '1'}">--%>
-                <%--<img src="img/admin.png" class="status-img" title="称号：管理员">--%>
-            <%--</c:if>--%>
-            <%--<c:forEach items="${statuses}" var="status">--%>
-                <%--<c:if test="${status.name eq '欧皇'}">--%>
+        <div class="row">
+            <div class="col-xs-8">
+                <h1 class="blog-title">
+                    ${user.user_name}
+                    <%--<c:if test="${user.user_id eq '1'}">--%>
+                    <%--<img src="img/zhanzhang.png" class="status-img" title="称号：站长">--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${user.user_is_admin eq '1'}">--%>
+                    <%--<img src="img/admin.png" class="status-img" title="称号：管理员">--%>
+                    <%--</c:if>--%>
+                    <%--<c:forEach items="${statuses}" var="status">--%>
+                    <%--<c:if test="${status.name eq '欧皇'}">--%>
                     <%--<img src="img/ouhuang.png" class="status-img" title="称号：欧皇">--%>
-                <%--</c:if>--%>
-                <%--<c:if test="${status.name eq 'VIP'}">--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${status.name eq 'VIP'}">--%>
                     <%--<img src="img/vip.png" class="status-img" title="称号：VIP">--%>
-                <%--</c:if>--%>
-            <%--</c:forEach>--%>
-        </h1>
-        <p class="lead blog-description">
-            ${user.user_signature}
-        </p>
+                    <%--</c:if>--%>
+                    <%--</c:forEach>--%>
+                </h1>
+                <p class="lead blog-description">
+                    ${user.user_signature}
+                </p>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-success btn-full-weight margin-bottom-10" href="msg.jsp?id=${user.user_id}">
+                    与TA聊天
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -111,7 +120,8 @@
                                     </p>
                                     <p class="imgRestrict">${article.article_content}</p>
                                     <a href="article-one?id=${article.article_id}">
-                                        <fmt:message key="read.more"/>(${article.article_comment}/${article.article_views})
+                                        <fmt:message
+                                                key="read.more"/>(${article.article_comment}/${article.article_views})
                                     </a>
                                 </div>
                             </c:otherwise>

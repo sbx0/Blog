@@ -176,7 +176,7 @@
                     <div class="row margin-bottom-10">
                         <div class="col-xs-12">
                             <div class="col-xs-4">
-                                <a href="javascript:void(0)" id="message" class="btn btn-default menu-a" role="button">
+                                <a href="msg.jsp" id="message" class="btn btn-default menu-a" role="button">
                                     <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
                                     <fmt:message key="msg"/>
                                     <span id="msg-count" class="badge"></span>
