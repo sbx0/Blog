@@ -19,6 +19,7 @@
 			<result name="json" type="json">
 				<param name="root">json</param>
 			</result>
+			<result name="error">/error.jsp</result>
 		</action>
 		<action name="user-*" class="userAction" method="{1}">
 			<result name="info">/personal_info.jsp</result>
@@ -27,22 +28,26 @@
 			<result name="json" type="json">
 				<param name="root">json</param>
 			</result>
+			<result name="error">/error.jsp</result>
 		</action>
 		<action name="admin-*" class="adminAction" method="{1}">
 			<result name="json" type="json">
 				<param name="root">json</param>
 			</result>
+			<result name="error">/error.jsp</result>
 		</action>
 		<action name="bug-*" class="bugAction" method="{1}">
 			<result name="json" type="json">
 				<param name="root">json</param>
 			</result>
 			<result name="one">/bug.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
 		<action name="data-*" class="dataAction" method="{1}">
 			<result name="json" type="json">
 				<param name="root">json</param>
 			</result>
+			<result name="error">/error.jsp</result>
 		</action>
 	</package>
 </struts>

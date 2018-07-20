@@ -78,7 +78,7 @@
                             <div id="chatroom" class="panel-body chat-div">
                             </div>
                         </div>
-                        <form id="msg-form" method="post">
+                        <form id="msg-form" method="post" hidden>
                             <div class="form-group">
                                 <textarea id="msg-content" name="message.content" class="form-control"
                                           rows="2"></textarea>
