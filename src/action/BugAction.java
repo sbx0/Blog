@@ -76,10 +76,12 @@ public class BugAction extends BaseAction {
                 Bug b = bugService.query(bug.getId());
                 if (bug.getState() != 2) b.setState(bug.getState());
                 if (bug.getGrade() != 0) b.setGrade(bug.getGrade());
-                b.setReplay(bug.getReplay().trim());
-                b.setSolver(user);
-                Date date = new Date();
-                b.setSolve_time(date);
+                if (bug.getReplay().trim().length() != 0 && bug.getReplay() != null) {
+                    b.setReplay(bug.getReplay().trim());
+                    b.setSolver(user);
+                    Date date = new Date();
+                    b.setSolve_time(date);
+                }
                 bugService.saveOrUpdate(b);
                 getJson().put("state", 0);
             } catch (Exception e) {
