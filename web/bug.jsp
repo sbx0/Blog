@@ -82,6 +82,7 @@
                     </h4>
                     提交时间:
                     <fmt:formatDate value="${bug.submit_time}" type="both" pattern="yyyy-MM-dd HH:mm"/><br>
+                    <input id="submitTime" value="${bug.submit_time}" hidden>
                     提交者:
                     <a href="article-user?id=${bug.submitter.user_id}">
                         <strong>
@@ -110,6 +111,13 @@
         </div>
 
         <div class="col-sm-3 blog-sidebar margin-top-20">
+            <div class="sidebar-module sidebar-module-inset">
+                <p class="text-center">
+                    已提交
+                    <span id="submitDays"></span>
+                    天
+                </p>
+            </div>
             <c:choose>
             <c:when test="${sessionScope.user != null and sessionScope.user.user_is_admin == 1}">
             <div class="sidebar-module sidebar-module-inset">
@@ -164,6 +172,10 @@
 
         $("#grade").html(gradeToString(grade))
         $("#state").html(stateToString(state))
+
+        var time = $("#submitTime").val()
+        time = Format(getDate(time.toString()), "yyyy-MM-dd")
+        $("#submitDays").html(Math.abs(DateMinus(time)))
     })
 
     function stateToString(num) {
