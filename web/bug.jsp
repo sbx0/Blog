@@ -227,10 +227,6 @@
     }
 
     $("#subBug").click(function () {
-        if ($("#bReplay").val() == "" || $("#bReplay").val().length == 0) {
-            alert("请输入留言")
-            return false
-        }
         $.ajax({
             cache: true,
             type: "POST",
