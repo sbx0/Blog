@@ -30,8 +30,8 @@ public class ArticleAction extends BaseAction {
     // 评论修改
     public String updateComment() {
         Comment c = commentService.getOneComment(comment.getComment_id());
-        if(comment.getComment_content().length() > 150)
-            comment.setComment_content(comment.getComment_content().substring(0,150));
+        if (comment.getComment_content().length() > 150)
+            comment.setComment_content(comment.getComment_content().substring(0, 150));
         c.setComment_content(comment.getComment_content().trim());
         int status = commentService.updateComment(c);
         getJson().put("status", status);
@@ -191,7 +191,7 @@ public class ArticleAction extends BaseAction {
         if (user.getUser_id() != article.getArticle_author().getUser_id()) {
             // 给博文的作者发条评论提醒
             Message message = new Message();
-            String m = "您的文章<" + article.getArticle_title() + ">收到了评论:" + comment.getComment_content();
+            String m = "您的文章<a href=\"article-one?id=" + article.getArticle_id() + "\">" + article.getArticle_title() + "</a>收到了评论:" + comment.getComment_content();
             message.setContent(m);
             message.setSendTime(new Date());
             message.setSendUser(article.getArticle_author());
@@ -411,9 +411,9 @@ public class ArticleAction extends BaseAction {
         if (user.getUser_integral() < 20L && user.getUser_is_admin() != 1) {
             getJson().put("status", 3);
         } else {
-            if(user.getUser_is_admin() != 1){
+            if (user.getUser_is_admin() != 1) {
                 user.setUser_integral(user.getUser_integral() - 20L);
-                if(user.getUser_integral() < 0L){
+                if (user.getUser_integral() < 0L) {
                     user.setUser_integral(0L);
                 }
             }
@@ -423,7 +423,7 @@ public class ArticleAction extends BaseAction {
                 article = articleService.getOneById(a_id);
                 long commentNum = article.getArticle_comment();
                 commentNum--;
-                if(commentNum < 0) commentNum = 0;
+                if (commentNum < 0) commentNum = 0;
                 article.setArticle_comment(commentNum);
                 articleService.saveOrUpdate(article);
                 getJson().put("status", 0);
