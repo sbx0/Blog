@@ -114,31 +114,35 @@
             <c:when test="${sessionScope.user != null and sessionScope.user.user_is_admin == 1}">
             <div class="sidebar-module sidebar-module-inset">
                 <h4>管理员操作</h4>
-                <form id="bugSubForm">
+                <form id="bSubForm">
                     <input class="form-control hide" name="bug.id" value="${bug.id}">
                     <div class="form-group">
-                        <label for="bugReplay">留言</label>
-                        <textarea id="bugReplay" class="form-control" rows="3"
+                        <label for="bReplay">留言</label>
+                        <textarea id="bReplay" class="form-control" rows="3"
                                   name="bug.replay">${bug.replay}</textarea>
                     </div>
                     <div class="form-group">
-                        <label for="bugState">缺陷状态</label>
-                        <select id="bugState" class="form-control" name="bug.state">
-                            <option value="0" selected="selected">新提交</option>
+                        <label for="bState">修改状态</label>
+                        <select id="bState" class="form-control" name="bug.state">
+                            <option value="2" selected="selected">--- 未选择 ---</option>
+                            <option value="0">未处理</option>
                             <option value="1">已处理</option>
-                            <option value="2">关闭</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <button id="subBugButton" type="button" class="btn btn-primary" style="width:100%;">提交
-                        </button>
+                        <label for="bGrade">修改评级</label>
+                        <select id="bGrade" class="form-control" name="bug.grade">
+                            <option value="0" selected="selected">--- 未选择 ---</option>
+                            <option value="1">建议</option>
+                            <option value="2">低级</option>
+                            <option value="3">一般</option>
+                            <option value="4">严重</option>
+                            <option value="5">致命</option>
+                        </select>
                     </div>
-                    <div class="list-group" id="submitBugLoadding" hidden>
-                        <div class="spinner">
-                            <div class="bounce1"></div>
-                            <div class="bounce2"></div>
-                            <div class="bounce3"></div>
-                        </div>
+                    <div class="form-group">
+                        <button id="subBug" type="button" class="btn btn-primary" style="width:100%;">提交
+                        </button>
                     </div>
                 </form>
                 </c:when>
@@ -166,19 +170,11 @@
         var state
         switch (num) {
             case "0":
-                state = "新提交"
+                state = "未处理"
                 $("#state").addClass("text-primary")
                 break
             case "1":
                 state = "已处理"
-                $("#state").addClass("text-success")
-                break
-            case "2":
-                state = "重开"
-                $("#state").addClass("text-primary")
-                break
-            case "3":
-                state = "关闭"
                 $("#state").addClass("text-success")
                 break
             default:
@@ -218,23 +214,20 @@
         return grade
     }
 
-    $("#subBugButton").click(function () {
-        if ($("#bugReplay").val() == "" || $("#bugReplay").val().length == 0) {
+    $("#subBug").click(function () {
+        if ($("#bReplay").val() == "" || $("#bReplay").val().length == 0) {
             alert("请输入留言")
             return false
         }
-        $("#submitBugLoadding").show()
         $.ajax({
             cache: true,
             type: "POST",
             url: "bug-solve",
-            data: $('#bugSubForm').serialize(),
+            data: $('#bSubForm').serialize(),
             async: false,
             success: function (data) {
                 var state = data.state
-                $("#submitBugLoadding").hide()
-                $("#bugName").val("")
-                $("#bugBewirte").val("")
+                $("#bReplay").val("")
                 if (state == 0) {
                     alert("提交成功。")
                     location.replace(location.href)

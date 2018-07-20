@@ -74,8 +74,9 @@ public class BugAction extends BaseAction {
         if (user != null && user.getUser_is_admin() == 1) {
             try {
                 Bug b = bugService.query(bug.getId());
-                b.setState(bug.getState());
-                b.setReplay(bug.getReplay());
+                if (bug.getState() != 2) b.setState(bug.getState());
+                if (bug.getGrade() != 0) b.setGrade(bug.getGrade());
+                b.setReplay(bug.getReplay().trim());
                 b.setSolver(user);
                 Date date = new Date();
                 b.setSolve_time(date);
