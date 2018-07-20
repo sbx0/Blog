@@ -115,8 +115,11 @@ public class BugAction extends BaseAction {
 
     public String one() {
         Bug b = bugService.query(Integer.parseInt(par));
-        getRequest().put("bug", b);
-        return "one";
+        if (b == null) return "error";
+        else {
+            getRequest().put("bug", b);
+            return "one";
+        }
     }
 
     public void setWhat(int what) {
