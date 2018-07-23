@@ -1,5 +1,34 @@
 // ============================= 基础js =============================
 
+// ============================= 防止浏览器缓存 =============================
+function noCache(url) {
+    //  var getTimestamp = Math.random()
+    var args = url.split("?")
+    var newUrl = args[0]
+    if (args[0] == url) {
+        var getTimestamp = new Date().getTime()
+        newUrl = url + "?noCache=" + getTimestamp
+    } else {
+        newUrl += "?"
+        var pars = args[1].split("&")
+        var isNoCache = false
+        for (var i = 0; i < pars.length; i++) {
+            var par = pars[i].split("=")
+            if (par[0] == "noCache") {
+                par[1] = new Date().getTime()
+                isNoCache = true
+            }
+            newUrl += par[0] + "=" + par[1]
+            if (i < pars.length - 1) newUrl += "&"
+        }
+        if (!isNoCache) {
+            var getTimestamp = new Date().getTime()
+            newUrl += "&noCache=" + getTimestamp
+        }
+    }
+    return newUrl;
+}
+
 // ============================= 加载登陆数据 =============================
 getData()
 
@@ -118,7 +147,7 @@ $("#loginButton").click(function () {
                 $("#inputPassword").val("")
                 $("#inputEmail").focus()
             } else if (data.status == 1) {
-                location.replace(location.href)
+                location.replace(noCache(location.href))
             }
             loginState = null
         }
@@ -225,9 +254,9 @@ $("#logout").click(function () {
         success: function (data) {
             if (data.status == 1) {
                 alert(i18N.server_error)
-                location.replace(location.href);
+                location.replace(noCache(location.href))
             } else if (data.status == 0) {
-                location.replace(location.href);
+                location.replace(noCache(location.href))
             }
             loginState = null
         }
