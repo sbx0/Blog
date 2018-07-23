@@ -123,18 +123,18 @@
             <div class="sidebar-module sidebar-module-inset">
                 <h4>管理员操作</h4>
                 <form id="bSubForm">
-                    <input class="form-control hide" name="bug.id" value="${bug.id}">
+                    <input id="bId" class="form-control hide" name="bug.id" value="${bug.id}">
                     <div class="form-group">
                         <label for="bReplay">留言</label>
-                        <textarea id="bReplay" class="form-control" rows="3"
-                                  name="bug.replay">${bug.replay}</textarea>
+                        <textarea id="bReplay" class="form-control" rows="3" name="bug.replay">${bug.replay}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="bState">修改状态</label>
                         <select id="bState" class="form-control" name="bug.state">
-                            <option value="2" selected="selected">--- 未选择 ---</option>
+                            <option value="2">--- 未选择 ---</option>
                             <option value="0">未处理</option>
-                            <option value="1">已处理</option>
+                            <option value="-1">处理中</option>
+                            <option value="1" selected="selected">已处理</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -149,8 +149,17 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <button id="subBug" type="button" class="btn btn-primary" style="width:100%;">提交
+                        <button id="subBug" type="button" class="btn btn-default btn-full-weight" disabled>
+                            提交
                         </button>
+                    </div>
+                    <div id="missionBtnDiv" class="form-group margin-top-20">
+                        <div class="spinner">
+                            <p class="text-center">检测权限中</p>
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
                     </div>
                 </form>
                 </c:when>
@@ -176,7 +185,57 @@
         var time = $("#submitTime").val()
         time = Format(getDate(time.toString()), "yyyy-MM-dd")
         $("#submitDays").html(Math.abs(DateMinus(time)))
+
+        check()
     })
+
+    $(document).on("click", "button[id='missionBtn']", function () {
+        var id = $("#bId").val()
+        $.ajax({
+            url: "bug-job?par=" + id,
+            type: "POST",
+            success: function (data) {
+                if (data.state == 0) {
+                    alert("操作成功")
+                } else {
+                    alert(i18N.network_error)
+                }
+                location.replace(location.href)
+            }
+        })
+    })
+
+    function check() {
+        var id = $("#bId").val()
+        var btn = ""
+        $.ajax({
+            url: "bug-check?par=" + id,
+            type: "POST",
+            success: function (data) {
+                if (data.state == 0) {
+                    var state = data.solve_state
+                    if (state == -1) {
+                        // 可以接受任务
+                        btn = "<button id=\"missionBtn\" type=\"button\" class=\"btn btn-primary btn-full-weight\">接受任务</button>"
+                        $("#subBug").attr("disabled", true)
+                    } else if (state == 0) {
+                        // 可以放弃任务
+                        btn = "<button id=\"missionBtn\" type=\"button\" class=\"btn btn-danger btn-full-weight\">放弃任务</button>"
+                        $("#subBug").attr("disabled", false)
+                    } else if (state == 1) {
+                        // 已被认领的任务
+                        btn = ""
+                        $("#subBug").attr("disabled", true)
+                    } else if (state == 2) {
+                        // 已被解决的任务
+                        btn = ""
+                        $("#subBug").attr("disabled", false)
+                    }
+                    $("#missionBtnDiv").html(btn)
+                }
+            }
+        })
+    }
 
     function stateToString(num) {
         var state
@@ -188,6 +247,10 @@
             case "1":
                 state = "已处理"
                 $("#state").addClass("text-success")
+                break
+            case "-1":
+                state = "处理中"
+                $("#state").addClass("text-info")
                 break
             default:
                 state = "未知"
