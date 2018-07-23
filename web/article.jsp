@@ -73,7 +73,7 @@
 
             <div class="row">
 
-                <div class="col-sm-9 blog-main margin-top-20">
+                <div class="col-sm-9 blog-main margin-top-20 imgRestrict">
                     <c:choose>
                         <c:when test="${article.article_title ne '#weibo#'}">
                             <h2 class="blog-post-title article-top">${article.article_title}</h2>
@@ -88,7 +88,7 @@
                         <fmt:formatDate value="${article.article_time}" type="both"
                                         pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
                     </p>
-                    <p class="imgRestrict">${article.article_content}</p>
+                    <p>${article.article_content}</p>
                     <nav>
                         <ul class="pager">
                             <c:choose>
