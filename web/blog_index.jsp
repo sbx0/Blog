@@ -63,7 +63,8 @@
                 <div class="col-sm-12 margin-top-20 margin-bottom-10 gif-input-center">
                     <form id="weiboPostForm" class="form-inline">
                         <div class="form-group">
-                            <textarea id="postTextarea" name="article.article_content" class="form-control" placeholder="你不想说点什么吗？" cols="80"></textarea>
+                            <textarea id="postTextarea" name="article.article_content" class="form-control"
+                                      placeholder="你不想说点什么吗？" cols="80"></textarea>
                         </div>
                         <div id="photo" class="margin-bottom-10 imgRestrict"></div>
                         <div class="btn-group" role="group">
@@ -88,16 +89,14 @@
                     <c:forEach items="${pageBean.list}" var="article" varStatus="articleStatus">
                         <c:choose>
                             <c:when test="${article.article_title eq '#weibo#'}">
-                                <div class="blog-post">
+                                <div class="blog-post imgRestrict">
                                     <p class="blog-post-meta">
                                         <a href="article-user?id=${article.article_author.user_id}">
                                                 ${article.article_author.user_name}
                                         </a>
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
-                                    <p class="imgRestrict">
-                                            ${article.article_content}
-                                    </p>
+                                    <p>${article.article_content}</p>
                                     <a class="readMoreA" href="article-one?id=${article.article_id}">
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
@@ -105,7 +104,7 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="blog-post">
+                                <div class="blog-post imgRestrict">
                                     <h2 class="blog-post-title">${article.article_title}</h2>
                                     <p class="blog-post-meta">
                                         <a href="article-user?id=${article.article_author.user_id}">
@@ -113,9 +112,7 @@
                                         </a>
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
-                                    <p>
-                                            ${article.article_content}
-                                    </p>
+                                    <p>${article.article_content}</p>
                                     <a class="readMoreA" href="article-one?id=${article.article_id}">
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
