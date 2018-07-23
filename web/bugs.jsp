@@ -229,7 +229,8 @@
                             id = bugs[i].id
                             name = bugs[i].name
                             grade = bugs[i].grade
-                            $("#myBugList").append(buildBugItem(id, grade, name, 1))
+                            state = bugs[i].state
+                            $("#myBugList").append(buildBugItem(id, grade, state, name, 1))
                         }
                     }
                 } else {
@@ -261,7 +262,8 @@
                             id = bugs[i].id
                             name = bugs[i].name
                             grade = bugs[i].grade
-                            $("#mySubmitBugList").append(buildBugItem(id, grade, name, 1))
+                            state = bugs[i].state
+                            $("#mySubmitBugList").append(buildBugItem(id, grade, state, name, 1))
                         }
                     }
                 } else {
@@ -316,7 +318,8 @@
                             id = bugs[i].id
                             name = bugs[i].name
                             grade = bugs[i].grade
-                            $("#solveBugList").append(buildBugItem(id, grade, name, 1))
+                            state = bugs[i].state
+                            $("#solveBugList").append(buildBugItem(id, grade, state, name, 1))
                         }
                     }
                     // $("#solveBugList").append(buildPager("skip", "javascript:void(0)", "跳过", "accept", "javascript:void(0)", "接受"))
@@ -381,10 +384,11 @@
                         var id = bug[0]
                         var name = bug[1]
                         var grade = bug[2]
+                        var state = bug[3]
                         if (what == 1) {
-                            $(whatbugs).append(buildBugItem(id, what, name, 0))
+                            $(whatbugs).append(buildBugItem(id, what, state, name, 0))
                         } else {
-                            $(whatbugs).append(buildBugItem(id, grade, name, 1))
+                            $(whatbugs).append(buildBugItem(id, grade, state, name, 1))
                         }
                     }
                     if (bugs.length > 9) {
@@ -401,7 +405,7 @@
         })
     }
 
-    function buildBugItem(id, grade, name, type) {
+    function buildBugItem(id, grade, state, name, type) {
         var gradeClass
         if (type == 0) {
             if (grade == 1) {
@@ -414,15 +418,33 @@
         } else if (grade == 5) {
             gradeClass = "list-group-item-danger"
         }
+
+        var state = stateToString(state + "")
+
         var bugItem = "<a target='_blank' href='bug-one?par=" + id + "'" +
-            "class='list-group-item " + gradeClass + "'>" +
-            "<span class='badge'>" +
-            "B" + id +
-            "</span>" +
-            name +
+            "class='list-group-item " + gradeClass + "'>" + state + name +
             "</a>"
         return bugItem
     }
+
+    function stateToString(num) {
+        var state
+        switch (num) {
+            case "0":
+                state = "<span class='badge alert-danger'>未处理</span>"
+                break
+            case "1":
+                state = "<span class='badge alert-success'>已处理</span>"
+                break
+            case "-1":
+                state = "<span class='badge'>处理中</span>"
+                break
+            default:
+                state = "<span class='badge alert-warning'>未知</span>"
+        }
+        return state
+    }
+
 </script>
 </body>
 </html>

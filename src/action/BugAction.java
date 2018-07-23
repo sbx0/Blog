@@ -16,6 +16,55 @@ public class BugAction extends BaseAction {
     private int what;
     private final int pageSize = 10;
 
+    public String job() {
+        User user = (User) getSession().get("user");
+        if (user != null && user.getUser_is_admin() == 1) {
+            int id = Integer.parseInt(par.trim());
+            bug = bugService.query(id);
+            if (bug.getSolver() == null) {
+                // 接受任务
+                bug.setSolver(user);
+                bug.setReplay(null);
+                bug.setSolve_time(null);
+                bug.setState(-1);
+            } else if (bug.getSolver().getUser_id() == user.getUser_id()) {
+                // 放弃任务
+                bug.setSolver(null);
+                bug.setReplay(null);
+                bug.setSolve_time(null);
+                bug.setState(0);
+            }
+            try {
+                bugService.saveOrUpdate(bug);
+                getJson().put("state", 0);
+            } catch (Exception e) {
+                getJson().put("state", 1);
+            }
+        } else {
+            getJson().put("state", 1);
+        }
+        return "json";
+    }
+
+    public String check() {
+        User user = (User) getSession().get("user");
+        if (user != null && user.getUser_is_admin() == 1) {
+            int id = Integer.parseInt(par.trim());
+            bug = bugService.query(id);
+            if (bug.getState() != 1) {
+                if (bug.getSolver() == null) getJson().put("solve_state", -1);
+                else if (user.getUser_id() == bug.getSolver().getUser_id()) getJson().put("solve_state", 0);
+                else getJson().put("solve_state", 1);
+            } else {
+                getJson().put("solve_state", 2);
+            }
+            getJson().put("state", 0);
+        } else {
+            getJson().put("state", 1);
+        }
+        return "json";
+    }
+
     public String rate() {
         getJson().put("rate", bugService.rate());
         return "json";
