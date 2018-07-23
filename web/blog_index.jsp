@@ -63,11 +63,9 @@
                 <div class="col-sm-12 margin-top-20 margin-bottom-10 gif-input-center">
                     <form id="weiboPostForm" class="form-inline">
                         <div class="form-group">
-                            <textarea id="postTextarea" name="article.article_content" class="form-control"
-                                      placeholder="你不想说点什么吗？" cols="80"></textarea>
+                            <textarea id="postTextarea" name="article.article_content" class="form-control" placeholder="你不想说点什么吗？" cols="80"></textarea>
                         </div>
-                        <div id="photo" class="margin-bottom-10 imgRestrict">
-                        </div>
+                        <div id="photo" class="margin-bottom-10 imgRestrict"></div>
                         <div class="btn-group" role="group">
                             <button id="cleanBtn" type="button" class="btn btn-default btn-danger">清空</button>
                             <button id="imgBtn" type="button" class="btn btn-default btn-default">图片</button>
@@ -264,19 +262,19 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
                 <h4 id="modelTitle" class="modal-title">上传图片</h4>
-                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
-                     role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
             <div class="modal-body">
                 <form id="upload" name="upload" method="post" action="/UploadServlet" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input id="file" name="file" type="file">
+                        <input id="weiboFile" name="file" type="file">
                         <p class="help-block">注意：图片最大不能超过10M</p>
                     </div>
-                    <button id="submit" name="submit" class="btn btn-default" type="button">上传</button>
+                    <button id="weiboFileSubmit" name="submit" class="btn btn-default" type="button">上传</button>
                 </form>
             </div>
         </div>
@@ -295,14 +293,12 @@
 
     })
 
-    document.getElementById("submit").onclick = function () {
+    document.getElementById("weiboFileSubmit").onclick = function () {
         var xhr = new XMLHttpRequest();
         var formData = new FormData();
-        var fileInput = document.getElementById("file");
+        var fileInput = document.getElementById("weiboFile");
         var file = fileInput.files[0];
         if (file != null) {
-
-
             var json
             var url
             formData.append('myFile', file);
