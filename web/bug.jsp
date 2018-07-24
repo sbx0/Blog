@@ -101,6 +101,7 @@
                     </a>
                     <br>
                     回复时间:
+                    <input id="solveTime" value="${bug.solve_time}" hidden>
                     <fmt:formatDate value="${bug.solve_time}" type="both" pattern="yyyy-MM-dd HH:mm"/><br>
                     <br>
                     回复:<br>
@@ -113,9 +114,7 @@
         <div class="col-sm-3 blog-sidebar margin-top-20">
             <div class="sidebar-module sidebar-module-inset">
                 <p class="text-center">
-                    已提交
                     <span id="submitDays"></span>
-                    天
                 </p>
             </div>
             <c:choose>
@@ -182,10 +181,17 @@
         $("#grade").html(gradeToString(grade))
         $("#state").html(stateToString(state))
 
-        var time = $("#submitTime").val()
-        time = Format(getDate(time.toString()), "yyyy-MM-dd")
-        $("#submitDays").html(Math.abs(DateMinus(time)))
-
+        var sTime = $("#submitTime").val()
+        sTime = Format(getDate(sTime.toString()), "yyyy-MM-dd")
+        var eTime
+        console.log(sTime)
+        if (state == "1") {
+            eTime = $("#solveTime").val()
+            eTime = Format(getDate(eTime.toString()), "yyyy-MM-dd")
+            $("#submitDays").html("历时 " + Math.abs(DateMinus(sTime, eTime)) + " 天")
+        } else {
+            $("#submitDays").html("已提交 " + Math.abs(DateMinus(sTime)) + " 天")
+        }
         check()
     })
 

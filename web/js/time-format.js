@@ -6,13 +6,32 @@ function getDate(strDate) {
     return date
 }
 
-function DateMinus(sDate) {
-    var sdate = new Date(sDate.replace(/-/g, "/"));
-    var now = new Date();
-    var days = sdate.getTime() - now.getTime();
+// js 的 arguments 来实现重载
+function DateMinus() {
+    var sdate = new Date(arguments[0].replace(/-/g, "/"));
+    var edate;
+    if (arguments.length == 1) edate = new Date();
+    else if (arguments.length == 2) edate = new Date(arguments[1].replace(/-/g, "/"));
+    var days = sdate.getTime() - edate.getTime();
     var day = parseInt(days / (1000 * 60 * 60 * 24));
     return day;
 }
+
+// function DateMinus(sDate) {
+//     var sdate = new Date(sDate.replace(/-/g, "/"));
+//     var now = new Date();
+//     var days = sdate.getTime() - now.getTime();
+//     var day = parseInt(days / (1000 * 60 * 60 * 24));
+//     return day;
+// }
+//
+// function DateMinus(sDate, eDate) {
+//     var sdate = new Date(sDate.replace(/-/g, "/"));
+//     var edate = new Date(eDate.replace(/-/g, "/"));
+//     var days = sdate.getTime() - edate.getTime();
+//     var day = parseInt(days / (1000 * 60 * 60 * 24));
+//     return day;
+// }
 
 function Format(now, mask) {
     var d = now
