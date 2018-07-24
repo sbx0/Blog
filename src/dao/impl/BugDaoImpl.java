@@ -82,14 +82,14 @@ public class BugDaoImpl extends BaseDao implements BugDao {
 
     @Override
     public int countNewBugs() {
-        String sql = "select count(*) from BUGS where BUGS.state = '0'";
+        String sql = "select count(*) from BUGS where BUGS.state != '1'";
         int count = Integer.parseInt(getSession().createSQLQuery(sql).uniqueResult().toString());
         return count;
     }
 
     @Override
     public int countSolvedBugs() {
-        String sql = "select count(*) from BUGS where BUGS.state != '0'";
+        String sql = "select count(*) from BUGS where BUGS.state = '1'";
         int count = Integer.parseInt(getSession().createSQLQuery(sql).uniqueResult().toString());
         return count;
     }
