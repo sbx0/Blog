@@ -24,8 +24,6 @@ h6, .h6 {
 .article-too-long {
     max-height: 450px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .imgRestrict img {
@@ -36,7 +34,6 @@ h6, .h6 {
     margin-top: 2px;
     display: block;
     font-size: 15px;
-    font-style: oblique;
     font-weight: bolder;
 }
 
