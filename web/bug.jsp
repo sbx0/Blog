@@ -131,10 +131,10 @@
                     <div class="form-group">
                         <label for="bState">修改状态</label>
                         <select id="bState" class="form-control" name="bug.state">
-                            <option value="2">--- 未选择 ---</option>
+                            <option value="2" selected="selected">--- 未选择 ---</option>
                             <option value="0">未处理</option>
                             <option value="-1">处理中</option>
-                            <option value="1" selected="selected">已处理</option>
+                            <option value="1">已处理</option>
                         </select>
                     </div>
                     <div class="form-group">
