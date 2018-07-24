@@ -108,11 +108,12 @@ public class ArticleAction extends BaseAction {
                 randomArticleJson.element("user_name", randomArticles.get(randomIndex).getArticle_author().getUser_name());
                 randomArticleJson.element("date", randomArticles.get(randomIndex).getArticle_time());
                 String content = articleService.killHTML(randomArticles.get(randomIndex).getArticle_content());
-                if (content.length() < 250) {
-                    content = randomArticles.get(randomIndex).getArticle_content();
-                } else {
-                    content = content.substring(0, 250);
-                }
+//                if (content.length() < 250) {
+//                    content = randomArticles.get(randomIndex).getArticle_content();
+//                } else {
+//                    content = content.substring(0, 250);
+//                }
+                content = randomArticles.get(randomIndex).getArticle_content();
                 randomArticleJson.element("content", content);
                 randomArticlesJson.element(randomArticleJson);
                 i++;
@@ -248,12 +249,13 @@ public class ArticleAction extends BaseAction {
         pageBean = articleService.queryForPage(pageSize, pageNo);
         // 精简博文
         List<Article> list = pageBean.getList();
-        pageBean.setList(articleService.simpleBlog(list));
-        // 月热度排行榜
-        List<Article> hotRankingList = articleService.hotRanking(articleService.hotRankingList());
+//        pageBean.setList(articleService.simpleBlog(list));
+        pageBean.setList(list);
+//        // 月热度排行榜
+//        List<Article> hotRankingList = articleService.hotRanking(articleService.hotRankingList());
         getRequest().put("page", pageNo);
         getRequest().put("pageBean", pageBean);
-        getRequest().put("hotRankingList", hotRankingList);
+//        getRequest().put("hotRankingList", hotRankingList);
         return "list";
     }
 

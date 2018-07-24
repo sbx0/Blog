@@ -21,11 +21,20 @@ h6, .h6 {
     margin-bottom: 0px;
 }
 
+.article-too-long {
+    max-height: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .imgRestrict img {
     max-height: 300px;
 }
 
 .readMoreA {
+    margin-top: 2px;
+    display: block;
     font-size: 15px;
     font-style: oblique;
     font-weight: bolder;
