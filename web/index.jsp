@@ -123,9 +123,13 @@
                 articles[i].user_id
                 + '">' + articles[i].user_name + '</a>&nbsp;' + time +
                 '</p>' +
-                '<p>' + articles[i].content +
-                '</p>' +
-                '<a class="readMoreA" href="article-one?id=' + articles[i].id + '">查看详情</a>' +
+                '<div class="article-too-long">' +
+                '<p>' +
+                articles[i].content +
+                '</p></div>' +
+                '<a class="readMoreA btn btn-xs btn-default" href="article-one?id=' + articles[i].id + '">' +
+                '<span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>&nbsp;' +
+                '查看详情</a>' +
                 '</div>'
             $("#randomArticle").html($("#randomArticle").html() + html)
             html = ""

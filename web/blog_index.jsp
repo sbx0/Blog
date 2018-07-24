@@ -96,8 +96,11 @@
                                         </a>
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
-                                    <p>${article.article_content}</p>
-                                    <a class="readMoreA" href="article-one?id=${article.article_id}">
+                                    <div class="article-too-long">
+                                        <p>${article.article_content}</p>
+                                    </div>
+                                    <a class="readMoreA btn btn-xs btn-default" href="article-one?id=${article.article_id}">
+                                        <span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
                                     </a>
@@ -112,8 +115,11 @@
                                         </a>
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
-                                    <p>${article.article_content}</p>
-                                    <a class="readMoreA" href="article-one?id=${article.article_id}">
+                                    <div class="article-too-long">
+                                        <p>${article.article_content}</p>
+                                    </div>
+                                    <a class="readMoreA btn btn-xs btn-default" href="article-one?id=${article.article_id}">
+                                        <span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
                                     </a>
