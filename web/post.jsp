@@ -176,6 +176,7 @@
             'undo',  // 撤销
             'redo'  // 重复
         ]
+        editor.customConfig.zIndex = 1
         editor.create()
 
         editor.txt.html($("#article_content").val())
