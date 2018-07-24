@@ -9,8 +9,8 @@ public class BugDaoImpl extends BaseDao implements BugDao {
 
     @Override
     public List<Bug> getMySubmitBug(int id) {
-        String hql = "FROM Bug b WHERE b.submitter.user_id = ? AND b.state = ? ORDER BY b.id DESC";
-        return getSession().createQuery(hql).setParameter(0, id).setParameter(1, 0).setMaxResults(20).list();
+        String hql = "FROM Bug b WHERE b.submitter.user_id = ? AND b.state != ? ORDER BY b.id DESC";
+        return getSession().createQuery(hql).setParameter(0, id).setParameter(1, 1).setMaxResults(20).list();
     }
 
     @Override
