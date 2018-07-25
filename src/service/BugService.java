@@ -107,10 +107,10 @@ public class BugService {
         int allRow = 0;
         if (what == 0) {
             allRow = this.countNewBugs();
-            sql = "SELECT b.id,b.name,b.grade,b.state FROM BUGS AS b WHERE b.state != '1' ORDER BY b.id DESC";
+            sql = "SELECT b.id,b.name,b.grade,b.state FROM BUGS AS b WHERE b.state != '1' ORDER BY b.state , b.id DESC";
         } else if (what == 1) {
             allRow = this.countSolvedBugs();
-            sql = "SELECT b.id,b.name,b.grade,b.state FROM BUGS AS b WHERE b.state = '1' ORDER BY b.id DESC";
+            sql = "SELECT b.id,b.name,b.grade,b.state FROM BUGS AS b WHERE b.state = '1' ORDER BY b.solve_time DESC , b.id DESC";
         }
         int totalPage = allRow % size == 0 ? allRow / size : allRow / size + 1;
         if (page < 0) return null;
