@@ -9,7 +9,7 @@ public class Bug {
     private Integer id;
     private String name;
     private Integer grade; // 评级
-    private Integer state; // 状态 0已解决 1新提交
+    private Integer state; // 状态 -1 处理中 0 新提交 1 已处理
     private String bewrite; // 描述
     private String replay; // 解决者回复
     private Date submit_time; // 提交时间

@@ -25,9 +25,11 @@
 
 <footer class="blog-footer">
     <p>
-        <a href="index.jsp" class="text-danger">首页</a>
+        <a href="index.jsp">首页</a>
         |
-        <a class="text-danger" data-toggle="modal" data-target="#submitBug" href="javascript:void(0)">反馈</a>
+        <a data-toggle="modal" data-target="#submitBug" href="javascript:void(0)">反馈</a>
+        |
+        <a target="_blank" href="https://github.com/sbx0/Blog">GitHub</a>
     </p>
     <p>
         当前在线数:
