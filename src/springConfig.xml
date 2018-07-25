@@ -97,6 +97,7 @@
     </bean>
     <bean id="bugAction" class="action.BugAction" scope="prototype">
         <property name="bugService" ref="bugService"></property>
+        <property name="messageService" ref="messageService"></property>
     </bean>
     <bean id="dataAction" class="action.DataAction" scope="prototype">
         <property name="dataService" ref="dataService"></property>

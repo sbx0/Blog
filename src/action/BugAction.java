@@ -1,15 +1,18 @@
 package action;
 
 import entity.Bug;
+import entity.Message;
 import entity.User;
 import net.sf.json.JSONArray;
 import service.BugService;
+import service.MessageService;
 
 import java.util.Date;
 import java.util.List;
 
 public class BugAction extends BaseAction {
     private BugService bugService;
+    private MessageService messageService;
     private Bug bug;
     private String par;
     private int page;
@@ -135,6 +138,18 @@ public class BugAction extends BaseAction {
                 if (bug.getState() == 1) {
                     Date date = new Date();
                     b.setSolve_time(date);
+                    if (b.getSubmitter() != null) {
+                        // 提示提交者反馈已被解决
+                        Message message = new Message();
+                        String m = "您的反馈 <a href=\"bug-one?par=" + b.getId() + "\">" + b.getName() + "</a> 已被解决";
+                        message.setContent(m);
+                        message.setSendTime(new Date());
+                        message.setSendUser(b.getSubmitter());
+                        message.setReceiveUser(b.getSubmitter());
+                        message.setIsRead(0);
+                        message.setType(0);
+                        messageService.send(message);
+                    }
                 }
                 bugService.saveOrUpdate(b);
                 getJson().put("state", 0);
@@ -212,5 +227,13 @@ public class BugAction extends BaseAction {
 
     public void setBug(Bug bug) {
         this.bug = bug;
+    }
+
+    public MessageService getMessageService() {
+        return messageService;
+    }
+
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
     }
 }
