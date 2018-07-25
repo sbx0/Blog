@@ -54,183 +54,53 @@
     <div class="margin-bottom-10 margin-top-20" role="alert">
         <div class="row">
 
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <h1 class="text-center">
+            <div class="hidden-sm hidden-xs col-md-3 imgRestrict">
+                <a href="https://www.vultr.com/?ref=7466976">
+                    <img src="https://www.vultr.com/media/banner_3.png" width="300" height="250">
+                </a>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="list-group">
+                    <a href="msg.jsp" class="list-group-item list-group-item">
+                        <span class="badge">测试版</span>
                         <strong>
-                            消息中心 Beta
+                            消息中心
                         </strong>
-                    </h1>
-                    <div class="caption">
-                        <p>版本:
-                            <a>
-                                1.0
+                    </a>
+                    <a href="search.jsp" class="list-group-item list-group-item">
+                        <span class="badge">测试版</span>
+                        <strong>
+                            全局搜索
+                        </strong>
+                    </a>
+                    <a href="bugs.jsp" class="list-group-item list-group-item-danger">
+                        <span class="badge">正式版</span>
+                        <strong>
+                            反馈中心
+                        </strong>
+                    </a>
+                    <c:choose>
+                        <c:when test="${sessionScope.user.user_is_admin eq 1}">
+                            <a href="admin_index.jsp" class="list-group-item list-group-item-warning">
+                                <span class="badge">测试版</span>
+                                <strong>
+                                    后台管理
+                                </strong>
                             </a>
-                        </p>
-                        <p>上线时间:
-                            <a href="article-one?id=72">
-                                未知
-                            </a>
-                        </p>
-                        <p>
-                            万物基于沟通
-                        </p>
-                        <p>
-                            <a href="msg.jsp" class="btn btn-primary" role="button">
-                                立即使用
-                            </a>
-                            &nbsp;
-                            <a href="javascript:void(0)" class="btn btn-default" role="button">
-                                评价
-                            </a>
-                        </p>
-                    </div>
+                        </c:when>
+                    </c:choose>
+                    <a href="banwagon.jsp" class="list-group-item list-group-item-heading disabled">
+                        <span class="badge">停止维护</span>
+                        <strong>
+                            搬瓦工查询
+                        </strong>
+                    </a>
                 </div>
             </div>
 
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <h1 class="text-center">
-                        <strong>
-                            全局搜索 Beta
-                        </strong>
-                    </h1>
-                    <div class="caption">
-                        <p>版本:
-                            <a>
-                                1.0
-                            </a>
-                        </p>
-                        <p>上线时间:
-                            <a href="article-one?id=72">
-                                2017-12-11
-                            </a>
-                        </p>
-                        <p>
-                            搜索一切
-                        </p>
-                        <p>
-                            <a href="search.jsp" class="btn btn-primary" role="button">
-                                立即使用
-                            </a>
-                            &nbsp;
-                            <a href="javascript:void(0)" class="btn btn-default" role="button">
-                                评价
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <h1 class="text-center">
-                        <strong>
-                            反馈中心 Beta
-                        </strong>
-                    </h1>
-                    <div class="caption">
-                        <p>版本:
-                            <a>
-                                1.0
-                            </a>
-                        </p>
-                        <p>上线时间:
-                            <a href="article-one?id=55">
-                                2017-09-21
-                            </a>
-                        </p>
-                        <p>您的意见对我们至关重要</p>
-                        <p>
-                            <a href="bugs.jsp" class="btn btn-primary" role="button">
-                                立即使用
-                            </a>
-                            &nbsp;
-                            <a href="javascript:void(0)" class="btn btn-default" role="button">
-                                评价
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <h1 class="text-center">
-                        <strong>
-                            搬瓦工查询 Beta
-                        </strong>
-                    </h1>
-                    <div class="caption">
-                        <p>版本:
-                            <a>
-                                1.0
-                            </a>
-                        </p>
-                        <p>上线时间:
-                            <a href="article-one?id=61">
-                                2017-08-14
-                            </a>
-                        </p>
-                        <p>搬瓦工，便宜又好用</p>
-                        <p>
-                            <a href="banwagon.jsp" class="btn btn-primary" role="button">
-                                立即使用
-                            </a>
-                            &nbsp;
-                            <a href="javascript:void(0)" class="btn btn-default" role="button">
-                                评价
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <h1 class="text-center">
-                        <strong>
-                            后台管理 Beta
-                        </strong>
-                    </h1>
-                    <div class="caption">
-                        <p>版本:
-                            <a>
-                                1.0
-                            </a>
-                        </p>
-                        <p>上线时间:
-                            <a href="article-one?id=46">
-                                2017-09-01
-                            </a>
-                        </p>
-                        <p>权限狗的世界</p>
-                        <c:choose>
-                            <c:when test="${sessionScope.user.user_is_admin eq 1}">
-                                <p>
-                                    <a href="admin_index.jsp" class="btn btn-primary" role="button">
-                                        立即使用
-                                    </a>
-                                    &nbsp;
-                                    <a href="javascript:void(0)" class="btn btn-default" role="button">
-                                        评价
-                                    </a>
-                                </p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>
-                                    <a href="javascript:void(0)" class="btn btn-primary disabled" role="button">
-                                        暂无权限
-                                    </a>
-                                    &nbsp;
-                                    <a href="javascript:void(0)" class="btn btn-default" role="button">
-                                        评价
-                                    </a>
-                                </p>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div>
+            <div class="hidden-sm hidden-xs col-md-3 imgRestrict">
+                <a href="https://www.vultr.com/?ref=7466976"><img src="https://www.vultr.com/media/banner_3.png" width="300" height="250"></a>
             </div>
 
         </div>
