@@ -60,12 +60,12 @@
             <li class="active">搬瓦工信息查询</li>
         </ol>
         <form class="form-signin" action="" method="post" id="inputForm">
+            <p class="help-block text-center"># 由于本站服务器已经从搬瓦工搬迁至Vultr，所以该工具停止更新。 #</p>
             <label for="inputVEID" class="sr-only">VEID</label>
             <input type="text" id="inputVEID" name="inputApiKey" class="form-control" placeholder="请输入 VEID">
             <label for="inputApiKey" class="sr-only">API KEY</label>
             <input type="text" id="inputApiKey" name="inputApiKey" class="form-control" placeholder="请输入 API KEY">
             <button id="getInfo" class="btn btn-primary btn-block" type="button">查询服务器信息</button>
-            <button id="thisInfo" class="btn btn-default btn-block" type="button">查看此服务器信息</button>
         </form>
         <div class="spinner" id="loaddingInfo" hidden>
             <div class="bounce1"></div>
@@ -152,28 +152,28 @@
             }
         })
 
-        $("#thisInfo").click(function () {
-            $("#infoForm").hide()
-            $("#loaddingInfo").show()
-            $.ajax({
-                type: "post",
-                url: "admin-info",
-                dataType: "json",
-                success: function (data) {
-                    if (data.status == 1) {
-                        alert("参数异常")
-                        $("#loaddingInfo").hide()
-                    } else if (data.status == 2) {
-                        alert("查询异常")
-                        $("#loaddingInfo").hide()
-                    } else if (data.status == 0) {
-                        $("#loaddingInfo").hide()
-                        $("#infoForm").show()
-                        showInfo(data)
-                    }
-                }
-            })
-        })
+        // $("#thisInfo").click(function () {
+        //     $("#infoForm").hide()
+        //     $("#loaddingInfo").show()
+        //     $.ajax({
+        //         type: "post",
+        //         url: "admin-info",
+        //         dataType: "json",
+        //         success: function (data) {
+        //             if (data.status == 1) {
+        //                 alert("参数异常")
+        //                 $("#loaddingInfo").hide()
+        //             } else if (data.status == 2) {
+        //                 alert("查询异常")
+        //                 $("#loaddingInfo").hide()
+        //             } else if (data.status == 0) {
+        //                 $("#loaddingInfo").hide()
+        //                 $("#infoForm").show()
+        //                 showInfo(data)
+        //             }
+        //         }
+        //     })
+        // })
 
         function showInfo(data) {
             var ve_status = data.ve_status
