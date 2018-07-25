@@ -121,7 +121,7 @@
             <c:when test="${sessionScope.user != null and sessionScope.user.user_is_admin == 1}">
             <div class="sidebar-module sidebar-module-inset">
                 <h4>管理员操作</h4>
-                <form id="bSubForm">
+                <form id="bSubForm" hidden>
                     <input id="bId" class="form-control hide" name="bug.id" value="${bug.id}">
                     <div class="form-group">
                         <label for="bReplay">留言</label>
@@ -152,15 +152,15 @@
                             提交
                         </button>
                     </div>
-                    <div id="missionBtnDiv" class="form-group margin-top-20">
-                        <div class="spinner">
-                            <p class="text-center">检测权限中</p>
-                            <div class="bounce1"></div>
-                            <div class="bounce2"></div>
-                            <div class="bounce3"></div>
-                        </div>
-                    </div>
                 </form>
+                <div id="missionBtnDiv" class="form-group margin-top-20">
+                    <div class="spinner">
+                        <p class="text-center">检测权限中</p>
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
                 </c:when>
                 </c:choose>
             </div>
@@ -227,6 +227,7 @@
                         $("#subBug").attr("disabled", true)
                     } else if (state == 0) {
                         // 可以放弃任务
+                        $("#bSubForm").show()
                         btn = "<button id=\"missionBtn\" type=\"button\" class=\"btn btn-danger btn-full-weight\">放弃任务</button>"
                         $("#subBug").attr("disabled", false)
                     } else if (state == 1) {
@@ -236,6 +237,7 @@
                     } else if (state == 2) {
                         // 已被解决的任务
                         btn = ""
+                        $("#bSubForm").show()
                         $("#subBug").attr("disabled", false)
                     }
                     $("#missionBtnDiv").html(btn)
