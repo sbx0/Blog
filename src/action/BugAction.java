@@ -128,6 +128,11 @@ public class BugAction extends BaseAction {
                 if (bug.getReplay().trim().length() != 0 && bug.getReplay() != null) {
                     b.setReplay(bug.getReplay().trim());
                     b.setSolver(user);
+                }
+                if (bug.getState() != 1) {
+                    b.setSolve_time(null);
+                }
+                if (bug.getState() == 1) {
                     Date date = new Date();
                     b.setSolve_time(date);
                 }
