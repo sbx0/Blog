@@ -93,18 +93,18 @@
                     描述:<br>
                     ${bug.bewrite}<br>
                     <br>
-                    回复人:
+                    处理人:
                     <a href="article-user?id=${bug.solver.user_id}">
                         <strong>
                             ${bug.solver.user_name}
                         </strong>
                     </a>
                     <br>
-                    回复时间:
+                    解决时间:
                     <input id="solveTime" value="${bug.solve_time}" hidden>
                     <fmt:formatDate value="${bug.solve_time}" type="both" pattern="yyyy-MM-dd HH:mm"/><br>
                     <br>
-                    回复:<br>
+                    备注:<br>
                     ${bug.replay}
                     </p>
                 </div>
@@ -184,11 +184,12 @@
         var sTime = $("#submitTime").val()
         sTime = Format(getDate(sTime.toString()), "yyyy-MM-dd")
         var eTime
-        console.log(sTime)
+
         if (state == "1") {
             eTime = $("#solveTime").val()
             eTime = Format(getDate(eTime.toString()), "yyyy-MM-dd")
-            $("#submitDays").html("历时 " + Math.abs(DateMinus(sTime, eTime)) + " 天")
+            if (eTime != "1970-01-01") $("#submitDays").html("历时 " + Math.abs(DateMinus(sTime, eTime)) + " 天")
+            else $("#submitDays").html("已提交 " + Math.abs(DateMinus(sTime)) + " 天")
         } else {
             $("#submitDays").html("已提交 " + Math.abs(DateMinus(sTime)) + " 天")
         }
