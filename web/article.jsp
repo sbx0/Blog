@@ -35,7 +35,8 @@
 
     <c:choose>
         <c:when test="${article.article_title ne '#weibo#'}">
-            <title>${article.article_title} - ${article.article_author.user_name} - <fmt:message key="website.name"/></title>
+            <title>${article.article_title} - ${article.article_author.user_name} - <fmt:message
+                    key="website.name"/></title>
         </c:when>
         <c:otherwise>
             <title>微博详情 - ${article.article_author.user_name} - <fmt:message key="website.name"/></title>
@@ -123,6 +124,12 @@
                 </div>
 
                 <div class="col-sm-3 blog-sidebar margin-top-20">
+                    <div class="sidebar-module">
+                        <h4>标签</h4>
+                        <p id="tags">
+                            加载中
+                        </p>
+                    </div>
                     <div class="sidebar-module sidebar-module-inset">
                         <h4><fmt:message key="about"/></h4>
                         <p>
@@ -130,13 +137,19 @@
                         </p>
                         <c:choose>
                             <c:when test="${sessionScope.user.user_id == article.article_author.user_id or sessionScope.user.user_is_admin == 1}">
-                                <h4><fmt:message key="admin"/></h4>
+                                <h4>
+                                    <fmt:message key="admin"/>
+                                </h4>
                                 <p>
-                                    <a href="article-update?id=${article.article_id}" class="text-danger"><fmt:message
-                                            key="update"/></a>
+                                    <a id="manageTags">标签</a>
                                     |
-                                    <a name="deleteArticle" href="article-delete?id=${article.article_id}"
-                                       class="text-danger"><fmt:message key="delete"/></a>
+                                    <a href="article-update?id=${article.article_id}">
+                                        <fmt:message key="update"/>
+                                    </a>
+                                    |
+                                    <a name="deleteArticle" href="article-delete?id=${article.article_id}" class="text-danger">
+                                        <fmt:message key="delete"/>
+                                    </a>
                                 </p>
                             </c:when>
                         </c:choose>
@@ -238,6 +251,9 @@
         // 默认加载1次
         ajaxLoadComments()
 
+        // 加载标签
+        loadTags()
+
         var commnetState = null
         $(document).keydown(function (e) {
             var e = e || event;
@@ -310,10 +326,10 @@
 
         $("#changeCommentBtn").click(function () {
             var content = $("#changeCommentContent").val()
-            if(content.length > 150){
+            if (content.length > 150) {
                 alert("评论过长")
                 return false
-            } else if(content == null || content.length == 0) {
+            } else if (content == null || content.length == 0) {
                 alert("不能为空")
                 return false
             }
@@ -346,7 +362,7 @@
                 $("#comment").val("")
                 $("#comment").focus()
                 return false
-            } else if(commentContent.length >150 ){
+            } else if (commentContent.length > 150) {
                 alert("评论过长")
                 return false
             } else {
@@ -473,6 +489,29 @@
         }
 
     })
+
+    function loadTags() {
+        $.ajax({
+            url: "tag!article?id=${article.article_id}",
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                var tags, id, name, tagsHtml = ""
+                if (state == 0) {
+                    tags = data.tags
+                    for (var i = 0; i < tags.length; i++) {
+                        id = tags[i].id
+                        name = tags[i].name
+                        tagsHtml += "<a href=\"tag!query?id=" + id + "\">#" + name + "#</a>&nbsp;"
+                    }
+                } else {
+                    tagsHtml = "暂无标签"
+                }
+                $("#tags").html(tagsHtml)
+            }
+        })
+    }
+
 </script>
 </body>
 </html>

@@ -2,11 +2,10 @@ package dao.impl;
 
 import dao.StatusDao;
 import entity.Status;
-import entity.User;
 
 import java.util.List;
 
-public class StatusDaoImpl extends BaseDao implements StatusDao {
+public class StatusDaoImpl extends BaseDaoImpl implements StatusDao {
 
     @Override
     public void saveOrUpdate(Status status) {

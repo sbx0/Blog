@@ -120,11 +120,11 @@
             <c:choose>
             <c:when test="${sessionScope.user != null and sessionScope.user.user_is_admin == 1}">
             <div class="sidebar-module sidebar-module-inset">
-                <h4>管理员操作</h4>
+                <h4>操作</h4>
                 <form id="bSubForm" hidden>
                     <input id="bId" class="form-control hide" name="bug.id" value="${bug.id}">
                     <div class="form-group">
-                        <label for="bReplay">留言</label>
+                        <label for="bReplay">备注</label>
                         <textarea id="bReplay" class="form-control" rows="3" name="bug.replay">${bug.replay}</textarea>
                     </div>
                     <div class="form-group">

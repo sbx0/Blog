@@ -5,7 +5,7 @@ import entity.Message;
 
 import java.util.List;
 
-public class MessageDaoImpl extends BaseDao implements MessageDao {
+public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
 
     @Override
     public void read(int id) {

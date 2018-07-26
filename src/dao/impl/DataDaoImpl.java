@@ -3,7 +3,7 @@ package dao.impl;
 import dao.DataDao;
 import entity.Data;
 
-public class DataDaoImpl extends BaseDao implements DataDao {
+public class DataDaoImpl extends BaseDaoImpl implements DataDao {
 
     @Override
     public void delete(int id) {

@@ -1,26 +1,50 @@
 package test;
 
+import entity.Tag;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.ArticleService;
+import service.TagLinkService;
+import service.TagService;
 import service.UserService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Junit4Test {
     ApplicationContext context;
     ArticleService articleService;
     UserService userService;
+    TagService tagService;
+    TagLinkService tagLinkService;
 
     @Before
     public void before() {
         context = new ClassPathXmlApplicationContext("springConfig.xml");
         articleService = (ArticleService) context.getBean("articleService");
         userService = (UserService) context.getBean("userService");
+        tagService = (TagService) context.getBean("tagService");
+        tagLinkService = (TagLinkService) context.getBean("tagLinkService");
+    }
+
+    @Test
+    public void tagLink() {
+        List t = tagLinkService.queryByArticle(86);
+        for (int i = 0; i < t.size(); i++) {
+            System.out.println(t.get(i));
+        }
+    }
+
+    @Test
+    public void tag() {
+        Tag t = new Tag();
+        t.setId(1);
+        t = tagService.query(t);
+        System.out.println(t);
     }
 
     @Test

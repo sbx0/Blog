@@ -6,7 +6,7 @@ import org.hibernate.Query;
 
 import java.util.List;
 
-public class ArticleDaoImpl extends BaseDao implements ArticleDao {
+public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
 
     // 删除用户的文章
     @Override
@@ -68,11 +68,11 @@ public class ArticleDaoImpl extends BaseDao implements ArticleDao {
         return q.list();
     }
 
-    // 添加或更新
-    @Override
-    public void saveOrUpdate(Article article) {
-        getSession().saveOrUpdate(article);
-    }
+//    // 添加或更新
+//    @Override
+//    public void saveOrUpdate(Article article) {
+//        getSession().saveOrUpdate(article);
+//    }
 
     // 查询用户发表的文章
     @Override

@@ -5,7 +5,7 @@ import entity.Bug;
 
 import java.util.List;
 
-public class BugDaoImpl extends BaseDao implements BugDao {
+public class BugDaoImpl extends BaseDaoImpl implements BugDao {
 
     @Override
     public List<Bug> getMySubmitBug(int id) {
@@ -40,7 +40,7 @@ public class BugDaoImpl extends BaseDao implements BugDao {
 
     @Override
     public void delete(int id) {
-        String hql = "DELETE FROM Bug b WHERE B.id = ?";
+        String hql = "DELETE FROM Bug b WHERE b.id = ?";
         getSession().createQuery(hql).setParameter(0, id).executeUpdate();
     }
 
