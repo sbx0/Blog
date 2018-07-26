@@ -84,7 +84,7 @@ $("#message").click(function () {
             var messages = data.message
             var result = ""
             if (messages.length == 0) {
-                result += "<p><h5 class='gif-input-center'>" + i18N.no_msg_right_now + "</h5></p>"
+                result += "<p><h5 class='gif-input-center'><a href='msg.jsp'>" + i18N.no_msg_right_now + "，点我查看更多</a></h5></p>"
                 $("#codes").append(result)
             }
             for (var i = 0; i < messages.length; i++) {

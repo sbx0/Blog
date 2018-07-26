@@ -7,7 +7,7 @@ import org.hibernate.Query;
 
 import java.util.List;
 
-public class CodeDaoImpl extends BaseDao implements CodeDao {
+public class CodeDaoImpl extends BaseDaoImpl implements CodeDao {
 
     // 删除用户的激活码
     @Override

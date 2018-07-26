@@ -20,9 +20,6 @@ public interface ArticleDao {
     // 分页查询
     public List<Article> queryForPage(String hql, int offset, int length);
 
-    // saveOrUpdate
-    public void saveOrUpdate(Article article);
-
     // 单用户文章列表
     public List<Article> getAllById(int id);
 

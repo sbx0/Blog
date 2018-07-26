@@ -30,7 +30,7 @@
         <property name="mappingLocations" value="classpath:/entity/*.hbm.xml"></property>
     </bean>
     <!-- 配置Dao层 -->
-    <bean id="baseDao" class="dao.impl.BaseDao">
+    <bean id="baseDao" class="dao.impl.BaseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     <bean id="articleDao" class="dao.impl.ArticleDaoImpl" parent="baseDao"></bean>
@@ -41,6 +41,8 @@
     <bean id="messageDao" class="dao.impl.MessageDaoImpl" parent="baseDao"></bean>
     <bean id="bugDao" class="dao.impl.BugDaoImpl" parent="baseDao"></bean>
     <bean id="dataDao" class="dao.impl.DataDaoImpl" parent="baseDao"></bean>
+    <bean id="tagDao" class="dao.impl.TagDaoImpl" parent="baseDao"></bean>
+    <bean id="tagLinkDao" class="dao.impl.TagLinkDaoImpl" parent="baseDao"></bean>
     <!-- 配置Service层 -->
     <bean id="articleService" class="service.ArticleService">
         <property name="articleDao" ref="articleDao"></property>
@@ -69,6 +71,13 @@
     <bean id="dataService" class="service.DataService">
         <property name="dataDao" ref="dataDao"></property>
     </bean>
+    <bean id="tagService" class="service.TagService">
+        <property name="tagDao" ref="tagDao"></property>
+    </bean>
+    <bean id="tagLinkService" class="service.TagLinkService">
+        <property name="tagLinkDao" ref="tagLinkDao"></property>
+    </bean>
+
     <!-- 配置Action层 注意Action对象的作用域为prototype-->
     <bean id="articleAction" class="action.ArticleAction" scope="prototype">
         <property name="articleService" ref="articleService"></property>
@@ -102,7 +111,13 @@
     <bean id="dataAction" class="action.DataAction" scope="prototype">
         <property name="dataService" ref="dataService"></property>
     </bean>
-
+    <bean id="tagAction" class="action.TagAction" scope="prototype">
+        <property name="tagService" ref="tagService"></property>
+    </bean>
+    <bean id="tagLinkAction" class="action.TagLinkAction" scope="prototype">
+        <property name="tagLinkService" ref="tagLinkService"></property>
+    </bean>
+    
     <!-- 配置声明式事务管理 -->
     <!-- 1)配置事务管理器 -->
     <bean id="transactionManager"

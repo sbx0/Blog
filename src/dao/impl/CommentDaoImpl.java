@@ -6,7 +6,7 @@ import org.hibernate.Query;
 
 import java.util.List;
 
-public class CommentDaoImpl extends BaseDao implements CommentDao {
+public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
 
     @Override
     public int update(Comment comment) {

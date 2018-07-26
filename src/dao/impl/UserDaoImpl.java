@@ -6,7 +6,7 @@ import org.hibernate.Query;
 
 import java.util.List;
 
-public class UserDaoImpl extends BaseDao implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     // 登陆 / 查询邮箱是否重复
     @Override
     public User login(User user) {
