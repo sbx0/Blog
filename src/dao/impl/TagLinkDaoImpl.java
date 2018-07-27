@@ -8,6 +8,15 @@ import java.util.List;
 public class TagLinkDaoImpl extends BaseDaoImpl<TagLink> implements TagLinkDao {
 
     @Override
+    public TagLink exist(int t_id, int a_id) {
+        String hql = "FROM TagLink t WHERE t.tag.id = ? AND t.article.article_id = ?";
+        return (TagLink) getSession().createQuery(hql).
+                setParameter(0, t_id).
+                setParameter(1, a_id).
+                uniqueResult();
+    }
+
+    @Override
     public void deleteByArticle(int id) {
         String hql = "DELETE FROM TagLink t WHERE t.article.article_id = ?";
         getSession().createQuery(hql).setParameter(0, id).executeUpdate();
@@ -15,7 +24,7 @@ public class TagLinkDaoImpl extends BaseDaoImpl<TagLink> implements TagLinkDao {
 
     @Override
     public List<TagLink> queryByArticle(int id) {
-        String hql = "FROM TagLink t WHERE t.article.article_id = ? ORDER BY t.id DESC";
+        String hql = "FROM TagLink t WHERE t.article.article_id = ?";
         return getSession().createQuery(hql).setParameter(0, id).list();
     }
 

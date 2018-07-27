@@ -9,5 +9,7 @@ public interface TagLinkDao extends BaseDao<TagLink> {
     public List<TagLink> queryByArticle(int id);
     // 由文章删除标签
     public void deleteByArticle(int id);
+    // 判断文章是否有重复标签
+    public TagLink exist(int t_id, int a_id);
 
 }
