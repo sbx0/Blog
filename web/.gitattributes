@@ -2,3 +2,7 @@
 *.less linguist-language=java
 *.js linguist-language=java
 *.html linguist-language=java
+
+/src/web/WEB-INF/classes
+google62796719443a5f48.html
+*.class
