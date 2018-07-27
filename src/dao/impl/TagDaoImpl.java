@@ -20,7 +20,7 @@ public class TagDaoImpl extends BaseDaoImpl<Tag> implements TagDao {
             hql = "FROM Tag t WHERE t.id = ?";
             return (Tag) getSession().createQuery(hql).setParameter(0, tag.getId()).uniqueResult();
         } else if (tag.getName() != null) {
-            hql = "FROM Tag t WHERE t.name LIKE ?";
+            hql = "FROM Tag t WHERE t.name = ?";
             return (Tag) getSession().createQuery(hql).setParameter(0, tag.getName().trim()).uniqueResult();
         }
         return null;

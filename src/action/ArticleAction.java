@@ -15,6 +15,7 @@ public class ArticleAction extends BaseAction {
     private CommentService commentService;
     private UserService userService;
     private StatusService statusService;
+    private TagLinkService tagLinkService;
     private Article article;
     private Comment comment;
     private PageBean pageBean;
@@ -384,8 +385,13 @@ public class ArticleAction extends BaseAction {
 
     // 删除
     public String delete() {
-        commentService.deleteArticleComment(id);
-        articleService.delete(id);
+        try {
+            commentService.deleteArticleComment(id);
+            tagLinkService.deleteByArticle(id);
+            articleService.delete(id);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return "delete";
     }
 
@@ -394,6 +400,7 @@ public class ArticleAction extends BaseAction {
         String status = "0";
         try {
             commentService.deleteArticleComment(id);
+            tagLinkService.deleteByArticle(id);
             articleService.delete(id);
         } catch (Exception e) {
             status = "1";
@@ -519,4 +526,9 @@ public class ArticleAction extends BaseAction {
     public void setType(String type) {
         this.type = type;
     }
+
+    public void setTagLinkService(TagLinkService tagLinkService) {
+        this.tagLinkService = tagLinkService;
+    }
+
 }

@@ -141,13 +141,14 @@
                                     <fmt:message key="admin"/>
                                 </h4>
                                 <p>
-                                    <a id="manageTags">标签</a>
+                                    <a id="manageTags" data-toggle="modal" data-target="#manageTagsModal">标签</a>
                                     |
                                     <a href="article-update?id=${article.article_id}">
                                         <fmt:message key="update"/>
                                     </a>
                                     |
-                                    <a name="deleteArticle" href="article-delete?id=${article.article_id}" class="text-danger">
+                                    <a name="deleteArticle" href="article-delete?id=${article.article_id}"
+                                       class="text-danger">
                                         <fmt:message key="delete"/>
                                     </a>
                                 </p>
@@ -167,13 +168,13 @@
                             </div>
                             <c:choose>
                                 <c:when test="${sessionScope.user eq null}">
-                                    <button id="commentButton" type="submit" class="btn btn-primary" style="width: 100%"
-                                            disabled="disabled"><fmt:message key="nologin"/>
+                                    <button class="btn btn-full-weight" disabled="disabled">
+                                        <fmt:message key="nologin"/>
                                     </button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button id="commentButton" type="submit" style="width: 100%"
-                                            class="btn btn-primary"><fmt:message key="comment"/>
+                                    <button id="commentButton" type="submit" class="btn btn-primary btn-full-weight">
+                                        <fmt:message key="comment"/>
                                     </button>
                                 </c:otherwise>
                             </c:choose>
@@ -214,7 +215,7 @@
                                           rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <button id="changeCommentBtn" type="button" class="btn btn-primary" style="width:100%;">
+                                <button id="changeCommentBtn" type="button" class="btn btn-primary btn-full-weight">
                                     提交
                                 </button>
                             </div>
@@ -230,6 +231,34 @@
                 </div>
             </div>
         </div>
+
+        <div id="manageTagsModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+             aria-labelledby="changeComment">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">标签管理</h4>
+                        <form id="manageTagsForm">
+                            <p id="tagsList"></p>
+                            <div class="form-group">
+                                <textarea id="tagsTextarea"
+                                          name="tagsText"
+                                          placeholder="点击上方的标签即可删除。可一次提交多个标签，标签之间添加空格即可。"
+                                          class="form-control"
+                                          rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button id="submitTags" class="btn btn-primary btn-full-weight">添加</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </c:otherwise>
 </c:choose>
 
@@ -490,24 +519,79 @@
 
     })
 
+    $(document).on("click", "a[name='removeTag']", function () {
+        if (!confirm("确认删除此标签？")) return false
+        var url = this.href
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    loadTags()
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+        return false
+    })
+
+    $("#submitTags").click(function () {
+        if ($("#tagsTextarea").val().trim().length == 0) {
+            alert("无标签输入")
+            return false
+        }
+        $.ajax({
+            type: "post",
+            url: "tag!add?id=${article.article_id}",
+            data: $("#manageTagsForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    $.ajax({
+                        url: "tag!article?id=${article.article_id}",
+                        type: "POST",
+                        success: function (data) {
+                            $("#tagsTextarea").val("")
+                            loadTags()
+                        }
+                    })
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+        return false
+    })
+
+    $("#manageTags").click(function () {
+        loadTags()
+    })
+
     function loadTags() {
         $.ajax({
             url: "tag!article?id=${article.article_id}",
             type: "POST",
             success: function (data) {
                 var state = data.state
-                var tags, id, name, tagsHtml = ""
+                var tags, id, name, tagsHtml = "", removeTagsHtml = ""
                 if (state == 0) {
                     tags = data.tags
                     for (var i = 0; i < tags.length; i++) {
                         id = tags[i].id
+                        t_id = tags[i].t_id
                         name = tags[i].name
-                        tagsHtml += "<a href=\"tag!query?id=" + id + "\">#" + name + "#</a>&nbsp;"
+                        removeTagsHtml += "<a name=\"removeTag\" href=\"tag!remove?id=" + id + "\">#" + name + "#</a>&nbsp;"
+                        tagsHtml += "<a href=\"tag!one?id=" + t_id + "\">#" + name + "#</a>&nbsp;"
                     }
                 } else {
                     tagsHtml = "暂无标签"
+                    removeTagsHtml = "暂无标签"
                 }
                 $("#tags").html(tagsHtml)
+                $("#tagsList").html(removeTagsHtml)
             }
         })
     }

@@ -85,6 +85,7 @@
         <property name="userService" ref="userService"></property>
         <property name="statusService" ref="statusService"></property>
         <property name="messageService" ref="messageService"></property>
+        <property name="tagLinkService" ref="tagLinkService"></property>
     </bean>
     <bean id="userAction" class="action.UserAction" scope="prototype">
         <property name="articleService" ref="articleService"></property>
@@ -116,6 +117,7 @@
     </bean>
     <bean id="tagLinkAction" class="action.TagLinkAction" scope="prototype">
         <property name="tagLinkService" ref="tagLinkService"></property>
+        <property name="tagService" ref="tagService"></property>
     </bean>
     
     <!-- 配置声明式事务管理 -->
