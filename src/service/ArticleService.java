@@ -22,6 +22,14 @@ public class ArticleService {
         this.articleDao = articleDao;
     }
 
+    public int prev(int id, int u_id) {
+        return articleDao.prev(id, u_id);
+    }
+
+    public int next(int id, int u_id) {
+        return articleDao.next(id, u_id);
+    }
+
     // 搜索返回 json
     public JSONArray searchReturnJson(List<Article> articles) {
         JSONObject jsonObject = new JSONObject();

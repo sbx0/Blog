@@ -60,10 +60,6 @@
             <li><a href="tools.jsp">工具</a></li>
             <li class="active">消息中心</li>
         </ol>
-
-        <h3>
-            消息中心 Beta v0.1
-        </h3>
         <c:choose>
             <c:when test="${sessionScope.user eq null}">
                 <div class="alert alert-danger margin-top-20" role="alert">

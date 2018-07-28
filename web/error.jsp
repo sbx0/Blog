@@ -56,7 +56,7 @@
 <div class="container">
     <ul class="nav nav-tabs">
         <li id="indexTab" role="presentation">
-            <a href="article-list">
+            <a href="index">
                 <fmt:message key="index"/>
             </a>
         </li>

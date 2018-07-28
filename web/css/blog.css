@@ -17,6 +17,10 @@ h6, .h6 {
     color: #333;
 }
 
+.media-heading {
+    line-height: normal;
+}
+
 .modal-body .list-group {
     margin-bottom: 0px;
 }

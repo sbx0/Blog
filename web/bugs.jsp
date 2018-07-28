@@ -87,7 +87,7 @@
                 </c:choose>
             </div>
             <div class="col-sm-12 col-md-6">
-                <h4>最近提交</h4>
+                <h4>新提交</h4>
                 <div>
                     <div class="list-group" id="new-bugs">
                     </div>
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
-                <h4>已解决</h4>
+                <h4>已处理</h4>
                 <div>
                     <div class="list-group" id="solved-bugs"></div>
                     <div class="spinner" id="loaddingSolvedBugs" hidden>
@@ -421,7 +421,7 @@
 
         var state = stateToString(state + "")
 
-        var bugItem = "<a target='_blank' href='bug-one?par=" + id + "'" +
+        var bugItem = "<a href='b?id=" + id + "'" +
             "class='list-group-item " + gradeClass + "'>" + state + name +
             "</a>"
         return bugItem

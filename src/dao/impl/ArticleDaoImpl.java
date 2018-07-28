@@ -8,6 +8,36 @@ import java.util.List;
 
 public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
 
+    @Override
+    public int prev(int id, int u_id) {
+        Object reslut;
+        String sql;
+        if (u_id > 0) {
+            sql = "select article_id from articles where article_id < ? and user_id = ? order by article_id desc";
+            reslut = getSession().createSQLQuery(sql).setParameter(0, id).setParameter(1, u_id).setMaxResults(1).uniqueResult();
+        } else {
+            sql = "select article_id from articles where article_id < ? order by article_id desc";
+            reslut = getSession().createSQLQuery(sql).setParameter(0, id).setMaxResults(1).uniqueResult();
+        }
+        if (reslut != null) return (int) reslut;
+        else return -1;
+    }
+
+    @Override
+    public int next(int id, int u_id) {
+        Object reslut;
+        String sql;
+        if (u_id > 0) {
+            sql = "select article_id from articles where article_id > ? and user_id = ? order by article_id desc";
+            reslut = getSession().createSQLQuery(sql).setParameter(0, id).setParameter(1, u_id).setMaxResults(1).uniqueResult();
+        } else {
+            sql = "select article_id from articles where article_id > ? order by article_id desc";
+            reslut = getSession().createSQLQuery(sql).setParameter(0, id).setMaxResults(1).uniqueResult();
+        }
+        if (reslut != null) return (int) reslut;
+        else return -1;
+    }
+
     // 删除用户的文章
     @Override
     public void deleteByUser(int id) {

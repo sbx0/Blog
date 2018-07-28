@@ -9,11 +9,25 @@
     <!-- 开发模式(修改struts.xml不用重启服务器）包含struts.configuration.xml.reload -->
     <constant name="struts.devMode" value="false"></constant>
     <package name="default" namespace="/" extends="json-default,struts-default">
+        <!-- 比较重要的action -->
+        <action name="index" class="articleAction" method="list">
+            <result name="list">/blog_index.jsp</result>
+        </action>
+        <action name="a" class="articleAction" method="one">
+            <result name="one">/article.jsp</result>
+        </action>
+        <action name="u" class="articleAction" method="user">
+            <result name="user">/user.jsp</result>
+        </action>
+        <action name="b" class="bugAction" method="one">
+            <result name="one">/bug.jsp</result>
+        </action>
+        <action name="t" class="tagLinkAction" method="one">
+            <result name="one">/tag.jsp</result>
+        </action>
+
         <!-- spring整合之后class不用写类名了，只要写对应bean的id -->
         <action name="article-*" class="articleAction" method="{1}">
-            <result name="list">/blog_index.jsp</result>
-            <result name="user">/user.jsp</result>
-            <result name="one">/article.jsp</result>
             <result name="update">/post.jsp</result>
             <result name="delete" type="redirectAction">article-list</result>
             <result name="json" type="json">
@@ -40,7 +54,6 @@
             <result name="json" type="json">
                 <param name="root">json</param>
             </result>
-            <result name="one">/bug.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
         <action name="data-*" class="dataAction" method="{1}">
@@ -56,7 +69,6 @@
             <result name="error">/error.jsp</result>
         </action>
         <action name="tag!*" class="tagLinkAction" method="{1}">
-            <result name="one">/tag.jsp</result>
             <result name="json" type="json">
                 <param name="root">json</param>
             </result>

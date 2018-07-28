@@ -21,12 +21,34 @@ public class ArticleAction extends BaseAction {
     private PageBean pageBean;
     private int id;
     private int a_id;
+    private int u_id;
     private int pageNo;
     private int pageSize = 10;
     private String keywords;
     private String type;
     private List<Comment> comments;
     private MessageService messageService;
+
+    // 上一篇 下一篇
+    public String prevNext() {
+        int prev_id = articleService.prev(id, u_id);
+        int next_id = articleService.next(id, u_id);
+        if (prev_id > 0) {
+            Article prev = articleService.getOneById(prev_id);
+            JSONObject jsonPrev = new JSONObject();
+            jsonPrev.put("id", prev.getArticle_id());
+            jsonPrev.put("title", prev.getArticle_title());
+            getJson().put("prev", jsonPrev);
+        }
+        if (next_id > 0) {
+            Article next = articleService.getOneById(next_id);
+            JSONObject jsonNext = new JSONObject();
+            jsonNext.put("id", next.getArticle_id());
+            jsonNext.put("title", next.getArticle_title());
+            getJson().put("next", jsonNext);
+        }
+        return "json";
+    }
 
     // 评论修改
     public String updateComment() {
@@ -310,24 +332,24 @@ public class ArticleAction extends BaseAction {
             getRequest().put("article", article);
             getRequest().put("saveOrUpdate", "update");
         }
-        // 上一篇 下一篇
-        Article preArticle = new Article();
-        Article nextArticle = new Article();
-        for (int i = id - 1; i > id - 6; i--) {
-            if (i < 0) break;
-            preArticle = articleService.getOneById(i);
-            if (preArticle != null) {
-                break;
-            }
-        }
-        getRequest().put("preArticle", preArticle);
-        for (int i = id + 1; i < id + 6; i++) {
-            nextArticle = articleService.getOneById(i);
-            if (nextArticle != null) {
-                break;
-            }
-        }
-        getRequest().put("nextArticle", nextArticle);
+//        // 上一篇 下一篇
+//        Article preArticle = new Article();
+//        Article nextArticle = new Article();
+//        for (int i = id - 1; i > id - 6; i--) {
+//            if (i < 0) break;
+//            preArticle = articleService.getOneById(i);
+//            if (preArticle != null) {
+//                break;
+//            }
+//        }
+//        getRequest().put("preArticle", preArticle);
+//        for (int i = id + 1; i < id + 6; i++) {
+//            nextArticle = articleService.getOneById(i);
+//            if (nextArticle != null) {
+//                break;
+//            }
+//        }
+//        getRequest().put("nextArticle", nextArticle);
         return "one";
     }
 
@@ -531,4 +553,7 @@ public class ArticleAction extends BaseAction {
         this.tagLinkService = tagLinkService;
     }
 
+    public void setU_id(int u_id) {
+        this.u_id = u_id;
+    }
 }

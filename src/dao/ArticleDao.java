@@ -5,6 +5,13 @@ import entity.Article;
 import java.util.List;
 
 public interface ArticleDao {
+
+    // 查询该条记录的上一条
+    public int prev(int id, int u_id);
+
+    // 查询该条记录的下一条
+    public int next(int id, int u_id);
+
     // 查询全部
     public List<Article> getAll();
 

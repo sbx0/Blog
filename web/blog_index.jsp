@@ -91,7 +91,7 @@
                             <c:when test="${article.article_title eq '#weibo#'}">
                                 <div class="blog-post imgRestrict">
                                     <p class="blog-post-meta">
-                                        <a href="article-user?id=${article.article_author.user_id}">
+                                        <a href="uid=${article.article_author.user_id}">
                                                 ${article.article_author.user_name}
                                         </a>
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
@@ -99,7 +99,7 @@
                                     <div class="article-too-long">
                                         <p>${article.article_content}</p>
                                     </div>
-                                    <a class="readMoreA btn btn-xs btn-default" href="article-one?id=${article.article_id}">
+                                    <a class="readMoreA btn btn-xs btn-default" href="a?id=${article.article_id}">
                                         <span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
@@ -110,7 +110,7 @@
                                 <div class="blog-post imgRestrict">
                                     <h2 class="blog-post-title">${article.article_title}</h2>
                                     <p class="blog-post-meta">
-                                        <a href="article-user?id=${article.article_author.user_id}">
+                                        <a href="u?id=${article.article_author.user_id}">
                                                 ${article.article_author.user_name}
                                         </a>
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
@@ -118,7 +118,7 @@
                                     <div class="article-too-long">
                                         <p>${article.article_content}</p>
                                     </div>
-                                    <a class="readMoreA btn btn-xs btn-default" href="article-one?id=${article.article_id}">
+                                    <a class="readMoreA btn btn-xs btn-default" href="a?id=${article.article_id}">
                                         <span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
@@ -161,14 +161,14 @@
                                 </span>
                             </li>
                             <li class="next">
-                                <a href="article-list?pageNo=${pageBean.currentPage+1}">
+                                <a href="index?pageNo=${pageBean.currentPage+1}">
                                     <fmt:message key="next.page"/>
                                 </a>
                             </li>
                         </c:when>
                         <c:when test="${pageBean.currentPage eq pageBean.totalPage}">
                             <li class="previous">
-                                <a href="article-list?pageNo=${pageBean.currentPage-1}">
+                                <a href="index?pageNo=${pageBean.currentPage-1}">
                                     <fmt:message key="prev.page"/>
                                 </a>
                             </li>
@@ -185,7 +185,7 @@
                         </c:when>
                         <c:otherwise>
                             <li class="previous">
-                                <a href="article-list?pageNo=${pageBean.currentPage-1}">
+                                <a href="index?pageNo=${pageBean.currentPage-1}">
                                     <fmt:message key="prev.page"/></a>
                             </li>
                             <li>
@@ -194,7 +194,7 @@
                                 </span>
                             </li>
                             <li class="next">
-                                <a href="article-list?pageNo=${pageBean.currentPage+1}">
+                                <a href="index?pageNo=${pageBean.currentPage+1}">
                                     <fmt:message key="next.page"/>
                                 </a>
                             </li>
@@ -224,7 +224,7 @@
             <%--<c:forEach items="${hotRankingList}" var="article" varStatus="articleStatus">--%>
             <%--<li>--%>
             <%--${articleStatus.index+1}.--%>
-            <%--<a href="article-one?id=${article.article_id}">--%>
+            <%--<a href="a?id=${article.article_id}">--%>
             <%--${article.article_title}--%>
             <%--</a>--%>
             <%--<fmt:message key="hotrank"/>--%>

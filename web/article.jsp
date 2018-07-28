@@ -82,7 +82,7 @@
                     </c:choose>
                     <p class="blog-post-meta">
                         <fmt:message key="author"/>:
-                        <a href="article-user?id=${article.article_author.user_id}">
+                        <a href="u?id=${article.article_author.user_id}">
                                 ${article.article_author.user_name}
                         </a>
                         <fmt:message key="time"/>:
@@ -91,35 +91,7 @@
                     </p>
                     <p>${article.article_content}</p>
                     <nav>
-                        <ul class="pager">
-                            <c:choose>
-                                <c:when test="${preArticle ne null}">
-                                    <li class="previous">
-                                        <a href="article-one?id=${preArticle.article_id}"
-                                           title="${preArticle.article_title}"><fmt:message key="prev.article"/></a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="previous disabled">
-                                        <a><fmt:message key="next.article"/></a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${nextArticle ne null}">
-                                    <li class="next">
-                                        <a href="article-one?id=${nextArticle.article_id}"
-                                           title="${nextArticle.article_title}"><fmt:message key="next.article"/></a>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="next disabled">
-                                        <a><fmt:message key="next.article"/></a>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-
-                        </ul>
+                        <ul id="pager-nav" class="pager"></ul>
                     </nav>
                 </div>
 
@@ -282,6 +254,9 @@
 
         // 加载标签
         loadTags()
+
+        // 上一篇下一篇
+        prveNext()
 
         var commnetState = null
         $(document).keydown(function (e) {
@@ -502,7 +477,7 @@
                     //                    '      <img class="media-object" src="img/favicon.png" alt="...">\n' +
                     //                    '    </a>\n' +
                     '</div><div class="media-body"><h5 class="media-heading">#'
-                comment = comment + comments[i].comment_floor + '<a href="article-user?id=' +
+                comment = comment + comments[i].comment_floor + '<a href="u?id=' +
                     comments[i].comment_user.user_id + '"> ' +
                     comments[i].comment_user.user_name +
                     '</a> ' + time + ' '
@@ -584,7 +559,7 @@
                         t_id = tags[i].t_id
                         name = tags[i].name
                         removeTagsHtml += "<a name=\"removeTag\" href=\"tag!remove?id=" + id + "\">#" + name + "#</a>&nbsp;"
-                        tagsHtml += "<a href=\"tag!one?id=" + t_id + "\">#" + name + "#</a>&nbsp;"
+                        tagsHtml += "<a href=\"t?id=" + t_id + "\">#" + name + "#</a>&nbsp;"
                     }
                 } else {
                     tagsHtml = "暂无标签"
@@ -594,6 +569,43 @@
                 $("#tagsList").html(removeTagsHtml)
             }
         })
+    }
+
+    function prveNext() {
+        var u_id, url
+        var args = location.href.split("?")
+        if (args[0] != location.href) {
+            var pars = args[1].split("&")
+            for (var i = 0; i < pars.length; i++) {
+                var par = pars[i].split("=")
+                if (par[0] == "u_id") u_id = par[1]
+            }
+        }
+
+        if (u_id != null) url = "article-prevNext?id=${article.article_id}&u_id=" + u_id
+        else url = "article-prevNext?id=${article.article_id}"
+
+        $.ajax({
+                url: url,
+                type: "POST",
+                success: function (data) {
+                    var prev = data.prev
+                    var nav = ""
+                    if (prev != null) {
+                        if (u_id != null) url = "a?id=" + prev.id + "&u_id=" + u_id
+                        else url = "a?id=" + prev.id
+                        nav += "<li class=\"previous\"><a href=\"" + url + "\" title=\"" + prev.title + "\">上一篇</a></li>"
+                    }
+                    var next = data.next
+                    if (next != null) {
+                        if (u_id != null) url = "a?id=" + next.id + "&u_id=" + u_id
+                        else url = "a?id=" + next.id
+                        nav += "<li class=\"next\"><a href=\"" + url + "\" title=\"" + next.title + "\">下一篇</a></li>"
+                    }
+                    $("#pager-nav").html(nav)
+                }
+            }
+        )
     }
 
 </script>

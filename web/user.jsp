@@ -105,9 +105,9 @@
                                     <p class="imgRestrict">
                                             ${article.article_content}
                                     </p>
-                                    <a href="article-one?id=${article.article_id}">
-                                        <fmt:message
-                                                key="read.more"/>(${article.article_comment}/${article.article_views})
+                                    <a href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">
+                                        <fmt:message key="read.more"/>
+                                        (${article.article_comment}/${article.article_views})
                                     </a>
                                 </div>
                             </c:when>
@@ -119,9 +119,9 @@
                                                         pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
                                     </p>
                                     <p class="imgRestrict">${article.article_content}</p>
-                                    <a href="article-one?id=${article.article_id}">
-                                        <fmt:message
-                                                key="read.more"/>(${article.article_comment}/${article.article_views})
+                                    <a href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">
+                                        <fmt:message key="read.more"/>
+                                        (${article.article_comment}/${article.article_views})
                                     </a>
                                 </div>
                             </c:otherwise>

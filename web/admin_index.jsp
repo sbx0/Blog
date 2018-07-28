@@ -291,7 +291,7 @@
                 tableBody += "<td>" +
                     "<a name='del' href='article-deleteReturnJson?id=" + body[i].article_id + "' class='text-danger'>删除</a>&nbsp;" +
                     "<a name='update' href='article-update?id=" + body[i].article_id + "' target='_Blank'>修改</a>&nbsp;" +
-                    "<a name='show' href='article-one?id=" + body[i].article_id + "' target='_Blank'>查看</a>" +
+                    "<a name='show' href='a?id=" + body[i].article_id + "' target='_Blank'>查看</a>" +
                     "</td>"
                 tableBody += "</tr>"
                 $("#table-body").append(tableBody)
@@ -315,7 +315,7 @@
                     "&nbsp;" +
                     "<a href='user-info?id=" + body[i].user_id + "' target='_Blank'>修改<a/>" +
                     "&nbsp;" +
-                    "<a href='article-user?id=" + body[i].user_id + "' target='_Blank'>查看<a/>" +
+                    "<a href='u?id=" + body[i].user_id + "' target='_Blank'>查看<a/>" +
                     "</td>"
                 tableBody += "</tr>"
                 $("#table-body").append(tableBody)

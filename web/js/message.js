@@ -6,11 +6,12 @@ $(document).ready(function () {
 })
 
 function showMessage(id, sendUserName, sendUserId, content, sendTime) {
+    var userUrl = "<a href='article-user?id=" + sendUserId + "'>"
+    if (sendUserName == "系统消息") userUrl = "<a " + sendUserId + "'>"
     var result = ""
     result += "<p class='message'>" +
         Format(getDate(sendTime.toString()), "yyyy-MM-dd HH:mm") + " " +
-        "<a href='article-user?id=" + sendUserId + "'>" +
-        sendUserName + "</a>" + "：" + content + "</p>" +
+        userUrl + sendUserName + "</a>" + "：" + content + "</p>" +
         " <p class='message' style='text-align: right'>" +
         // "<a href='user-know?id=" + id + "' name='i-know'>" + i18N.know + "</a>" +
         "<a href='msg.jsp?id=" + sendUserId + "'>查看</a>" +
@@ -93,6 +94,8 @@ $("#message").click(function () {
                 var sendUserName = messages[i].sendUser.user_name
                 var sendUserId = messages[i].sendUser.user_id
                 var sendTime = messages[i].sendTime.time
+                var receiveUserId = messages[i].receiveUser.user_id
+                if (sendUserId == receiveUserId) sendUserName = "系统消息"
                 result += showMessage(id, sendUserName, sendUserId, content, sendTime)
                 $("#codes").append(result)
                 result = ""

@@ -59,14 +59,12 @@
             <li class="active">全局搜索</li>
         </ol>
 
-        <h3>全局搜索 Beta 0.1</h3>
         <form class="form-inline">
             <div class="form-group">
                 <label for="keywords">范围:</label>
                 <select id="type" class="form-control">
                     <option value="1">文章标题</option>
                     <option value="2">文章内容</option>
-                    <option value="3">用户名</option>
                 </select>
             </div>
             <div class="form-group">
@@ -155,8 +153,8 @@
                         author_name = author_name.substring(0, 5) + "..."
                     }
                     resultStr += "<li class='list-group-item'>"
-                    resultStr += "<a target='_blank' href='article-one?id=" + result[i].article_id + "'>" + result[i].article_title + "</a>"
-                    resultStr += "<span class='badge'>" + i18N.author + ":<a target='_blank' class='span_url' href='article-user?id=" + result[i].author_id + "'>" + author_name + "</a></span></li>"
+                    resultStr += "<a target='_blank' href='a?id=" + result[i].article_id + "'>" + result[i].article_title + "</a>"
+                    resultStr += "<span class='badge'>" + i18N.author + ":<a target='_blank' class='span_url' href='u?id=" + result[i].author_id + "'>" + author_name + "</a></span></li>"
                 }
                 if (pageNo == 1) {
                     $("#result").html(resultStr + load)

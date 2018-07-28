@@ -213,7 +213,7 @@
                         if (status == 0) {
                             if (saveOrUpdate == 'save') {
                                 setCookie("msg", data.msg, 1)
-                                window.location.href = "article-list"
+                                window.location.href = "index"
                             } else if (saveOrUpdate == 'update') {
                                 window.location.href = "article-one?id=${article.article_id}"
                             }

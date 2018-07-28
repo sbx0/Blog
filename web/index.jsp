@@ -69,7 +69,7 @@
         </div>
 
         <div id="afterRandom" class="text-center margin-bottom-10" hidden>
-            <a class="readMoreA" href="article-list">查看更多</a>
+            <a class="readMoreA" href="index">查看更多</a>
         </div>
 
     </div>
@@ -119,7 +119,7 @@
             }
             html +=
                 '<p class="blog-post-meta">' +
-                ' <a href="article-user?id=' +
+                ' <a href="u?id=' +
                 articles[i].user_id
                 + '">' + articles[i].user_name + '</a>&nbsp;' + time +
                 '</p>' +
@@ -127,7 +127,7 @@
                 '<p>' +
                 articles[i].content +
                 '</p></div>' +
-                '<a class="readMoreA btn btn-xs btn-default" href="article-one?id=' + articles[i].id + '">' +
+                '<a class="readMoreA btn btn-xs btn-default" href="a?id=' + articles[i].id + '">' +
                 '<span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>&nbsp;' +
                 '查看详情</a>' +
                 '</div>'
