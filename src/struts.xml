@@ -28,7 +28,10 @@
 
         <!-- spring整合之后class不用写类名了，只要写对应bean的id -->
         <action name="article-*" class="articleAction" method="{1}">
+            <result name="list">/blog_index.jsp</result>
+            <result name="one">/article.jsp</result>
             <result name="update">/post.jsp</result>
+            <result name="user">/user.jsp</result>
             <result name="delete" type="redirectAction">article-list</result>
             <result name="json" type="json">
                 <param name="root">json</param>
@@ -54,6 +57,7 @@
             <result name="json" type="json">
                 <param name="root">json</param>
             </result>
+            <result name="one">/bug.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
         <action name="data-*" class="dataAction" method="{1}">
@@ -72,6 +76,7 @@
             <result name="json" type="json">
                 <param name="root">json</param>
             </result>
+            <result name="one">/tag.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package>

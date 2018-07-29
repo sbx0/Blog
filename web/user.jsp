@@ -112,14 +112,18 @@
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="blog-post">
+                                <div class="blog-post imgRestrict">
                                     <h2 class="blog-post-title">${article.article_title}</h2>
                                     <p class="blog-post-meta">
                                         <fmt:formatDate value="${article.article_time}" type="both"
                                                         pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
                                     </p>
-                                    <p class="imgRestrict">${article.article_content}</p>
-                                    <a href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">
+                                    <div class="article-too-long">
+                                        <p>${article.article_content}</p>
+                                    </div>
+                                    <a class="readMoreA btn btn-xs btn-default" href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">
+                                        <span class="glyphicon glyphicon glyphicon-align-justify"
+                                              aria-hidden="true"></span>
                                         <fmt:message key="read.more"/>
                                         (${article.article_comment}/${article.article_views})
                                     </a>
@@ -149,13 +153,13 @@
                                         <span>${pageBean.currentPage}/${pageBean.totalPage}</span>
                                     </li>
                                     <li class="next">
-                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage+1}"><fmt:message
+                                        <a href="u?id=${user.user_id}&pageNo=${pageBean.currentPage+1}"><fmt:message
                                                 key="next.page"/></a>
                                     </li>
                                 </c:when>
                                 <c:when test="${pageBean.currentPage eq pageBean.totalPage}">
                                     <li class="previous">
-                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage-1}"><fmt:message
+                                        <a href="u?id=${user.user_id}&pageNo=${pageBean.currentPage-1}"><fmt:message
                                                 key="prev.page"/></a>
                                     </li>
                                     <li>
@@ -167,14 +171,14 @@
                                 </c:when>
                                 <c:otherwise>
                                     <li class="previous">
-                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage-1}"><fmt:message
+                                        <a href="u?id=${user.user_id}&pageNo=${pageBean.currentPage-1}"><fmt:message
                                                 key="prev.page"/></a>
                                     </li>
                                     <li>
                                         <span>${pageBean.currentPage}/${pageBean.totalPage}</span>
                                     </li>
                                     <li class="next">
-                                        <a href="article-user?id=${user.user_id}&pageNo=${pageBean.currentPage+1}"><fmt:message
+                                        <a href="u?id=${user.user_id}&pageNo=${pageBean.currentPage+1}"><fmt:message
                                                 key="next.page"/></a>
                                     </li>
                                 </c:otherwise>

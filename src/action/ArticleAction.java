@@ -294,8 +294,8 @@ public class ArticleAction extends BaseAction {
         }
         pageBean = articleService.queryForPageById(pageSize, pageNo, id);
         List<Article> list = pageBean.getList();
-        // 精简博文
-        pageBean.setList(articleService.simpleBlog(list));
+//        // 精简博文
+//        pageBean.setList(articleService.simpleBlog(list));
         // 用户的状态
         List<Status> statuses = statusService.queryByUser(user.getUser_id());
         if (statuses != null) {

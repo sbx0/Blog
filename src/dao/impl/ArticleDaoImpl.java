@@ -13,10 +13,10 @@ public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
         Object reslut;
         String sql;
         if (u_id > 0) {
-            sql = "select article_id from articles where article_id < ? and user_id = ? order by article_id desc";
+            sql = "select article_id from ARTICLES where article_id < ? and user_id = ? order by article_id desc";
             reslut = getSession().createSQLQuery(sql).setParameter(0, id).setParameter(1, u_id).setMaxResults(1).uniqueResult();
         } else {
-            sql = "select article_id from articles where article_id < ? order by article_id desc";
+            sql = "select article_id from ARTICLES where article_id < ? order by article_id desc";
             reslut = getSession().createSQLQuery(sql).setParameter(0, id).setMaxResults(1).uniqueResult();
         }
         if (reslut != null) return (int) reslut;
@@ -28,10 +28,10 @@ public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
         Object reslut;
         String sql;
         if (u_id > 0) {
-            sql = "select article_id from articles where article_id > ? and user_id = ? order by article_id desc";
+            sql = "select article_id from ARTICLES where article_id > ? and user_id = ? order by article_id desc";
             reslut = getSession().createSQLQuery(sql).setParameter(0, id).setParameter(1, u_id).setMaxResults(1).uniqueResult();
         } else {
-            sql = "select article_id from articles where article_id > ? order by article_id desc";
+            sql = "select article_id from ARTICLES where article_id > ? order by article_id desc";
             reslut = getSession().createSQLQuery(sql).setParameter(0, id).setMaxResults(1).uniqueResult();
         }
         if (reslut != null) return (int) reslut;
