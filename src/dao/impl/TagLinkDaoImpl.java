@@ -7,13 +7,34 @@ import java.util.List;
 
 public class TagLinkDaoImpl extends BaseDaoImpl<TagLink> implements TagLinkDao {
 
+    // 由标签查询文章
+    @Override
+    public List<TagLink> queryByTag(int id, int tl_id, int pageSize) {
+        // 从当前的TagLink往前取pageSize个
+        String hql;
+        if (tl_id != 0) {
+            hql = "From TagLink t Where t.tag.id = ? and tl_id < ?";
+            return (List<TagLink>) getSession().createQuery(hql)
+                    .setParameter(0, id)
+                    .setParameter(1, tl_id)
+                    .setMaxResults(pageSize)
+                    .list();
+        } else {
+            hql = "From TagLink t Where t.tag.id = ?";
+            return (List<TagLink>) getSession().createQuery(hql)
+                    .setParameter(0, id)
+                    .setMaxResults(pageSize)
+                    .list();
+        }
+    }
+
     @Override
     public TagLink exist(int t_id, int a_id) {
         String hql = "FROM TagLink t WHERE t.tag.id = ? AND t.article.article_id = ?";
-        return (TagLink) getSession().createQuery(hql).
-                setParameter(0, t_id).
-                setParameter(1, a_id).
-                uniqueResult();
+        return (TagLink) getSession().createQuery(hql)
+                .setParameter(0, t_id)
+                .setParameter(1, a_id)
+                .uniqueResult();
     }
 
     @Override

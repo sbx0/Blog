@@ -33,7 +33,7 @@
     <meta name="author" content="<fmt:message key="bloger"/>">
     <link rel="icon" href="img/favicon.png">
 
-    <title>#${tag.name}# - 标签 - <fmt:message key="website.name"/></title>
+    <title>#${tag.name} - 标签 - <fmt:message key="website.name"/></title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -61,12 +61,23 @@
                 <div class="panel-heading">
                     <h3>
                         <strong>
-                            #${tag.name}#
+                            #${tag.name}
                         </strong>
                     </h3>
                 </div>
-                <div class="panel-body imgRestrict">
+                <div class="panel-body">
+                    <div class="col-sm-12 margin-top-20 margin-bottom-10">
+                        <ul id="result" class="list-group">
 
+                        </ul>
+                        <div class="list-group" id="loading" hidden>
+                            <div class="spinner">
+                                <div class="bounce1"></div>
+                                <div class="bounce2"></div>
+                                <div class="bounce3"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,8 +92,49 @@
 <s:include value="foot.jsp"></s:include>
 <script type="text/javascript">
     $(document).ready(function () {
-
+        tagLinkId = 0
+        article()
     })
+
+    function article() {
+        $.ajax({
+            url: "tag!info?id=${tag.id}&tagLink.id=" + tagLinkId,
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    var articles = data.articles
+                    buildArticles(articles)
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+    }
+
+    function buildArticles(articles) {
+        if (articles == null || articles.length == 0) {
+            var articleStr = ""
+            articleStr += "<li class='list-group-item' style='text-align: center'>"
+            articleStr += "没了"
+            articleStr += "</li>"
+            $("#result").append(articleStr)
+        } else {
+            var articleStr = ""
+            var u_name = ""
+            for (var i = 0; i < articles.length; i++) {
+                u_name = articles[i].u_name
+                if (u_name.length > 5) {
+                    u_name = u_name.substring(0, 5) + "..."
+                }
+                articleStr += "<li class='list-group-item'>"
+                articleStr += "<a target='_blank' href='a?id=" + articles[i].id + "'>" + articles[i].title + "</a>"
+                articleStr += "<span class='badge'>" + i18N.author + ":<a target='_blank' class='span_url' href='u?id=" + articles[i].u_id + "'>" + u_name + "</a></span></li>"
+            }
+            $("#result").append(articleStr)
+        }
+    }
+
 </script>
 </body>
 </html>

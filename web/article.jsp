@@ -558,8 +558,8 @@
                         id = tags[i].id
                         t_id = tags[i].t_id
                         name = tags[i].name
-                        removeTagsHtml += "<a name=\"removeTag\" href=\"tag!remove?id=" + id + "\">#" + name + "#</a>&nbsp;"
-                        tagsHtml += "<a href=\"t?id=" + t_id + "\">#" + name + "#</a>&nbsp;"
+                        removeTagsHtml += "<a name=\"removeTag\" href=\"tag!remove?id=" + id + "\">#" + name + "</a>&nbsp;"
+                        tagsHtml += "<a href=\"t?id=" + t_id + "\">#" + name + "</a>&nbsp;"
                     }
                 } else {
                     tagsHtml = "暂无标签"

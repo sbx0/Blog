@@ -118,6 +118,7 @@
     <bean id="tagLinkAction" class="action.TagLinkAction" scope="prototype">
         <property name="tagLinkService" ref="tagLinkService"></property>
         <property name="tagService" ref="tagService"></property>
+        <property name="articleService" ref="articleService"></property>
     </bean>
     
     <!-- 配置声明式事务管理 -->

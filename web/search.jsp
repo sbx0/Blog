@@ -131,7 +131,6 @@
         }
 
         function showSearchResult(result, type) {
-
             var load = "<a name='loadResult'"
             load += "class='list-group-item' style='text-align: center'>"
             load += "加载更多"
@@ -163,7 +162,6 @@
                 }
                 pageNo++
             }
-
         }
     })
 </script>

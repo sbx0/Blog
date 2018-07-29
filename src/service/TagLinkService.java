@@ -8,6 +8,10 @@ import java.util.List;
 public class TagLinkService {
     private TagLinkDaoImpl tagLinkDao;
 
+    public List<TagLink> queryByTag(int id, int tl_id, int pageSize) {
+        return tagLinkDao.queryByTag(id,tl_id,pageSize);
+    }
+
     public void deleteByArticle(int id) {
         tagLinkDao.deleteByArticle(id);
     }
