@@ -78,8 +78,19 @@
         </c:when>
         <c:otherwise>
             <form id="postForm" class="margin-bottom-10 margin-top-20" action="">
+
                 <div class="blog-main margin-bottom-10">
                     <div id="editor"></div>
+                </div>
+
+                <div class="blog-main">
+                    <form id="upload" name="upload" method="post" action="/UploadServlet" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input id="aFile" name="file" type="file">
+                            <p class="help-block">注意：图片最大不能超过10M</p>
+                        </div>
+                        <button id="aFileSubmit" name="submit" class="btn btn-default" type="button">上传</button>
+                    </form>
                 </div>
 
                 <!-- /.blog-main -->
@@ -98,6 +109,7 @@
                             </c:choose> name="article.article_title" id="article_title" class="form-control"
                                    value="${article.article_title}"/>
                         </div>
+
                         <c:choose>
                             <c:when test="${saveOrUpdate == 'update'}">
                                 <c:choose>
@@ -146,8 +158,8 @@
 
                     <input type="hidden" name="article.article_content" id="article_content"
                            value='${article.article_content}'/>
-                    <div class="btn-group" role="group" aria-label="..." style="width: 100%">
-                        <button id="commentButton" type="submit" class="btn btn-primary" style="width: 100%">
+                    <div class="btn-group margin-bottom-10 btn-full-weight" role="group" aria-label="...">
+                        <button id="commentButton" type="submit" class="btn btn-primary btn-full-weight">
                             发表文章
                         </button>
                     </div>
@@ -177,6 +189,7 @@
             'undo',  // 撤销
             'redo'  // 重复
         ]
+
         editor.customConfig.zIndex = 1
         editor.create()
 
@@ -234,6 +247,37 @@
             }
         })
 
+        document.getElementById("aFileSubmit").onclick = function () {
+            $("#aFileSubmit").hide()
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData();
+            var fileInput = document.getElementById("aFile");
+            var file = fileInput.files[0];
+            if (file != null) {
+                var json
+                var url
+                formData.append('myFile', file);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        json = JSON.parse(this.responseText)
+                        url = "http://upload.ducsr.cn/" + json.url
+                    }
+                }
+                xhr.open("POST", "http://upload.ducsr.cn/UploadServlet");
+                xhr.onload = function () {
+                    if (this.status === 200) {
+                        var img = "<img src=\"" + url + "\">"
+                        editor.txt.append(img)
+                        fileInput.value = ""
+                        $("#aFileSubmit").show()
+                    }
+                }
+                xhr.send(formData)
+                xhr = null
+            } else {
+                alert("未找到文件")
+            }
+        }
     })
 
 </script>
