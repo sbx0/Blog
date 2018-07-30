@@ -35,4 +35,5 @@ var i18N = {
     update: "修改",
     no_keywords: "請輸入搜索內容",
     author:"作者",
+    loading: "<div class=\"spinner\"><div class=\"bounce1\"></div><div class=\"bounce2\"></div><div class=\"bounce3\"></div></div>",
 }

@@ -65,20 +65,10 @@
                         </strong>
                     </h3>
                 </div>
-                <div class="panel-body">
-                    <div class="col-sm-12 margin-top-20 margin-bottom-10">
-                        <ul id="result" class="list-group">
-
-                        </ul>
-                        <div class="list-group" id="loading" hidden>
-                            <div class="spinner">
-                                <div class="bounce1"></div>
-                                <div class="bounce2"></div>
-                                <div class="bounce3"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="col-sm-12">
+                <ul id="result" class="list-group"></ul>
+                <ul id="loading" class="list-group"></ul>
             </div>
         </div>
 
@@ -96,13 +86,20 @@
         article()
     })
 
+    $(document).on("click", "a[name='loading']", function () {
+        article()
+    })
+
     function article() {
+        $("#loading").html(i18N.loading)
         $.ajax({
             url: "tag!info?id=${tag.id}&tagLink.id=" + tagLinkId,
             type: "POST",
             success: function (data) {
                 var state = data.state
+                tagLinkId = data.tl_id
                 if (state == 0) {
+                    $("#loading").html("")
                     var articles = data.articles
                     buildArticles(articles)
                 } else {
@@ -132,6 +129,7 @@
                 articleStr += "<span class='badge'>" + i18N.author + ":<a target='_blank' class='span_url' href='u?id=" + articles[i].u_id + "'>" + u_name + "</a></span></li>"
             }
             $("#result").append(articleStr)
+            if (articles.length == 10) $("#loading").append("<li class='list-group-item' style='text-align: center'><a name='loading'>加载更多</a></li>")
         }
     }
 

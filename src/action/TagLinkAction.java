@@ -36,6 +36,8 @@ public class TagLinkAction extends BaseAction {
                 aJson.put("time", article.getArticle_time());
                 aArray.add(i, aJson);
             }
+            // 如果加载数等于十，可能可以继续加载，返回查询结果的最后一个TagLink的ID
+            if (tagLinks.size() == 10) getJson().put("tl_id", tagLinks.get(9).getId());
             getJson().put("articles", aArray);
             getJson().put("state", 0);
         } else {

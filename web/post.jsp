@@ -173,6 +173,7 @@
             'justify',  // 对齐方式
             'image',  // 插入图片
             'code',  // 插入代码
+            'video', // 视频
             'undo',  // 撤销
             'redo'  // 重复
         ]

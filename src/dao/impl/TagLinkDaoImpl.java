@@ -13,14 +13,14 @@ public class TagLinkDaoImpl extends BaseDaoImpl<TagLink> implements TagLinkDao {
         // 从当前的TagLink往前取pageSize个
         String hql;
         if (tl_id != 0) {
-            hql = "From TagLink t Where t.tag.id = ? and tl_id < ?";
+            hql = "From TagLink t Where t.tag.id = ? and t.id > ? ORDER BY t.article.article_id DESC";
             return (List<TagLink>) getSession().createQuery(hql)
                     .setParameter(0, id)
                     .setParameter(1, tl_id)
                     .setMaxResults(pageSize)
                     .list();
         } else {
-            hql = "From TagLink t Where t.tag.id = ?";
+            hql = "From TagLink t Where t.tag.id = ? ORDER BY t.article.article_id DESC";
             return (List<TagLink>) getSession().createQuery(hql)
                     .setParameter(0, id)
                     .setMaxResults(pageSize)
@@ -45,7 +45,7 @@ public class TagLinkDaoImpl extends BaseDaoImpl<TagLink> implements TagLinkDao {
 
     @Override
     public List<TagLink> queryByArticle(int id) {
-        String hql = "FROM TagLink t WHERE t.article.article_id = ?";
+        String hql = "FROM TagLink t WHERE t.article.article_id = ? ORDER BY t.article.article_id DESC";
         return getSession().createQuery(hql).setParameter(0, id).list();
     }
 
