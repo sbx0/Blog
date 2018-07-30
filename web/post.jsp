@@ -77,21 +77,22 @@
             </div>
         </c:when>
         <c:otherwise>
+
+            <div class="blog-main margin-bottom-10">
+                <div id="editor"></div>
+            </div>
+
+            <div class="blog-main">
+                <form id="upload" name="upload" method="post" action="/UploadServlet" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input id="aFile" name="file" type="file">
+                        <p class="help-block">注意：图片最大不能超过10M</p>
+                    </div>
+                    <button id="aFileSubmit" name="submit" class="btn btn-default" type="button">上传</button>
+                </form>
+            </div>
+
             <form id="postForm" class="margin-bottom-10 margin-top-20" action="">
-
-                <div class="blog-main margin-bottom-10">
-                    <div id="editor"></div>
-                </div>
-
-                <div class="blog-main">
-                    <form id="upload" name="upload" method="post" action="/UploadServlet" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <input id="aFile" name="file" type="file">
-                            <p class="help-block">注意：图片最大不能超过10M</p>
-                        </div>
-                        <button id="aFileSubmit" name="submit" class="btn btn-default" type="button">上传</button>
-                    </form>
-                </div>
 
                 <!-- /.blog-main -->
                 <div class="blog-sidebar">
@@ -99,15 +100,18 @@
 
                         <div class="form-group">
                             <c:choose>
-                            <c:when test="${article.article_title ne '#weibo#'}">
-                                <label>文章标题</label>
-                                <input type="text"
-                            </c:when>
-                            <c:otherwise>
-                            <input type="hidden"
-                            </c:otherwise>
-                            </c:choose> name="article.article_title" id="article_title" class="form-control"
-                                   value="${article.article_title}"/>
+                                <c:when test="${article.article_title ne '#weibo#'}">
+                                    <label>文章标题</label>
+                                    <input type="text" name="article.article_title" id="article_title"
+                                           class="form-control"
+                                           value="${article.article_title}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="hidden" name="article.article_title" id="article_title"
+                                           class="form-control"
+                                           value="${article.article_title}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
 
                         <c:choose>
@@ -278,6 +282,7 @@
                 alert("未找到文件")
             }
         }
+
     })
 
 </script>

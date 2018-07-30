@@ -7,9 +7,9 @@
 		<!-- 方言 -->
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
 		<!-- 是否显示SQL 开发过程中true 上线是false -->
-		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.show_sql">false</property>
 		<!-- 是否格式化SQL -->
-		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.format_sql">false</property>
 		<!-- 数据表自动生成的策略 -->
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- 3.指定关联的映射文件 在Spring中配置 -->
