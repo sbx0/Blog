@@ -82,7 +82,7 @@
 <s:include value="foot.jsp"></s:include>
 <script type="text/javascript">
     $(document).ready(function () {
-        tagLinkId = 0
+        a_id = 0
         article()
     })
 
@@ -93,11 +93,11 @@
     function article() {
         $("#loading").html(i18N.loading)
         $.ajax({
-            url: "tag!info?id=${tag.id}&tagLink.id=" + tagLinkId,
+            url: "tag!info?id=${tag.id}&article.article_id=" + a_id,
             type: "POST",
             success: function (data) {
                 var state = data.state
-                tagLinkId = data.tl_id
+                a_id = data.a_id
                 if (state == 0) {
                     $("#loading").html("")
                     var articles = data.articles

@@ -19,10 +19,11 @@ public class TagLinkAction extends BaseAction {
     private TagLink tagLink;
     private String tagsText;
     private int id;
+    private Article article;
 
     // 标签详情页 加载与标签相关的一切
     public String info() {
-        List<TagLink> tagLinks = tagLinkService.queryByTag(id, tagLink.getId(), 10);
+        List<TagLink> tagLinks = tagLinkService.queryByTag(id, article.getArticle_id(), 10);
         if (tagLinks.size() > 0) {
             JSONArray aArray = new JSONArray();
             for (int i = 0; i < tagLinks.size(); i++) {
@@ -37,7 +38,7 @@ public class TagLinkAction extends BaseAction {
                 aArray.add(i, aJson);
             }
             // 如果加载数等于十，可能可以继续加载，返回查询结果的最后一个TagLink的ID
-            if (tagLinks.size() == 10) getJson().put("tl_id", tagLinks.get(9).getId());
+            if (tagLinks.size() == 10) getJson().put("a_id", tagLinks.get(9).getArticle().getArticle_id());
             getJson().put("articles", aArray);
             getJson().put("state", 0);
         } else {
@@ -158,5 +159,9 @@ public class TagLinkAction extends BaseAction {
 
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

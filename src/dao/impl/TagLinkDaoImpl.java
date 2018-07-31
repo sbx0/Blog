@@ -9,14 +9,14 @@ public class TagLinkDaoImpl extends BaseDaoImpl<TagLink> implements TagLinkDao {
 
     // 由标签查询文章
     @Override
-    public List<TagLink> queryByTag(int id, int tl_id, int pageSize) {
+    public List<TagLink> queryByTag(int id, int a_id, int pageSize) {
         // 从当前的TagLink往前取pageSize个
         String hql;
-        if (tl_id != 0) {
-            hql = "From TagLink t Where t.tag.id = ? and t.id > ? ORDER BY t.article.article_id DESC";
+        if (a_id != 0) {
+            hql = "From TagLink t Where t.tag.id = ? and t.article.article_id < ? ORDER BY t.article.article_id DESC";
             return (List<TagLink>) getSession().createQuery(hql)
                     .setParameter(0, id)
-                    .setParameter(1, tl_id)
+                    .setParameter(1, a_id)
                     .setMaxResults(pageSize)
                     .list();
         } else {
