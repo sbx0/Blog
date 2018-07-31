@@ -30,6 +30,7 @@
 </c:if>
 
 <link href="css/signin.css" rel="stylesheet">
+<link href="css/prism.css" rel="stylesheet">
 <link href="css/blog.css" rel="stylesheet">
 <div class="container">
     <ul class="nav nav-tabs">

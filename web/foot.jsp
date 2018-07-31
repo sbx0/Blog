@@ -170,6 +170,7 @@
 <script src="js/code.js"></script>
 <script src="js/cookie.js"></script>
 <script src="js/viewer.min.js"></script>
+<script src="js/prism.js"></script>
 <script src="js/i18N.js"></script>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>

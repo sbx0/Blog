@@ -78,7 +78,7 @@
         </c:when>
         <c:otherwise>
 
-            <div class="blog-main margin-bottom-10">
+            <div class="blog-main margin-bottom-10 margin-top-20">
                 <div id="editor"></div>
             </div>
 

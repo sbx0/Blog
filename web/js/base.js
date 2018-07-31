@@ -1,5 +1,24 @@
 // ============================= 基础js =============================
 
+// ============================= 高亮代码 =============================
+$("code").addClass("language-css")
+$("code").addClass('line-numbers')
+var doc_pre = $("code")
+doc_pre.each(function(){
+    var class_val = $(this).attr('class');
+    var class_arr = new Array();
+    class_arr = class_val.split(';');
+    class_arr = class_arr['0'].split(':');
+    var lan_class = 'language-'+class_arr['1'];
+    var pre_content = '<code class="'+lan_class+'">'+$(this).html()+'</code>';
+    $(this).html(pre_content);
+    $(this).attr("class",'line-numbers '+lan_class);
+});
+
+
+// ============================= img 添加 class = "img-responsive" =============================
+$("img").addClass("img-responsive")
+
 // ============================= 防止浏览器缓存 =============================
 function noCache(url) {
     //  var getTimestamp = Math.random()
@@ -48,9 +67,6 @@ function getData() {
         }
     })
 }
-
-// ============================= img 添加 class = "img-responsive" =============================
-$("img").addClass("img-responsive")
 
 // ============================= 改写alert =============================
 
