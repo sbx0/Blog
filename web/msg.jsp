@@ -109,7 +109,10 @@
 <script type="text/javascript">
 
     var id = $("#user_id").val()
+    console.log(id)
     $("#user_id").val("")
+
+    if (id == "") location.replace(noCache(location.href))
 
     $(document).ready(function () {
         $("#toolsTab").addClass("active")
@@ -130,6 +133,7 @@
     }
 
     function getMsg() {
+        if (id == "") return false
         $.ajax({
             type: "post",
             url: "user-chat?id=" + id,
