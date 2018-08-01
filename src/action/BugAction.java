@@ -141,7 +141,7 @@ public class BugAction extends BaseAction {
                     if (b.getSubmitter() != null) {
                         // 提示提交者反馈已被解决
                         Message message = new Message();
-                        String m = "您的反馈 <a href=\"bug-one?par=" + b.getId() + "\">" + b.getName() + "</a> 已被解决";
+                        String m = "您的反馈 <a href=\"b?id=" + b.getId() + "\">" + b.getName() + "</a> 已被解决";
                         message.setContent(m);
                         message.setSendTime(new Date());
                         message.setSendUser(b.getSubmitter());
