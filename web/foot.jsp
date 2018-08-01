@@ -48,7 +48,7 @@
     </p>
 </footer>
 
-<div id="submitBug" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="submitBug">
+<div id="submitBug" class="modal bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="submitBug">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -59,7 +59,7 @@
                         提交反馈
                     </a>
                 </h4>
-                <div id="subBugHelp" class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
+                <div id="subBugHelp" class="alert alert-warning alert-dismissible in browser-check-alert hide"
                      role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -129,7 +129,7 @@
     </div>
 </div>
 
-<div id="confirm" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="submitBug">
+<div id="confirm" class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="submitBug">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -138,7 +138,7 @@
                 <h4 class="modal-title text-danger">
                     注意
                 </h4>
-                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
+                <div class="alert alert-warning alert-dismissible in browser-check-alert hide"
                      role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

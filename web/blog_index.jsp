@@ -258,14 +258,14 @@
 
 </div>
 
-<div id="uploadImg" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="uploadImg">
+<div id="uploadImg" class="modal bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="uploadImg">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
                 <h4 id="modelTitle" class="modal-title">上传图片</h4>
-                <div class="alert alert-warning alert-dismissible fade in browser-check-alert hide" role="alert">
+                <div class="alert alert-warning alert-dismissible in browser-check-alert hide" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

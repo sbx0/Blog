@@ -73,7 +73,7 @@
         </c:choose>
     </ul>
 
-    <div id="browser-check-alert" class="alert alert-warning alert-dismissible fade in browser-check-alert hide"
+    <div id="browser-check-alert" class="alert alert-warning alert-dismissible in browser-check-alert hide"
          role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">
@@ -83,7 +83,7 @@
     </div>
 </div>
 
-<div id="codesModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
+<div id="codesModal" class="modal bs-example-modal-md" tabindex="-1" role="dialog"
      aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -108,7 +108,7 @@
     </div>
 </div>
 
-<div id="menuModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
+<div id="menuModal" class="modal bs-example-modal-md" tabindex="-1" role="dialog"
      aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -207,7 +207,7 @@
     </div>
 </div>
 
-<div id="languageModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
+<div id="languageModal" class="modal bs-example-modal-md" tabindex="-1" role="dialog"
      aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -251,7 +251,7 @@
     </div>
 </div>
 
-<div id="loginModal" class="modal fade bs-example-modal-md"
+<div id="loginModal" class="modal bs-example-modal-md"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -298,7 +298,7 @@
     </div>
 </div>
 
-<div id="registerModal" class="modal fade bs-example-modal-md"
+<div id="registerModal" class="modal bs-example-modal-md"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
