@@ -121,7 +121,8 @@
                                     <div class="article-too-long">
                                         <p>${article.article_content}</p>
                                     </div>
-                                    <a class="readMoreA btn btn-xs btn-default" href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">
+                                    <a class="readMoreA btn btn-xs btn-default"
+                                       href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">
                                         <span class="glyphicon glyphicon glyphicon-align-justify"
                                               aria-hidden="true"></span>
                                         <fmt:message key="read.more"/>
@@ -194,6 +195,9 @@
             <div class="sidebar-module sidebar-module-inset">
                 <h4><fmt:message key="user.data"/></h4>
                 <p>
+                    文章：<span id="a_count">加载中</span><br>
+                    评论：<span id="c_count">加载中</span><br>
+                    反馈：<span id="b_count">加载中</span><br>
                     <fmt:message key="integral"/>：${user.user_integral}<br>
                     <c:choose>
                         <c:when test="${user.user_is_admin == 1}">
@@ -221,5 +225,27 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var viewer = new Viewer(document.getElementById('container'))
+        countAll()
     })
+
+    function countAll() {
+        var id = "${user.user_id}"
+        $.ajax({
+            url: "user-count?id=" + id,
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    var a_count = data.a_count
+                    $("#a_count").html(a_count)
+                    var c_count = data.c_count
+                    $("#c_count").html(c_count)
+                    var b_count = data.b_count
+                    $("#b_count").html(b_count)
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+    }
 </script>

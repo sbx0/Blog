@@ -8,6 +8,13 @@ import java.util.List;
 public class BugDaoImpl extends BaseDaoImpl implements BugDao {
 
     @Override
+    public int countByUser(int id) {
+        String hql = "SELECT COUNT(*) From Bug b Where b.submitter.user_id = ?";
+        int count = Integer.parseInt(getSession().createQuery(hql).setParameter(0, id).uniqueResult().toString());
+        return count;
+    }
+
+    @Override
     public List<Bug> getMySubmitBug(int id) {
         String hql = "FROM Bug b WHERE b.submitter.user_id = ? AND b.state != ? ORDER BY b.state , b.submit_time DESC";
         return getSession().createQuery(hql).setParameter(0, id).setParameter(1, 1).setMaxResults(20).list();

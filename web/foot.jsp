@@ -298,6 +298,7 @@
                 if (state == 0) {
                     alert("提交成功。")
                     newbugs_page = 1
+                    showBugs(0)
                 } else {
                     alert("提交异常，异常码：" + state)
                 }

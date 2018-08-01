@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface BugDao {
 
+    // 获取用户反馈总数
+    public int countByUser(int id);
+
     // 获取提交的反馈
     public List<Bug> getMySubmitBug(int id);
 

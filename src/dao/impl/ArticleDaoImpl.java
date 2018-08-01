@@ -9,6 +9,13 @@ import java.util.List;
 public class ArticleDaoImpl extends BaseDaoImpl implements ArticleDao {
 
     @Override
+    public int countByUser(int id) {
+        String hql = "SELECT COUNT(*) From Article a Where a.article_author.user_id = ?";
+        int count = Integer.parseInt(getSession().createQuery(hql).setParameter(0, id).uniqueResult().toString());
+        return count;
+    }
+
+    @Override
     public int prev(int id, int u_id) {
         Object result;
         String sql;

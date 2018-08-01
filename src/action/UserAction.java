@@ -36,6 +36,18 @@ public class UserAction extends BaseAction {
     private int bet;
     private String vsNum;
 
+    public String count() {
+        if (id > 0) {
+            getJson().put("a_count", articleService.countByUser(id));
+            getJson().put("c_count", commentService.countByUser(id));
+            getJson().put("b_count", bugService.countByUser(id));
+            getJson().put("state", 0);
+        } else {
+            getJson().put("state", 1);
+        }
+        return "json";
+    }
+
     public String send() {
         User user = (User) getSession().get("user");
         User to_user = userService.getUser(id);

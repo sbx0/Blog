@@ -322,7 +322,6 @@
                             $("#solveBugList").append(buildBugItem(id, grade, state, name, 1))
                         }
                     }
-                    // $("#solveBugList").append(buildPager("skip", "javascript:void(0)", "跳过", "accept", "javascript:void(0)", "接受"))
                 } else {
                     $("#solveBugList").html("<p class=\"text-center\">获取失败</p>")
                 }

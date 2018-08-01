@@ -14,6 +14,11 @@ public class BugService {
         this.bugDao = bugDao;
     }
 
+    // 用户反馈提交总数
+    public int countByUser(int id) {
+        return bugDao.countByUser(id);
+    }
+
     // 反馈解决率
     public String rate() {
         double newBugsCount = bugDao.countNewBugs();

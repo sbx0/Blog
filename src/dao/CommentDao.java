@@ -5,6 +5,10 @@ import entity.Comment;
 import java.util.List;
 
 public interface CommentDao {
+
+    // 用户评论总数
+    public int countByUser(int id);
+
     // 修改评论
     public int update(Comment comment);
 
@@ -34,4 +38,5 @@ public interface CommentDao {
 
     // 分页查询
     public List<Comment> queryForPage(String hql, int offset, int length);
+
 }

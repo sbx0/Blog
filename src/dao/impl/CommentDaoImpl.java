@@ -9,6 +9,13 @@ import java.util.List;
 public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
 
     @Override
+    public int countByUser(int id) {
+        String hql = "SELECT COUNT(*) From Comment c Where c.comment_user.user_id = ?";
+        int count = Integer.parseInt(getSession().createQuery(hql).setParameter(0, id).uniqueResult().toString());
+        return count;
+    }
+
+    @Override
     public int update(Comment comment) {
         try {
             getSession().update(comment);
@@ -21,7 +28,7 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
     // 获取一个评论
     @Override
     public Comment getOneComment(int id) {
-        String hql = "From Comment comment WHERE comment.comment_id = ?";
+        String hql = "From Comment c WHERE c.comment_id = ?";
         Comment c = (Comment) getSession().createQuery(hql).setParameter(0, id).uniqueResult();
         return c;
     }

@@ -17,6 +17,12 @@ public class CommentService {
     private CommentDaoImpl commentDao;
     private UserDaoImpl userDao;
 
+    // 获取用户评论总数
+    public int countByUser(int id) {
+        return commentDao.countByUser(id);
+    }
+
+
     // 修改评论
     public int updateComment(Comment comment) {
         try {

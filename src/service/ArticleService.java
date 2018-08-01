@@ -22,6 +22,10 @@ public class ArticleService {
         this.articleDao = articleDao;
     }
 
+    public int countByUser(int id) {
+        return articleDao.countByUser(id);
+    }
+
     public int prev(int id, int u_id) {
         return articleDao.prev(id, u_id);
     }
