@@ -79,5 +79,11 @@
             <result name="one">/tag.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+        <action name="product!*" class="productAction" method="{1}">
+            <result name="json" type="json">
+                <param name="root">json</param>
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
     </package>
 </struts>
