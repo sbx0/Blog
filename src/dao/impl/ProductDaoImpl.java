@@ -13,7 +13,20 @@ public class ProductDaoImpl extends BaseDaoImpl<Product> implements ProductDao {
 
     @Override
     public Product query(Product product) {
-        return null;
+        String hql;
+        if (product.getId() > 0) {
+            hql = "From Product p Where p.id = ?";
+            return (Product) getSession().createQuery(hql)
+                    .setParameter(0, product.getId())
+                    .uniqueResult();
+        } else if (product.getName() != "" || product.getName() != null) {
+            hql = "From Product p Where p.name = ?";
+            return (Product) getSession().createQuery(hql)
+                    .setParameter(0, product.getName())
+                    .uniqueResult();
+        } else {
+            return null;
+        }
     }
 
     @Override

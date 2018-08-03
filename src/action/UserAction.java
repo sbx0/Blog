@@ -297,7 +297,7 @@ public class UserAction extends BaseAction {
             user.setUser_register_time(new Date());
             user.setUser_birthday(new Date());
             user.setUser_signature("暂无签名");
-            user.setUser_integral(0L);
+            user.setUser_integral(0.0);
             // 密码哈希
             user.setUser_password(PasswordHash.getHash(user.getUser_password(), "MD5"));
             try {

@@ -439,13 +439,13 @@ public class ArticleAction extends BaseAction {
         user = userService.getUser(user.getUser_id());
 
         // 不是管理员且积分少于20L 则无法删除评论
-        if (user.getUser_integral() < 20L && user.getUser_is_admin() != 1) {
+        if (user.getUser_integral() < 20.0 && user.getUser_is_admin() != 1) {
             getJson().put("status", 3);
         } else {
             if (user.getUser_is_admin() != 1) {
-                user.setUser_integral(user.getUser_integral() - 20L);
-                if (user.getUser_integral() < 0L) {
-                    user.setUser_integral(0L);
+                user.setUser_integral(user.getUser_integral() - 20.0);
+                if (user.getUser_integral() < 0.0) {
+                    user.setUser_integral(0.0);
                 }
             }
             userService.register(user);

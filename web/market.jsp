@@ -69,26 +69,12 @@
             <div class="col-sm-12">
                 <div class="row">
                     <div class="list-group" id="products">
-                        <a href="b?id=223" class="list-group-item undefined">
-                            <span class="badge">处理中</span>
-                            123123
-                        </a>
-                        <a href="b?id=223" class="list-group-item undefined">
-                            <span class="badge">处理中</span>
-                            123123
-                        </a>
-                        <a href="b?id=223" class="list-group-item undefined">
-                            <span class="badge">处理中</span>
-                            123123
-                        </a>
-                        <a href="b?id=223" class="list-group-item undefined">
-                            <span class="badge">处理中</span>
-                            123123
-                        </a>
-                        <a href="b?id=223" class="list-group-item undefined">
-                            <span class="badge">处理中</span>
-                            123123
-                        </a>
+                        <div class="spinner">
+                            <p class="text-center">加载中</p>
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,11 +118,88 @@
     </div>
 </div>
 
+<div id="productModal" class="modal bs-example-modal-md" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+                <h4 class="modal-title">
+                    商品详情
+                </h4>
+            </div>
+            <span class="hidden" id="p_id"></span>
+            <div id="product" class="modal-body">
+                <div class="spinner">
+                    <p class="text-center">加载中</p>
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <s:include value="foot.jsp"></s:include>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#toolsTab").addClass("active")
         list()
+    })
+
+    $(document).on("click", "button[id='buyBtn']", function () {
+        $("#buyBtn").hide()
+        $("#wantBtn").hide()
+        $("#buyBtnDiv").html(i18N.loading)
+        var p_id = $("#p_id").val()
+        $.ajax({
+            url: "invoice!buy?product.id=" + p_id,
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    alert("购买成功")
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+        $("#buyBtnDiv").html("")
+        $("#buyBtn").show()
+        $("#wantBtn").show()
+    })
+
+    $(document).on("click", "button[id='wantBtn']", function () {
+        $("#buyBtn").hide()
+        $("#wantBtn").hide()
+        $("#buyBtnDiv").html(i18N.loading)
+        alert("添加成功")
+        $("#buyBtnDiv").html("")
+        $("#buyBtn").show()
+        $("#wantBtn").show()
+    })
+
+    $(document).on("click", "a[name='productA']", function () {
+        $("#p_id").val(this.id)
+        $("#product").html(i18N.loading)
+        $.ajax({
+            url: "product!one?id=" + this.id,
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    buildProduct(data.product, 1)
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+        $("#productModal").modal("show")
+        return false
     })
 
     $("#sellerButton").click(function () {
@@ -168,7 +231,7 @@
                 if (state == 0) {
                     var products = data.products
                     for (var i = 0; i < products.length; i++) {
-                        $("#products").append(buildProduct(products[i]))
+                        $("#products").append(buildProduct(products[i], 0))
                     }
                 } else {
                     alert(i18N.network_error)
@@ -177,14 +240,29 @@
         })
     }
 
-    function buildProduct(product) {
-        var product = "<a class='list-group-item'>"
-            + product.name +
-            "<span class='badge'>"
-            + product.price + "\t积分"
-            "</span></a>"
-        return product
+    function buildProduct(product, type) {
+        var p = ""
+        if (type == 0) {
+            p = "<a name='productA' id='" + product.id + "' class='list-group-item'>"
+                + product.name +
+                "<span class='badge'>"
+                + product.price + "\t积分" +
+                "</span></a>"
+        } else if (type == 1) {
+            $("#product").html("")
+            $("#product").append("")
+            $("#product").append("<p><h3 class='text-warning'><strong>" + product.name + "</strong></h3></p>")
+            $("#product").append("<p><h4>" + product.price + " 积分</h4></p>")
+            $("#product").append("<p><h5>剩 " + product.number + " 件</h5></p>")
+            $("#product").append("<p>" + product.desc + " </p>")
+            $("#product").append("<button id='buyBtn' class='btn btn-primary'>立即购买</button>&nbsp;")
+            $("#product").append("<button id='wantBtn' class='btn btn-default'>加入购物车</button>")
+            $("#product").append("<div id='buyBtnDiv'>")
+            $("#product").append("</div>")
+        }
+        return p
     }
+
 
 </script>
 </body>

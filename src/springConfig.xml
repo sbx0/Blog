@@ -44,6 +44,7 @@
     <bean id="tagDao" class="dao.impl.TagDaoImpl" parent="baseDao"></bean>
     <bean id="tagLinkDao" class="dao.impl.TagLinkDaoImpl" parent="baseDao"></bean>
     <bean id="productDao" class="dao.impl.ProductDaoImpl" parent="baseDao"></bean>
+    <bean id="invoiceDao" class="dao.impl.InvoiceDaoImpl" parent="baseDao"></bean>
     <!-- 配置Service层 -->
     <bean id="articleService" class="service.ArticleService">
         <property name="articleDao" ref="articleDao"></property>
@@ -80,6 +81,9 @@
     </bean>
     <bean id="productService" class="service.ProductService">
         <property name="productDao" ref="productDao"></property>
+    </bean>
+    <bean id="invoiceService" class="service.InvoiceService">
+        <property name="invoiceDao" ref="invoiceDao"></property>
     </bean>
 
     <!-- 配置Action层 注意Action对象的作用域为prototype-->
@@ -126,6 +130,11 @@
     </bean>
     <bean id="productAction" class="action.ProductAction" scope="prototype">
         <property name="productService" ref="productService"></property>
+    </bean>
+    <bean id="invoiceAction" class="action.InvoiceAction" scope="prototype">
+        <property name="invoiceService" ref="invoiceService"></property>
+        <property name="productService" ref="productService"></property>
+        <property name="userService" ref="userService"></property>
     </bean>
 
     <!-- 配置声明式事务管理 -->

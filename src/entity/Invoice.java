@@ -10,7 +10,7 @@ public class Invoice {
     private User buyer; // 买家
     private Date begin; // 购买时间
     private Date end; // 成交时间
-    private int state; // 状态 0 购物车 1 待付款 2 未使用 3 用户存根 -1 失败
+    private int state; // 状态 0 用户存根 1 购物车 2 待付款 3 未使用 -1 失败
 
     // 成交时商品信息备份
     private String name; // 名称

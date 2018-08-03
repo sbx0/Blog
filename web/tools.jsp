@@ -62,7 +62,7 @@
 
             <div class="col-sm-12 col-md-6">
                 <div class="list-group">
-                    <a href="" class="list-group-item list-group-item-success disabled">
+                    <a href="market.jsp" class="list-group-item list-group-item-success disabled">
                         <span class="badge">即将推出</span>
                         <strong>
                             积分市场

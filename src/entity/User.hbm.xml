@@ -27,7 +27,7 @@
 		<property name="user_signature" type="java.lang.String">
 			<column name="user_signature"></column>
 		</property>
-		<property name="user_integral" type="java.lang.Long">
+		<property name="user_integral" type="java.lang.Double">
 			<column name="user_integral" default="0" not-null="true"></column>
 		</property>
 	</class>

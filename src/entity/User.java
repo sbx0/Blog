@@ -14,7 +14,7 @@ public class User {
     private Date user_register_time; // 注册时间
     private Date user_birthday; // 生日
     private String user_signature; // 签名
-    private Long user_integral; // 积分
+    private Double user_integral; // 积分
 
     public Integer getUser_id() {
         return user_id;
@@ -80,41 +80,11 @@ public class User {
         this.user_signature = user_signature;
     }
 
-    public Long getUser_integral() {
+    public Double getUser_integral() {
         return user_integral;
     }
 
-    public void setUser_integral(Long user_integral) {
+    public void setUser_integral(Double user_integral) {
         this.user_integral = user_integral;
-    }
-
-    public User() {
-        super();
-    }
-
-    public User(String user_name, String user_email, String user_password, Integer user_is_admin, Date user_register_time, Date user_birthday, String user_signature, Long user_integral) {
-        this.user_name = user_name;
-        this.user_email = user_email;
-        this.user_password = user_password;
-        this.user_is_admin = user_is_admin;
-        this.user_register_time = user_register_time;
-        this.user_birthday = user_birthday;
-        this.user_signature = user_signature;
-        this.user_integral = user_integral;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", user_name='" + user_name + '\'' +
-                ", user_email='" + user_email + '\'' +
-                ", user_password='" + user_password + '\'' +
-                ", user_is_admin=" + user_is_admin +
-                ", user_register_time=" + user_register_time +
-                ", user_birthday=" + user_birthday +
-                ", user_signature='" + user_signature + '\'' +
-                ", user_integral=" + user_integral +
-                '}';
     }
 }
