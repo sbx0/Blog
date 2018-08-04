@@ -61,10 +61,19 @@
         </ol>
 
         <div class="row">
-            <div class="col-sm-12 margin-bottom-10">
-                <button class="btn btn-danger" data-toggle="modal" data-target="#sellerModal">
-                    我要卖
-                </button>
+            <div class="col-sm-12">
+                <c:choose>
+                    <c:when test="${sessionScope.user.user_is_admin eq 1}">
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#sellerModal">
+                            我要卖
+                        </button>
+                    </c:when>
+                </c:choose>
+                <div class="text-right">
+                    <p>
+                        当前积分:<strong><span id="integral">加载中</span></strong>
+                    </p>
+                </div>
             </div>
             <div class="col-sm-12">
                 <div class="row">
@@ -105,8 +114,8 @@
                     <input id="p-number" type="number" name="product.number" class="form-control">
                     <label for="p-define">限制购买数</label>
                     <input id="p-define" type="number" name="product.define" class="form-control">
-                    <label for="p-authority">购买权限</label>
-                    <input id="p-authority" type="number" name="product.authority" class="form-control">
+                    <label for="p-function">功能</label>
+                    <input id="p-function" type="text" name="product.function" class="form-control">
                     <label for="p-price">价格</label>
                     <input id="p-price" type="number" name="product.price" class="form-control">
                     <button id="sellerButton" class="btn btn-primary btn-block">
@@ -133,15 +142,40 @@
             </div>
             <span class="hidden" id="p_id"></span>
             <div id="product" class="modal-body">
-                <div class="spinner">
-                    <p class="text-center">加载中</p>
-                    <div class="bounce1"></div>
-                    <div class="bounce2"></div>
-                    <div class="bounce3"></div>
+                <h3 class="text-warning">
+                    <strong>
+                        <span id="p_name"></span>
+                    </strong>
+                </h3>
+                <h4>
+                    <span id="p_price"></span>
+                    积分
+                </h4>
+                <h5>
+                    剩
+                    <span id="p_num"></span>
+                    件
+                </h5>
+                <p>
+                    <span id="p_desc"></span>
+                </p>
+                <div class="form-group">
+                    <label for="p_num">购买数量</label>
+                    <input id="b_num" type="number" class="form-control" value="1" min="1" max="10" placeholder="数量">
                 </div>
+                <button id="buyBtn" class="btn btn-primary">
+                    立即购买
+                </button>
+                &nbsp;
+                <button id="wantBtn" class="btn btn-default">
+                    加入购物车
+                </button>
+                <div id="buyBtnDiv"></div>
             </div>
+            <div id="p_load" class="modal-footer"></div>
         </div>
     </div>
+</div>
 </div>
 
 <s:include value="foot.jsp"></s:include>
@@ -152,25 +186,37 @@
     })
 
     $(document).on("click", "button[id='buyBtn']", function () {
+        var b_num = $("#b_num").val()
+        if (b_num < 0 || b_num > 10) {
+            alert("购买数量最多10，最少1")
+            $("#b_num").val(1)
+            return false
+        }
         $("#buyBtn").hide()
         $("#wantBtn").hide()
         $("#buyBtnDiv").html(i18N.loading)
         var p_id = $("#p_id").val()
         $.ajax({
-            url: "invoice!buy?product.id=" + p_id,
+            url: "invoice!buy?product.id=" + p_id + "&invoice.number=" + b_num,
             type: "POST",
             success: function (data) {
                 var state = data.state
                 if (state == 0) {
                     alert("购买成功")
+                    list()
+                    one($("#p_id").val())
+                } else if (state == -1) {
+                    alert("积分不足")
+                } else if (state == -2) {
+                    alert("货物数量不足")
                 } else {
                     alert(i18N.network_error)
                 }
+                $("#buyBtnDiv").html("")
+                $("#buyBtn").show()
+                $("#wantBtn").show()
             }
         })
-        $("#buyBtnDiv").html("")
-        $("#buyBtn").show()
-        $("#wantBtn").show()
     })
 
     $(document).on("click", "button[id='wantBtn']", function () {
@@ -185,22 +231,31 @@
 
     $(document).on("click", "a[name='productA']", function () {
         $("#p_id").val(this.id)
-        $("#product").html(i18N.loading)
+        one(this.id)
+        $("#productModal").modal("show")
+        return false
+    })
+
+    function one(id) {
+        $("#product").hide()
+        $("#p_load").show()
+        $("#p_load").html(i18N.loading)
         $.ajax({
-            url: "product!one?id=" + this.id,
+            url: "product!one?id=" + id,
             type: "POST",
             success: function (data) {
                 var state = data.state
                 if (state == 0) {
                     buildProduct(data.product, 1)
+                    $("#product").show()
+                    $("#p_load").html("")
+                    $("#p_load").hide()
                 } else {
                     alert(i18N.network_error)
                 }
             }
         })
-        $("#productModal").modal("show")
-        return false
-    })
+    }
 
     $("#sellerButton").click(function () {
         $.ajax({
@@ -232,6 +287,7 @@
                     var products = data.products
                     for (var i = 0; i < products.length; i++) {
                         $("#products").append(buildProduct(products[i], 0))
+                        $("#integral").html(data.integral)
                     }
                 } else {
                     alert(i18N.network_error)
@@ -249,16 +305,10 @@
                 + product.price + "\t积分" +
                 "</span></a>"
         } else if (type == 1) {
-            $("#product").html("")
-            $("#product").append("")
-            $("#product").append("<p><h3 class='text-warning'><strong>" + product.name + "</strong></h3></p>")
-            $("#product").append("<p><h4>" + product.price + " 积分</h4></p>")
-            $("#product").append("<p><h5>剩 " + product.number + " 件</h5></p>")
-            $("#product").append("<p>" + product.desc + " </p>")
-            $("#product").append("<button id='buyBtn' class='btn btn-primary'>立即购买</button>&nbsp;")
-            $("#product").append("<button id='wantBtn' class='btn btn-default'>加入购物车</button>")
-            $("#product").append("<div id='buyBtnDiv'>")
-            $("#product").append("</div>")
+            $("#p_name").html(product.name)
+            $("#p_price").html(product.price)
+            $("#p_num").html(product.number)
+            $("#p_desc").html(product.desc)
         }
         return p
     }

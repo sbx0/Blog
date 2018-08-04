@@ -24,29 +24,32 @@ public class InvoiceAction extends BaseAction {
             user = userService.getUser(user.getUser_id());
             // 获取商品信息
             Product p = productService.query(product);
-            if ((p.getPrice() * 1) < user.getUser_integral()) {
-                Invoice invoice = new Invoice();
-                invoice.setNumber(1);
-                invoice.setBegin(new Date());
+            if (p.getNumber() < invoice.getNumber()) {
+                getJson().put("state", -2);
+                return "json";
+            } else if ((p.getPrice() * invoice.getNumber()) < user.getUser_integral()) {
+                Invoice i = new Invoice();
+                i.setBegin(new Date());
+                i.setNumber(invoice.getNumber());
                 // 扣除积分
-                double integral = user.getUser_integral() - (p.getPrice() * invoice.getNumber());
+                double integral = user.getUser_integral() - (p.getPrice() * i.getNumber());
                 user.setUser_integral(integral);
                 userService.register(user);
                 // 获取购买信息
-                invoice.setProduct(p);
-                invoice.setBuyer(user);
-                invoice.setState(0);
-                invoice.setEnd(new Date());
+                i.setProduct(p);
+                i.setBuyer(user);
+                i.setState(0);
+                i.setEnd(new Date());
                 // 记录商品信息
-                invoice.setName(p.getName());
-                invoice.setDescription(p.getDescription());
-                invoice.setPrice(p.getPrice());
-                invoice.setDiscount(p.getDiscount());
-                invoice.setFunction(p.getFunction());
+                i.setName(p.getName());
+                i.setDescription(p.getDescription());
+                i.setPrice(p.getPrice());
+                i.setDiscount(p.getDiscount());
+                i.setFunction(p.getFunction());
                 // 保存存根
-                invoiceService.saveOrUpdate(invoice);
+                invoiceService.saveOrUpdate(i);
                 // 货物减少
-                p.setNumber(p.getNumber() - invoice.getNumber());
+                p.setNumber(p.getNumber() - i.getNumber());
                 productService.saveOrUpdate(p);
                 getJson().put("state", 0);
             } else {

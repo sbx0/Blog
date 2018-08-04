@@ -5,12 +5,14 @@ import entity.User;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import service.ProductService;
+import service.UserService;
 
 import java.util.List;
 
 public class ProductAction extends BaseAction {
     private int id;
     private ProductService productService;
+    private UserService userService;
     private Product product;
 
     // 获取一个商品
@@ -38,8 +40,8 @@ public class ProductAction extends BaseAction {
     public String add() {
         User user = (User) getSession().get("user");
         if (user != null && user.getUser_is_admin() == 1) {
+            product.setAuthority(0);
             product.setSeller(user);
-            product.setFunction("active");
             productService.saveOrUpdate(product);
             getJson().put("state", 0);
         } else {
@@ -50,6 +52,7 @@ public class ProductAction extends BaseAction {
 
     // 获取全部商品
     public String get() {
+        User user = (User) getSession().get("user");
         List<Product> products = productService.query();
         JSONArray jProducts = new JSONArray();
         for (int i = 0; i < products.size(); i++) {
@@ -64,6 +67,12 @@ public class ProductAction extends BaseAction {
         }
         if (jProducts.size() > 0) {
             getJson().put("products", jProducts);
+            if (user != null) {
+                user = userService.getUser(user.getUser_id());
+                getJson().put("integral", user.getUser_integral());
+            } else {
+                getJson().put("integral", "未登录");
+            }
             getJson().put("state", 0);
         } else getJson().put("state", 1);
         return "json";
@@ -83,5 +92,9 @@ public class ProductAction extends BaseAction {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
