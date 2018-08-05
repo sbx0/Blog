@@ -161,7 +161,39 @@
                 </p>
                 <div class="form-group">
                     <label for="p_num">购买数量</label>
-                    <input id="b_num" type="number" class="form-control" value="1" min="1" max="10" placeholder="数量">
+                    <input id="b_num" type="number" class="form-control" value="1" min="1" max="100" placeholder="数量"
+                           oninput="result()">
+                </div>
+                <div>
+                    <hr>
+                    <h4 class="text-right">
+                        需付
+                        <strong>
+                            <span id="b_pay" class="text-warning">
+                                1515
+                            </span>
+                        </strong>
+                        积分
+                    </h4>
+                    <p class="text-right">
+                        您有
+                        <strong>
+                            <span id="b_have">
+                                1515
+                            </span>
+                        </strong>
+                        积分
+                    </p>
+                    <p class="text-right">
+                        剩
+                        <strong>
+                            <span id="b_left" class="text-success">
+                                1515
+                            </span>
+                        </strong>
+                        积分
+                    </p>
+                    <hr>
                 </div>
                 <button id="buyBtn" class="btn btn-primary">
                     立即购买
@@ -176,6 +208,49 @@
         </div>
     </div>
 </div>
+
+<div id="invoiceModal" class="modal bs-example-modal-sm" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+                <h4 class="modal-title">
+                    购买凭据
+                </h4>
+            </div>
+            <div id="invoiceDiv" class="modal-body">
+                <p>
+                    凭据编号：
+                    <span id="i_id"></span>
+                </p>
+                <p>
+                    商品名称：
+                    <span id="i_name"></span>
+                </p>
+                <p>
+                    购买数量：
+                    <span id="i_number"></span>
+                </p>
+                <p>
+                    花费积分：
+                    <span id="i_price"></span>
+                </p>
+                <p>
+                    购买者：
+                    <span id="i_user"></span>
+                </p>
+                <p>
+                    成交时间：
+                    <span id="i_end"></span>
+                </p>
+            </div>
+            <div id="invoiceLoad" class="modal-footer"></div>
+        </div>
+    </div>
 </div>
 
 <s:include value="foot.jsp"></s:include>
@@ -185,10 +260,44 @@
         list()
     })
 
+    $('#invoiceModal').on('hidden.bs.modal', function () {
+        $("#productModal").modal("show")
+    });
+
+    // 发票加载
+    function invoiceShow(id) {
+        $("#productModal").modal("hide")
+        $("#invoiceModal").modal("show")
+        $("#invoiceDiv").hide()
+        $("#invoiceLoad").show()
+        $("#invoiceLoad").html(i18N.loading)
+        $.ajax({
+            url: "invoice!one?id=" + id,
+            type: "POST",
+            success: function (data) {
+                var state = data.state
+                if (state == 0) {
+                    $("#i_id").html(data.id)
+                    $("#i_name").html(data.name)
+                    $("#i_number").html(data.number)
+                    $("#i_price").html(data.price)
+                    $("#i_user").html("<a href=\"u?id=" + data.buyer_id + "\">" + data.buyer_name + "</a>")
+                    var time = Format(getDate(data.end.time.toString()), "yyyy-MM-dd HH:mm");
+                    $("#i_end").html(time)
+                    $("#invoiceLoad").html("")
+                    $("#invoiceLoad").hide()
+                    $("#invoiceDiv").show()
+                } else {
+                    alert(i18N.network_error)
+                }
+            }
+        })
+    }
+
     $(document).on("click", "button[id='buyBtn']", function () {
         var b_num = $("#b_num").val()
-        if (b_num < 0 || b_num > 10) {
-            alert("购买数量最多10，最少1")
+        if (b_num < 1 || b_num > 100) {
+            alert("购买数量最多100，最少1")
             $("#b_num").val(1)
             return false
         }
@@ -205,6 +314,9 @@
                     alert("购买成功")
                     list()
                     one($("#p_id").val())
+                    invoiceShow(data.i_id)
+                } else if (state == 1) {
+                    alert("未登录")
                 } else if (state == -1) {
                     alert("积分不足")
                 } else if (state == -2) {
@@ -230,11 +342,25 @@
     })
 
     $(document).on("click", "a[name='productA']", function () {
+        $("#b_num").val(1)
         $("#p_id").val(this.id)
         one(this.id)
         $("#productModal").modal("show")
         return false
     })
+
+    function result() {
+        var price = $("#p_price").html()
+        var number = $("#b_num").val()
+        if (number < 1) number = 1
+        var count = price * number
+        $("#b_pay").html(count)
+        var integral = $("#integral").html()
+        var left = integral - count
+        if (left < 0) left = 0
+        $("#b_have").html(integral)
+        $("#b_left").html(left)
+    }
 
     function one(id) {
         $("#product").hide()
@@ -253,6 +379,7 @@
                 } else {
                     alert(i18N.network_error)
                 }
+                result()
             }
         })
     }
@@ -289,6 +416,7 @@
                         $("#products").append(buildProduct(products[i], 0))
                         $("#integral").html(data.integral)
                     }
+                    result()
                 } else {
                     alert(i18N.network_error)
                 }
@@ -299,7 +427,7 @@
     function buildProduct(product, type) {
         var p = ""
         if (type == 0) {
-            p = "<a name='productA' id='" + product.id + "' class='list-group-item'>"
+            p = "<a  id='" + product.id + "' name='productA' class='list-group-item' href='javascript:void(0)'>"
                 + product.name +
                 "<span class='badge'>"
                 + product.price + "\t积分" +

@@ -27,7 +27,6 @@ public class ProductAction extends BaseAction {
             jProduct.put("price", p.getPrice());
             jProduct.put("number", p.getNumber());
             jProduct.put("desc", p.getDescription());
-
             getJson().put("product", jProduct);
             getJson().put("state", 0);
         } else {
