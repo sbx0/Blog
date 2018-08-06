@@ -97,7 +97,7 @@
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
                                     <div class="article-too-long">
-                                        <p>${article.article_content}</p>
+                                        ${article.article_content}
                                     </div>
                                     <a class="readMoreA btn btn-xs btn-default" href="a?id=${article.article_id}">
                                         <span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>
@@ -116,7 +116,7 @@
                                         <fmt:formatDate value="${article.article_time}" pattern="yyyy-MM-dd HH:mm"/>
                                     </p>
                                     <div class="article-too-long">
-                                        <p>${article.article_content}</p>
+                                        ${article.article_content}
                                     </div>
                                     <a class="readMoreA btn btn-xs btn-default" href="a?id=${article.article_id}">
                                         <span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>
@@ -248,8 +248,9 @@
 
             <div class="sidebar-module hidden-xs">
                 <h5>广告</h5>
-                <a href="https://www.vultr.com/?ref=7466976" target="_blank"><img
-                        src="https://www.vultr.com/media/banner_4.png" width="160" height="600"></a>
+                <a href="https://www.vultr.com/?ref=7466976" target="_blank">
+                    <img src="https://www.vultr.com/media/banner_4.png" width="160" height="600">
+                </a>
             </div>
 
         </div>

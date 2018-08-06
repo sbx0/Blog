@@ -17,6 +17,10 @@ h6, .h6 {
     color: #333;
 }
 
+.line-through {
+    text-decoration: line-through;
+}
+
 .media-heading {
     line-height: normal;
 }

@@ -119,7 +119,7 @@
                                                         pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
                                     </p>
                                     <div class="article-too-long">
-                                        <p>${article.article_content}</p>
+                                            ${article.article_content}
                                     </div>
                                     <a class="readMoreA btn btn-xs btn-default"
                                        href="a?id=${article.article_id}&u_id=${article.article_author.user_id}">

@@ -64,7 +64,7 @@
             <div class="col-sm-12">
                 <c:choose>
                     <c:when test="${sessionScope.user.user_is_admin eq 1}">
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#sellerModal">
+                        <button id="sellerBtn" class="btn btn-danger" data-toggle="modal" data-target="#sellerModal">
                             我要卖
                         </button>
                     </c:when>
@@ -106,6 +106,10 @@
             </div>
             <div class="modal-body">
                 <form id="productForm" class="form-signin" action="product!add" method="post">
+                    <p class="help-block">
+                        点此查看<a href="a?id=141">“售卖指南”</a>
+                    </p>
+                    <input type="text" id="p-id" name="product.id" class="form-control hidden">
                     <label for="p-name">商品名</label>
                     <input type="text" id="p-name" name="product.name" class="form-control">
                     <label for="p-desc">描述</label>
@@ -114,14 +118,25 @@
                     <input id="p-number" type="number" name="product.number" class="form-control">
                     <label for="p-define">限制购买数</label>
                     <input id="p-define" type="number" name="product.define" class="form-control">
-                    <label for="p-function">功能</label>
-                    <input id="p-function" type="text" name="product.function" class="form-control">
                     <label for="p-price">价格</label>
                     <input id="p-price" type="number" name="product.price" class="form-control">
+                    <label for="p-begin">开售日期</label>
+                    <input id="p-begin" type="date" name="product.begin" class="form-control">
+                    <label for="p-end">截至日期</label>
+                    <input id="p-end" type="date" name="product.end" class="form-control">
+                    <label for="p-discount">折扣</label>
+                    <input id="p-discount" type="number" name="product.discount" min="1" max="9" class="form-control">
+                    <label for="d-begin">折扣开始</label>
+                    <input id="d-begin" type="date" name="product.d_begin" class="form-control">
+                    <label for="d-end">折扣结束</label>
+                    <input id="d-end" type="date" name="product.d_end" class="form-control">
+                    <label for="p-function">功能</label>
+                    <input id="p-function" type="text" name="product.function" class="form-control">
                     <button id="sellerButton" class="btn btn-primary btn-block">
                         卖！
                     </button>
                 </form>
+                <div id="sellerLoad"></div>
             </div>
         </div>
     </div>
@@ -151,6 +166,9 @@
                     <span id="p_price"></span>
                     积分
                 </h4>
+                <p>
+                    <span id="p_discount"></span>
+                </p>
                 <h5>
                     剩
                     <span id="p_num"></span>
@@ -169,38 +187,36 @@
                     <h4 class="text-right">
                         需付
                         <strong>
-                            <span id="b_pay" class="text-warning">
-                                1515
-                            </span>
+                            <span id="b_pay" class="text-warning"></span>
                         </strong>
                         积分
                     </h4>
                     <p class="text-right">
                         您有
                         <strong>
-                            <span id="b_have">
-                                1515
-                            </span>
+                            <span id="b_have"></span>
                         </strong>
                         积分
                     </p>
                     <p class="text-right">
                         剩
                         <strong>
-                            <span id="b_left" class="text-success">
-                                1515
-                            </span>
+                            <span id="b_left" class="text-success"></span>
                         </strong>
                         积分
                     </p>
                     <hr>
                 </div>
-                <button id="buyBtn" class="btn btn-primary">
+                <button id="buyBtn" class="btn btn-primary float-right">
                     立即购买
                 </button>
                 &nbsp;
                 <button id="wantBtn" class="btn btn-default">
                     加入购物车
+                </button>
+                &nbsp;
+                <button id="updateBtn" class="btn btn-danger">
+                    修改商品信息
                 </button>
                 <div id="buyBtnDiv"></div>
             </div>
@@ -262,7 +278,11 @@
 
     $('#invoiceModal').on('hidden.bs.modal', function () {
         $("#productModal").modal("show")
-    });
+    })
+
+    $("#sellerBtn").click(function () {
+        buildProduct(null, 3)
+    })
 
     // 发票加载
     function invoiceShow(id) {
@@ -282,7 +302,7 @@
                     $("#i_number").html(data.number)
                     $("#i_price").html(data.price)
                     $("#i_user").html("<a href=\"u?id=" + data.buyer_id + "\">" + data.buyer_name + "</a>")
-                    var time = Format(getDate(data.end.time.toString()), "yyyy-MM-dd HH:mm");
+                    var time = Format(getDate(data.end.time.toString()), "yyyy-MM-dd HH:mm")
                     $("#i_end").html(time)
                     $("#invoiceLoad").html("")
                     $("#invoiceLoad").hide()
@@ -321,6 +341,8 @@
                     alert("积分不足")
                 } else if (state == -2) {
                     alert("货物数量不足")
+                } else if (state == -3) {
+                    alert("错误的购买时间")
                 } else {
                     alert(i18N.network_error)
                 }
@@ -341,6 +363,24 @@
         $("#wantBtn").show()
     })
 
+    $(document).on("click", "button[id='updateBtn']", function () {
+        $("#productModal").modal("hide")
+        $("#productForm").hide()
+        $("#sellerModal").modal("show")
+        $("#sellerLoad").html(i18N.loading)
+        $.ajax({
+            url: "product!one?id=" + $("#p_id").val(),
+            type: "POST",
+            success: function (data) {
+                var product = data.product
+                buildProduct(product, 3)
+                buildProduct(product, 2)
+                $("#sellerLoad").html("")
+                $("#productForm").show()
+            }
+        })
+    })
+
     $(document).on("click", "a[name='productA']", function () {
         $("#b_num").val(1)
         $("#p_id").val(this.id)
@@ -358,6 +398,7 @@
         var integral = $("#integral").html()
         var left = integral - count
         if (left < 0) left = 0
+        if (integral == "未登录") left = "未登录"
         $("#b_have").html(integral)
         $("#b_left").html(left)
     }
@@ -394,6 +435,7 @@
                 if (state == 0) {
                     $("#sellerModal").modal("hide")
                     list()
+                    alert("操作成功")
                 } else {
                     alert(i18N.network_error)
                 }
@@ -433,10 +475,58 @@
                 + product.price + "\t积分" +
                 "</span></a>"
         } else if (type == 1) {
+            $("#p_discount").html("")
             $("#p_name").html(product.name)
             $("#p_price").html(product.price)
+            if (product.d_price != null) {
+                $("#p_price").html(product.d_price)
+                $("#p_discount").html(product.discount + "折\t原价:" + product.price + " 积分")
+            }
             $("#p_num").html(product.number)
             $("#p_desc").html(product.desc)
+        } else if (type == 2) {
+            $("#p-id").val(product.id)
+            $("#p-name").val(product.name)
+            $("#p-desc").val(product.desc)
+            $("#p-number").val(product.number)
+            $("#p-define").val(product.define)
+            $("#p-price").val(product.price)
+            $("#p-discount").val(product.discount)
+            $("#p-function").val(product.function)
+            var time
+            if (product.begin != null) {
+                var begin = product.begin
+                time = Format(getDate(begin.time.toString()), "yyyy-MM-dd")
+                $("#p-begin").val(time)
+            }
+            if (product.end != null) {
+                var end = product.end
+                time = Format(getDate(end.time.toString()), "yyyy-MM-dd")
+                $("#p-end").val(time)
+            }
+            if (product.d_begin != null) {
+                var d_begin = product.d_begin
+                time = Format(getDate(d_begin.time.toString()), "yyyy-MM-dd")
+                $("#d-begin").val(time)
+            }
+            if (product.d_end != null) {
+                var d_end = product.d_end
+                time = Format(getDate(d_end.time.toString()), "yyyy-MM-dd")
+                $("#d-end").val(time)
+            }
+        } else if (type == 3) {
+            $("#p-id").val(null)
+            $("#p-name").val(null)
+            $("#p-desc").val(null)
+            $("#p-number").val(null)
+            $("#p-define").val(null)
+            $("#p-price").val(null)
+            $("#p-discount").val(null)
+            $("#p-function").val(null)
+            $("#p-begin").val(null)
+            $("#p-end").val(null)
+            $("#d-begin").val(null)
+            $("#d-end").val(null)
         }
         return p
     }

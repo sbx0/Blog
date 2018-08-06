@@ -89,7 +89,9 @@
                         <fmt:formatDate value="${article.article_time}" type="both"
                                         pattern="yyyy-MM-dd HH:mm"></fmt:formatDate>
                     </p>
-                    <p>${article.article_content}</p>
+                    <p>
+                            ${article.article_content}
+                    </p>
                     <nav>
                         <ul id="pager-nav" class="pager"></ul>
                     </nav>

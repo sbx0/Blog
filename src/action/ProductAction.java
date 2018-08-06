@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 import service.ProductService;
 import service.UserService;
 
+import java.util.Date;
 import java.util.List;
 
 public class ProductAction extends BaseAction {
@@ -27,6 +28,34 @@ public class ProductAction extends BaseAction {
             jProduct.put("price", p.getPrice());
             jProduct.put("number", p.getNumber());
             jProduct.put("desc", p.getDescription());
+            jProduct.put("define", p.getDefine());
+            jProduct.put("begin", p.getBegin());
+            jProduct.put("end", p.getEnd());
+            jProduct.put("discount", p.getDiscount());
+            jProduct.put("d_begin", p.getD_begin());
+            jProduct.put("d_end", p.getD_end());
+            jProduct.put("function", p.getFunction());
+            // 判断折扣信息
+            double price = p.getPrice();
+            Date now = new Date();
+            boolean isBegin = true, isEnd = true;
+            if (p.getD_begin() != null) {
+                if (now.getTime() < p.getD_begin().getTime()) {
+                    isBegin = false;
+                }
+            }
+            if (p.getD_end() != null) {
+                if (now.getTime() > p.getD_end().getTime()) {
+                    isEnd = false;
+                }
+            }
+            if (isBegin && isEnd && p.getDiscount() != 0.0) {
+                if (p.getDiscount() < 1 || p.getDiscount() > 10) p.setDiscount(9);
+                double discount = p.getDiscount() / 10;
+                price = price * discount;
+                price = (double) Math.round(price * 100) / 100;
+                jProduct.put("d_price", price);
+            }
             getJson().put("product", jProduct);
             getJson().put("state", 0);
         } else {

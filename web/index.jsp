@@ -124,9 +124,8 @@
                 + '">' + articles[i].user_name + '</a>&nbsp;' + time +
                 '</p>' +
                 '<div class="article-too-long">' +
-                '<p>' +
                 articles[i].content +
-                '</p></div>' +
+                '</div>' +
                 '<a class="readMoreA btn btn-xs btn-default" href="a?id=' + articles[i].id + '">' +
                 '<span class="glyphicon glyphicon glyphicon-align-justify" aria-hidden="true"></span>&nbsp;' +
                 '查看详情</a>' +
