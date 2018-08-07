@@ -10,12 +10,6 @@ import service.*;
 import java.util.List;
 
 public class AdminAction extends BaseAction {
-    private ArticleService articleService;
-    private CommentService commentService;
-    private UserService userService;
-    private StatusService statusService;
-    private MessageService messageService;
-    private CodeService codeService;
     private int pageSize;
     private int page;
     private String veid;
@@ -143,77 +137,12 @@ public class AdminAction extends BaseAction {
         return result;
     }
 
-
-    public String getVeid() {
-        return veid;
-    }
-
-    public void setVeid(String veid) {
-        this.veid = veid;
-    }
-
-    public void setApi_key(String api_key) {
-        this.api_key = api_key;
-    }
-
-    public String getApi_key() {
-        return api_key;
-    }
-
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
-    public ArticleService getArticleService() {
-        return articleService;
-    }
-
-    public void setCommentService(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
-    public CommentService getCommentService() {
-        return commentService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setStatusService(StatusService statusService) {
-        this.statusService = statusService;
-    }
-
-    public StatusService getStatusService() {
-        return statusService;
-    }
-
-    public void setMessageService(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    public MessageService getMessageService() {
-        return messageService;
-    }
-
-    public void setCodeService(CodeService codeService) {
-        this.codeService = codeService;
-    }
-
-    public CodeService getCodeService() {
-        return codeService;
+    public int getPageSize() {
+        return pageSize;
     }
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public int getPageSize() {
-        return pageSize;
     }
 
     public int getPage() {
@@ -224,4 +153,19 @@ public class AdminAction extends BaseAction {
         this.page = page;
     }
 
+    public String getVeid() {
+        return veid;
+    }
+
+    public void setVeid(String veid) {
+        this.veid = veid;
+    }
+
+    public String getApi_key() {
+        return api_key;
+    }
+
+    public void setApi_key(String api_key) {
+        this.api_key = api_key;
+    }
 }

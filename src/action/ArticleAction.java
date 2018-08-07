@@ -11,11 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 public class ArticleAction extends BaseAction {
-    private ArticleService articleService;
-    private CommentService commentService;
-    private UserService userService;
-    private StatusService statusService;
-    private TagLinkService tagLinkService;
     private Article article;
     private Comment comment;
     private PageBean pageBean;
@@ -27,7 +22,6 @@ public class ArticleAction extends BaseAction {
     private String keywords;
     private String type;
     private List<Comment> comments;
-    private MessageService messageService;
 
     // 上一篇 下一篇
     public String prevNext() {
@@ -465,80 +459,80 @@ public class ArticleAction extends BaseAction {
         return "json";
     }
 
-    public void setMessageService(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    public MessageService getMessageService() {
-        return messageService;
-    }
-
-    public void setStatusService(StatusService statusService) {
-        this.statusService = statusService;
-    }
-
-    public StatusService getStatusService() {
-        return statusService;
-    }
-
-    public void setArticle(Article article) {
-        this.article = article;
-    }
-
     public Article getArticle() {
         return article;
-    }
-
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
-    public void setCommentService(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public PageBean getPageBean() {
-        return pageBean;
-    }
-
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
-    }
-
-    public int getPageNo() {
-        return pageNo;
     }
 
     public Comment getComment() {
         return comment;
     }
 
+    public PageBean getPageBean() {
+        return pageBean;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getA_id() {
+        return a_id;
+    }
+
+    public int getU_id() {
+        return u_id;
+    }
+
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    public void setPageBean(PageBean pageBean) {
+        this.pageBean = pageBean;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setA_id(int a_id) {
         this.a_id = a_id;
     }
 
-    public int getA_id() {
-        return a_id;
+    public void setU_id(int u_id) {
+        this.u_id = u_id;
+    }
+
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public void setKeywords(String keywords) {
@@ -549,11 +543,7 @@ public class ArticleAction extends BaseAction {
         this.type = type;
     }
 
-    public void setTagLinkService(TagLinkService tagLinkService) {
-        this.tagLinkService = tagLinkService;
-    }
-
-    public void setU_id(int u_id) {
-        this.u_id = u_id;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

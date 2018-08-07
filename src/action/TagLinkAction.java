@@ -5,17 +5,11 @@ import entity.Tag;
 import entity.TagLink;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import service.ArticleService;
-import service.TagLinkService;
-import service.TagService;
 import service.ToolService;
 
 import java.util.List;
 
 public class TagLinkAction extends BaseAction {
-    private TagLinkService tagLinkService;
-    private ArticleService articleService;
-    private TagService tagService;
     private TagLink tagLink;
     private String tagsText;
     private int id;
@@ -137,28 +131,32 @@ public class TagLinkAction extends BaseAction {
         return "json";
     }
 
-    public void setTagLinkService(TagLinkService tagLinkService) {
-        this.tagLinkService = tagLinkService;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public TagLink getTagLink() {
+        return tagLink;
     }
 
     public void setTagLink(TagLink tagLink) {
         this.tagLink = tagLink;
     }
 
+    public String getTagsText() {
+        return tagsText;
+    }
+
     public void setTagsText(String tagsText) {
         this.tagsText = tagsText;
     }
 
-    public void setTagService(TagService tagService) {
-        this.tagService = tagService;
+    public int getId() {
+        return id;
     }
 
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Article getArticle() {
+        return article;
     }
 
     public void setArticle(Article article) {

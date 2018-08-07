@@ -3,17 +3,11 @@ package action;
 import entity.Invoice;
 import entity.Product;
 import entity.User;
-import service.InvoiceService;
-import service.ProductService;
-import service.UserService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class InvoiceAction extends BaseAction {
-    private InvoiceService invoiceService;
-    private ProductService productService;
-    private UserService userService;
     private int id;
     private Product product;
     private Invoice invoice;
@@ -47,41 +41,13 @@ public class InvoiceAction extends BaseAction {
             // 获取商品信息
             Product p = productService.query(product);
             // 判断时间是否正确
-            Date now = new Date();
-            if (p.getBegin() != null) {
-                if (now.getTime() < p.getBegin().getTime()) {
-                    getJson().put("state", -3);
-                    return "json";
-                }
+            if (!p.sellTime()) {
+                getJson().put("state", -3);
+                return "json";
             }
-            if (p.getEnd() != null) {
-                if (now.getTime() > p.getEnd().getTime()) {
-                    getJson().put("state", -3);
-                    return "json";
-                }
-            }
-            // 判断购买数量
-            if (invoice.getNumber() < 1) invoice.setNumber(1);
-            if (invoice.getNumber() > 100) invoice.setNumber(100);
             // 判断折扣信息
-            double price = p.getPrice() * invoice.getNumber();
-            boolean isBegin = true, isEnd = true;
-            if (p.getD_begin() != null) {
-                if (now.getTime() < p.getD_begin().getTime()) {
-                    isBegin = false;
-                }
-            }
-            if (p.getD_end() != null) {
-                if (now.getTime() > p.getD_end().getTime()) {
-                    isEnd = false;
-                }
-            }
-            if (isBegin && isEnd && p.getDiscount() != 0.0) {
-                if (p.getDiscount() < 1 || p.getDiscount() > 10) p.setDiscount(9);
-                double discount = p.getDiscount() / 10;
-                price = price * discount;
-                price = (double) Math.round(price * 100) / 100;
-            }
+            double price = p.getPrice();
+            if (p.haveDiscount()) price = p.calculateDiscount();
             if (p.getNumber() < invoice.getNumber()) {
                 getJson().put("state", -2);
                 return "json";
@@ -91,7 +57,6 @@ public class InvoiceAction extends BaseAction {
                 i.setNumber(invoice.getNumber());
                 // 扣除积分
                 double integral = user.getUser_integral() - price;
-                integral = (double) Math.round(integral * 100) / 100;
                 user.setUser_integral(integral);
                 userService.register(user);
                 // 获取购买信息
@@ -138,27 +103,27 @@ public class InvoiceAction extends BaseAction {
         return "json";
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
-
-    public void setInvoiceService(InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
     }
 }

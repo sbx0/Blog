@@ -37,10 +37,14 @@ public class Invoice {
     }
 
     public int getNumber() {
+        if (number < 0) return 1;
+        if (number > 100) return 100;
         return number;
     }
 
     public void setNumber(int number) {
+        if (number < 0) number = 1;
+        if (number > 100) number = 100;
         this.number = number;
     }
 

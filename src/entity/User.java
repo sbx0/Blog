@@ -16,6 +16,12 @@ public class User {
     private String user_signature; // 签名
     private Double user_integral; // 积分
 
+    // 判断用户权限
+    public boolean authority() {
+        if (user_is_admin < 0) return true;
+        else return false;
+    }
+
     public Integer getUser_id() {
         return user_id;
     }
@@ -81,10 +87,10 @@ public class User {
     }
 
     public Double getUser_integral() {
-        return user_integral;
+        return (double) Math.round(user_integral * 100) / 100;
     }
 
     public void setUser_integral(Double user_integral) {
-        this.user_integral = user_integral;
+        this.user_integral = (double) Math.round(user_integral * 100) / 100;
     }
 }

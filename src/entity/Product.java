@@ -23,6 +23,31 @@ public class Product {
 
     private String function; // 功能
 
+    public boolean sellTime() {
+        Date now = new Date();
+        boolean isBegin = true, isEnd = true;
+        if (getBegin() != null && now.getTime() < getBegin().getTime()) isBegin = false;
+        if (getEnd() != null && now.getTime() > getEnd().getTime()) isEnd = false;
+        if (isBegin && isEnd) return true;
+        else return false;
+    }
+
+    public double calculateDiscount() {
+        double discount = getDiscount() / 10;
+        return (double) Math.round(getPrice() * discount * 100) / 100;
+    }
+
+    // 判断是否享受折扣
+    public boolean haveDiscount() {
+        boolean isBegin = true, isEnd = true, isDiscount = true;
+        Date now = new Date();
+        if (getD_begin() != null && now.getTime() < getD_begin().getTime()) isBegin = false;
+        if (getD_end() != null && now.getTime() > getD_end().getTime()) isEnd = false;
+        if (getDiscount() <= 0) isDiscount = false;
+        if (isBegin && isEnd && isDiscount) return true;
+        else return false;
+    }
+
     public int getId() {
         return id;
     }
@@ -72,11 +97,11 @@ public class Product {
     }
 
     public double getPrice() {
-        return price;
+        return (double) Math.round(price * 100) / 100;
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.price = (double) Math.round(price * 100) / 100;
     }
 
     public Date getBegin() {
@@ -96,10 +121,16 @@ public class Product {
     }
 
     public double getDiscount() {
+        // 折扣必须大于0 小于10
+        if (discount < 0) return 0.1;
+        if (discount > 10) return 10;
         return discount;
     }
 
     public void setDiscount(double discount) {
+        // 折扣必须大于0 小于10
+        if (discount < 0) discount = 0.1;
+        if (discount > 10) discount = 10;
         this.discount = discount;
     }
 

@@ -399,8 +399,9 @@
         var left = integral - count
         if (left < 0) left = 0
         if (integral == "未登录") left = "未登录"
-        $("#b_have").html(integral)
+        else left = left.toFixed(2)
         $("#b_left").html(left)
+        $("#b_have").html(integral)
     }
 
     function one(id) {
@@ -469,9 +470,13 @@
     function buildProduct(product, type) {
         var p = ""
         if (type == 0) {
+
             p = "<a  id='" + product.id + "' name='productA' class='list-group-item' href='javascript:void(0)'>"
-                + product.name +
-                "<span class='badge'>"
+                + product.name
+            if (product.discount != null) p += "<span class='badge alert-success'>"
+                + product.discount + "\t折" +
+                "</span>"
+            p += "<span class='badge'>"
                 + product.price + "\t积分" +
                 "</span></a>"
         } else if (type == 1) {

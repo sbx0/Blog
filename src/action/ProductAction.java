@@ -4,16 +4,11 @@ import entity.Product;
 import entity.User;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import service.ProductService;
-import service.UserService;
 
-import java.util.Date;
 import java.util.List;
 
 public class ProductAction extends BaseAction {
     private int id;
-    private ProductService productService;
-    private UserService userService;
     private Product product;
 
     // 获取一个商品
@@ -35,26 +30,8 @@ public class ProductAction extends BaseAction {
             jProduct.put("d_begin", p.getD_begin());
             jProduct.put("d_end", p.getD_end());
             jProduct.put("function", p.getFunction());
-            // 判断折扣信息
-            double price = p.getPrice();
-            Date now = new Date();
-            boolean isBegin = true, isEnd = true;
-            if (p.getD_begin() != null) {
-                if (now.getTime() < p.getD_begin().getTime()) {
-                    isBegin = false;
-                }
-            }
-            if (p.getD_end() != null) {
-                if (now.getTime() > p.getD_end().getTime()) {
-                    isEnd = false;
-                }
-            }
-            if (isBegin && isEnd && p.getDiscount() != 0.0) {
-                if (p.getDiscount() < 1 || p.getDiscount() > 10) p.setDiscount(9);
-                double discount = p.getDiscount() / 10;
-                price = price * discount;
-                price = (double) Math.round(price * 100) / 100;
-                jProduct.put("d_price", price);
+            if (p.haveDiscount()) {
+                jProduct.put("d_price", p.calculateDiscount());
             }
             getJson().put("product", jProduct);
             getJson().put("state", 0);
@@ -88,6 +65,10 @@ public class ProductAction extends BaseAction {
             jProduct.put("id", products.get(i).getId());
             jProduct.put("name", products.get(i).getName());
             jProduct.put("price", products.get(i).getPrice());
+            if (products.get(i).haveDiscount()) {
+                jProduct.put("discount", products.get(i).getDiscount());
+                jProduct.put("price", products.get(i).calculateDiscount());
+            } else jProduct.put("price", products.get(i).getPrice());
             jProduct.put("number", products.get(i).getNumber());
             jProduct.put("seller_id", products.get(i).getSeller().getUser_id());
             jProduct.put("seller_name", products.get(i).getSeller().getUser_name());
@@ -106,23 +87,20 @@ public class ProductAction extends BaseAction {
         return "json";
     }
 
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
-
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public int getId() {
+        return id;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
 }

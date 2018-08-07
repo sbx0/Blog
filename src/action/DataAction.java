@@ -1,12 +1,10 @@
 package action;
 
 import entity.Data;
-import service.DataService;
 
 import java.util.List;
 
 public class DataAction extends BaseAction {
-    private DataService dataService;
 
     public String index() {
 
@@ -27,7 +25,4 @@ public class DataAction extends BaseAction {
         return "json";
     }
 
-    public void setDataService(DataService dataService) {
-        this.dataService = dataService;
-    }
 }

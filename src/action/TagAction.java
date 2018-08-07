@@ -1,10 +1,8 @@
 package action;
 
 import entity.Tag;
-import service.TagService;
 
 public class TagAction extends BaseAction {
-    private TagService tagService;
     private Tag tag;
     private int id;
 
@@ -22,16 +20,20 @@ public class TagAction extends BaseAction {
         return "json";
     }
 
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setTagService(TagService tagService) {
-        this.tagService = tagService;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public int getId() {
+        return id;
     }
 
 }

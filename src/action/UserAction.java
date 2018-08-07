@@ -14,15 +14,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class UserAction extends BaseAction {
-    private UserService userService;
-    private ArticleService articleService;
-    private CommentService commentService;
-    private MessageService messageService;
-    private StatusService statusService;
-    private DataService dataService;
-    private CodeService codeService;
-    private BugService bugService;
-
     private Message message;
     private User user;
     private String check;
@@ -49,7 +40,7 @@ public class UserAction extends BaseAction {
     }
 
     public String send() {
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         User to_user = userService.getUser(id);
         if (user.getUser_id() == id) {
             getJson().put("status", 1);
@@ -69,7 +60,7 @@ public class UserAction extends BaseAction {
     }
 
     public String chat() {
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         User send_user = userService.getUser(id);
         if (send_user == null || user == null) {
             getJson().put("status", 1);
@@ -85,7 +76,7 @@ public class UserAction extends BaseAction {
     }
 
     public String vsComputer() {
-        user = (User) getSession().get("user");
+        user = loginUser();
         user = userService.getUser(user.getUser_id());
         int aiNum;
         int aiBet;
@@ -174,7 +165,7 @@ public class UserAction extends BaseAction {
     // 删除账户
     public String delete() {
         int status = 0;
-        user = (User) getSession().get("user");
+        user = loginUser();
         if (user != null) {
             if (id == 0) id = user.getUser_id();
             if (user.getUser_is_admin() != 0 || user.getUser_id() == id) {
@@ -202,7 +193,7 @@ public class UserAction extends BaseAction {
     // 查看消息
     public String message() {
         // 获取登陆信息
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         List<Message> messages = messageService.receive(user.getUser_id());
         getJson().put("message", messageService.messagesJson(messages));
         return "json";
@@ -315,7 +306,7 @@ public class UserAction extends BaseAction {
     // 退出登录
     public String logout() {
         try {
-            User user = (User) getSession().get("user");
+            User user = loginUser();
             getSession().remove("user");
             getJson().put("status", 0);
 
@@ -338,7 +329,7 @@ public class UserAction extends BaseAction {
 
     // 激活码激活
     public String active() {
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         if (user != null) {
             Code codes = codeService.query(code);
             if (codes != null) {
@@ -363,7 +354,7 @@ public class UserAction extends BaseAction {
     // 抽奖
     public String gif() {
         int[] gifnum = codeService.gif();
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         Long use = 15L;
         String desc = "null";
         // 未登录永远是空
@@ -464,7 +455,7 @@ public class UserAction extends BaseAction {
 
     // 最近获得的激活码
     public String codes() {
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         if (user != null) {
             List<Code> codes = (List<Code>) codeService.queryForPage(pageSize, pageNo, user.getUser_id()).getList();
             getJson().put("codes", codeService.codesJson(codes));
@@ -485,7 +476,7 @@ public class UserAction extends BaseAction {
 
     // 未读消息数
     public String unreadCount() {
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         if (user == null) {
             getJson().put("status", 1);
         } else {
@@ -505,28 +496,36 @@ public class UserAction extends BaseAction {
         return "json";
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Message getMessage() {
+        return message;
     }
 
-    public int getId() {
-        return id;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
-    public void setMessageService(MessageService messageService) {
-        this.messageService = messageService;
+    public User getUser() {
+        return user;
     }
 
-    public MessageService getMessageService() {
-        return messageService;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setStatusService(StatusService statusService) {
-        this.statusService = statusService;
+    public String getCheck() {
+        return check;
     }
 
-    public StatusService getStatusService() {
-        return statusService;
+    public void setCheck(String check) {
+        this.check = check;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public int getPageNo() {
@@ -545,99 +544,43 @@ public class UserAction extends BaseAction {
         this.pageSize = pageSize;
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public int getId() {
+        return id;
     }
 
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setCheck(String check) {
-        this.check = check;
-    }
-
-    public String getCheck() {
-        return check;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setCodeService(CodeService codeService) {
-        this.codeService = codeService;
-    }
-
-    public CodeService getCodeService() {
-        return codeService;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setDataService(DataService dataService) {
-        this.dataService = dataService;
-    }
-
-    public void setArticleService(ArticleService articleService) {
-        this.articleService = articleService;
-    }
-
-    public void setCommentService(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
-    public void setBugService(BugService bugService) {
-        this.bugService = bugService;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public int getNum() {
         return num;
     }
 
-    public void setBet(int bet) {
-        this.bet = bet;
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public int getBet() {
         return bet;
     }
 
-    public void setVsNum(String vsNum) {
-        this.vsNum = vsNum;
+    public void setBet(int bet) {
+        this.bet = bet;
     }
 
     public String getVsNum() {
         return vsNum;
     }
 
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
-    public Message getMessage() {
-        return message;
+    public void setVsNum(String vsNum) {
+        this.vsNum = vsNum;
     }
 }

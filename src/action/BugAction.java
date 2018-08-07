@@ -4,15 +4,11 @@ import entity.Bug;
 import entity.Message;
 import entity.User;
 import net.sf.json.JSONArray;
-import service.BugService;
-import service.MessageService;
 
 import java.util.Date;
 import java.util.List;
 
 public class BugAction extends BaseAction {
-    private BugService bugService;
-    private MessageService messageService;
     private Bug bug;
     private String par;
     private int page;
@@ -193,20 +189,12 @@ public class BugAction extends BaseAction {
         }
     }
 
-    public void setWhat(int what) {
-        this.what = what;
+    public Bug getBug() {
+        return bug;
     }
 
-    public int getWhat() {
-        return what;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
+    public void setBug(Bug bug) {
+        this.bug = bug;
     }
 
     public String getPar() {
@@ -217,27 +205,31 @@ public class BugAction extends BaseAction {
         this.par = par;
     }
 
-    public void setBugService(BugService bugService) {
-        this.bugService = bugService;
+    public int getPage() {
+        return page;
     }
 
-    public Bug getBug() {
-        return bug;
+    public void setPage(int page) {
+        this.page = page;
     }
 
-    public void setBug(Bug bug) {
-        this.bug = bug;
+    public int getWhat() {
+        return what;
     }
 
-    public MessageService getMessageService() {
-        return messageService;
+    public void setWhat(int what) {
+        this.what = what;
     }
 
-    public void setMessageService(MessageService messageService) {
-        this.messageService = messageService;
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPageSize() {
+        return pageSize;
     }
 }
