@@ -177,6 +177,11 @@
                 <p>
                     <span id="p_desc"></span>
                 </p>
+                <p>
+                    <strong>
+                        <span id="p_define"></span>
+                    </strong>
+                </p>
                 <div class="form-group">
                     <label for="p_num">购买数量</label>
                     <input id="b_num" type="number" class="form-control" value="1" min="1" max="100" placeholder="数量"
@@ -323,6 +328,7 @@
         }
         $("#buyBtn").hide()
         $("#wantBtn").hide()
+        $("#updateBtn").hide()
         $("#buyBtnDiv").html(i18N.loading)
         var p_id = $("#p_id").val()
         $.ajax({
@@ -343,12 +349,15 @@
                     alert("货物数量不足")
                 } else if (state == -3) {
                     alert("错误的购买时间")
+                } else if (state == -4) {
+                    alert("超出限购数量")
                 } else {
                     alert(i18N.network_error)
                 }
                 $("#buyBtnDiv").html("")
                 $("#buyBtn").show()
                 $("#wantBtn").show()
+                $("#updateBtn").show()
             }
         })
     })
@@ -356,11 +365,13 @@
     $(document).on("click", "button[id='wantBtn']", function () {
         $("#buyBtn").hide()
         $("#wantBtn").hide()
+        $("#updateBtn").hide()
         $("#buyBtnDiv").html(i18N.loading)
         alert("添加成功")
         $("#buyBtnDiv").html("")
         $("#buyBtn").show()
         $("#wantBtn").show()
+        $("#updateBtn").show()
     })
 
     $(document).on("click", "button[id='updateBtn']", function () {
@@ -489,6 +500,10 @@
             }
             $("#p_num").html(product.number)
             $("#p_desc").html(product.desc)
+            if (product.define > 0 && product.define < 10000)
+                $("#p_define").html("<br>限购:" + product.define)
+            else
+                $("#p_define").html("")
         } else if (type == 2) {
             $("#p-id").val(product.id)
             $("#p-name").val(product.name)

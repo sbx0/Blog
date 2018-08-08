@@ -1,5 +1,7 @@
 package entity;
 
+import service.ToolService;
+
 import java.util.Date;
 
 // 商品
@@ -22,6 +24,27 @@ public class Product {
     private Date d_end; // 折扣结束时间
 
     private String function; // 功能
+
+    /**
+     * 判断是否有限购
+     * define < 0 或 define > 9999 表示不限制
+     *
+     * @return 真为限制 否为不限
+     */
+    public boolean haveDefine() {
+        if (getDefine() > 0 && getDefine() < 10000) return true;
+        else return false;
+    }
+
+    /**
+     * 是否符合限额要求，配合 haveDefine()
+     *
+     * @return 真为符合 否为不符
+     */
+    public boolean checkDefine(int number) {
+        if (number > getDefine()) return false;
+        else return true;
+    }
 
     public boolean sellTime() {
         Date now = new Date();
@@ -81,10 +104,20 @@ public class Product {
     }
 
     public int getDefine() {
+        // 取值最小 -1 代表 不限
+        // 取值为 0 代表 不限
+        // 取值最大 9999 超出表示不限
+        if (define < 1) define = -1;
+        if (define > 9999) define = -1;
         return define;
     }
 
     public void setDefine(int limit) {
+        // 取值最小 -1 代表 不限
+        // 取值为 0 代表 不限
+        // 取值最大 9999 超出表示不限
+        if (limit < 1) limit = -1;
+        if (limit > 9999) limit = -1;
         this.define = limit;
     }
 
@@ -97,10 +130,12 @@ public class Product {
     }
 
     public double getPrice() {
+        // 保留两位小数
         return (double) Math.round(price * 100) / 100;
     }
 
     public void setPrice(double price) {
+        // 保留两位小数
         this.price = (double) Math.round(price * 100) / 100;
     }
 
@@ -109,6 +144,7 @@ public class Product {
     }
 
     public void setBegin(Date begin) {
+        if (begin != null) begin = ToolService.getStartOfDay(begin);
         this.begin = begin;
     }
 
@@ -117,6 +153,7 @@ public class Product {
     }
 
     public void setEnd(Date end) {
+        if (end != null) end = ToolService.getEndOfDay(end);
         this.end = end;
     }
 
@@ -139,6 +176,7 @@ public class Product {
     }
 
     public void setD_begin(Date d_begin) {
+        if (d_begin != null) d_begin = ToolService.getStartOfDay(d_begin);
         this.d_begin = d_begin;
     }
 
@@ -147,6 +185,7 @@ public class Product {
     }
 
     public void setD_end(Date d_end) {
+        if (d_end != null) d_end = ToolService.getEndOfDay(d_end);
         this.d_end = d_end;
     }
 

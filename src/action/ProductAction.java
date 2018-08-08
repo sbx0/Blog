@@ -7,11 +7,27 @@ import net.sf.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * 产品类Action
+ *
+ * @author 汪恒
+ * @author blog.ducsr.cn
+ */
 public class ProductAction extends BaseAction {
+    /**
+     * 页面传递过来的id
+     */
     private int id;
+    /**
+     * 页面传递过来的产品类
+     */
     private Product product;
 
-    // 获取一个商品
+    /**
+     * 获取某个产品信息
+     *
+     * @return json串
+     */
     public String one() {
         Product p = new Product();
         p.setId(id);
@@ -30,18 +46,22 @@ public class ProductAction extends BaseAction {
             jProduct.put("d_begin", p.getD_begin());
             jProduct.put("d_end", p.getD_end());
             jProduct.put("function", p.getFunction());
-            if (p.haveDiscount()) {
-                jProduct.put("d_price", p.calculateDiscount());
-            }
+            // 符合打折条件 计算打折价格
+            if (p.haveDiscount()) jProduct.put("d_price", p.calculateDiscount());
             getJson().put("product", jProduct);
             getJson().put("state", 0);
         } else {
+            // 商品不存在
             getJson().put("state", 1);
         }
         return "json";
     }
 
-    // 添加商品
+    /**
+     * 添加新商品 或 修改旧商品
+     *
+     * @return json串
+     */
     public String add() {
         User user = (User) getSession().get("user");
         if (user != null && user.getUser_is_admin() == 1) {
@@ -55,7 +75,11 @@ public class ProductAction extends BaseAction {
         return "json";
     }
 
-    // 获取全部商品
+    /**
+     * 获取商品列表
+     *
+     * @return json串
+     */
     public String get() {
         User user = (User) getSession().get("user");
         List<Product> products = productService.query();
@@ -65,6 +89,7 @@ public class ProductAction extends BaseAction {
             jProduct.put("id", products.get(i).getId());
             jProduct.put("name", products.get(i).getName());
             jProduct.put("price", products.get(i).getPrice());
+            // 判断是否符合打折条件
             if (products.get(i).haveDiscount()) {
                 jProduct.put("discount", products.get(i).getDiscount());
                 jProduct.put("price", products.get(i).calculateDiscount());
@@ -76,6 +101,7 @@ public class ProductAction extends BaseAction {
         }
         if (jProducts.size() > 0) {
             getJson().put("products", jProducts);
+            // 获取用户积分存入json串中
             if (user != null) {
                 user = userService.getUser(user.getUser_id());
                 getJson().put("integral", user.getUser_integral());

@@ -33,13 +33,26 @@ public class InvoiceAction extends BaseAction {
         return "json";
     }
 
+    /**
+     * 用户购买某商品
+     *
+     * @return json串
+     */
     public String buy() {
-        User user = (User) getSession().get("user");
+        User user = loginUser();
         if (user != null) {
             // 获取用户信息
             user = userService.getUser(user.getUser_id());
             // 获取商品信息
             Product p = productService.query(product);
+            // 判断是否限购
+            if (p.haveDefine()) {
+                int count = invoiceService.countHaveProduct(p.getId(), user.getUser_id());
+                if (!p.checkDefine(count)) {
+                    getJson().put("state", -4);
+                    return "json";
+                }
+            }
             // 判断时间是否正确
             if (!p.sellTime()) {
                 getJson().put("state", -3);
