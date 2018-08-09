@@ -2,13 +2,9 @@ package service;
 
 import dao.impl.CommentDaoImpl;
 import dao.impl.UserDaoImpl;
-import entity.Article;
 import entity.Comment;
-import entity.User;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
 
 import java.util.List;
 
@@ -28,7 +24,7 @@ public class CommentService {
         try {
             commentDao.update(comment);
             return 0;
-        } catch (Exception e){
+        } catch (Exception e) {
             return 1;
         }
     }
@@ -125,48 +121,29 @@ public class CommentService {
     // 将List<Commnet>中有用的东西转换成json串
     public JSONObject toJson(Comment c) {
         JSONObject jc = new JSONObject();
-        jc.put("comment_id",c.getComment_id());
-        jc.put("comment_floor",c.getComment_floor());
-        jc.put("user_id",c.getComment_user().getUser_id());
-        jc.put("article_id",c.getComment_article().getArticle_id());
-        jc.put("comment_content","*");
-        jc.put("comment_time",c.getComment_time());
+        jc.put("comment_id", c.getComment_id());
+        jc.put("comment_floor", c.getComment_floor());
+        jc.put("user_id", c.getComment_user().getUser_id());
+        jc.put("article_id", c.getComment_article().getArticle_id());
+        jc.put("comment_content", "*");
+        jc.put("comment_time", c.getComment_time());
         return jc;
     }
 
     // 将List<Commnet>中有用的东西转换成json串
-    public JSONArray commentJson(List<Comment> commentList) {
-
-        // json config 配置 去除无效数据
-        JsonConfig config = new JsonConfig();
-        config.setJsonPropertyFilter(new PropertyFilter() {
-            public boolean apply(Object arg0, String arg1, Object arg2) {
-                if (arg1.equals("article_id") || arg1.equals("comment_article") || arg1.equals("comment_user")
-                        || arg1.equals("user_id") || arg1.equals("comment_content") || arg1.equals("comment_floor")
-                        || arg1.equals("comment_id") || arg1.equals("comment_time") || arg1.equals("comment_content")
-                        || arg1.equals("user_name") || arg1.equals("time")) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        });
-
-        // 生成jsonArray
+    public JSONArray commentJson(List<Comment> comments) {
         JSONArray jsonArray = new JSONArray();
-        Article a = new Article();
-        User u = new User();
-        int i = 0;
-        for (Comment c : commentList) {
-            a.setArticle_id(c.getComment_article().getArticle_id());
-            c.setComment_article(a);
-            u.setUser_id(c.getComment_user().getUser_id());
-            User ua = userDao.userById(c.getComment_user().getUser_id());
-            u.setUser_name(ua.getUser_name());
-            c.setComment_user(u);
-            JSONObject jsonObject = JSONObject.fromObject(c, config);
-            jsonArray.add(i, jsonObject);
-            i++;
+        for (int i = 0; i < comments.size(); i++) {
+            JSONObject cJson = new JSONObject();
+            cJson.put("id", comments.get(i).getComment_id());
+            cJson.put("content", comments.get(i).getComment_content());
+            cJson.put("floor", comments.get(i).getComment_floor());
+            cJson.put("time", comments.get(i).getComment_time());
+            cJson.put("com_user_id", comments.get(i).getComment_user().getUser_id());
+            cJson.put("com_user_name", comments.get(i).getComment_user().getUser_name());
+            cJson.put("article_id", comments.get(i).getComment_article().getArticle_id());
+            cJson.put("author_id", comments.get(i).getComment_article().getArticle_author().getUser_id());
+            jsonArray.add(cJson);
         }
         return jsonArray;
     }

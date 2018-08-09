@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class Comment {
 	private Integer comment_id; // ID
-	private Integer comment_floor = 0; // 楼层号
+	private Integer comment_floor; // 楼层号
 	private User comment_user; // 评论者
 	private Article comment_article; // 评论的文章
 	private String comment_content; // 评论

@@ -472,23 +472,23 @@
         // 显示评论
         function showComments(comments, user_id, is_admin) {
             for (var i = 0; i < comments.length; i++) {
-                var com_user_id = comments[i].comment_user.user_id
-                var time = Format(getDate(comments[i].comment_time.time.toString()), "yyyy-MM-dd HH:mm");
-                var comment = '<hr><div class="media" id="comment' + comments[i].comment_floor + '"><div class="media-left">\n' +
+                var com_user_id = comments[i].com_user_id
+                var time = Format(getDate(comments[i].time.time.toString()), "yyyy-MM-dd HH:mm");
+                var comment = '<hr><div class="media" id="comment' + comments[i].floor + '"><div class="media-left">\n' +
                     //                    '    <a href="#">\n' +
                     //                    '      <img class="media-object" src="img/favicon.png" alt="...">\n' +
                     //                    '    </a>\n' +
                     '</div><div class="media-body"><h5 class="media-heading">#'
-                comment = comment + comments[i].comment_floor + '<a href="u?id=' +
-                    comments[i].comment_user.user_id + '"> ' +
-                    comments[i].comment_user.user_name +
+                comment = comment + comments[i].floor + '<a href="u?id=' +
+                    comments[i].com_user_id + '"> ' +
+                    comments[i].com_user_name +
                     '</a> ' + time + ' '
                 if (com_user_id == user_id || is_admin == 1) {
-                    comment = comment + "&nbsp;<a name='deleteComment' href='article-deleteC?id=" + comments[i].comment_id + "&a_id=" + comments[i].comment_article.article_id + "' class='text-danger'>" + i18N.delete + "</a> <a id ='" + comments[i].comment_id + "' name='updateComment' class='text-danger'>" + i18N.update + "</a></h5>"
+                    comment = comment + "&nbsp;<a name='deleteComment' href='article-deleteC?id=" + comments[i].id + "&a_id=" + comments[i].article_id + "' class='text-danger'>" + i18N.delete + "</a> <a id ='" + comments[i].id + "' name='updateComment' class='text-danger'>" + i18N.update + "</a></h5>"
                 } else {
                     comment = comment + "</h5>"
                 }
-                comment = comment + "<p>" + comments[i].comment_content + "</p>" +
+                comment = comment + "<p>" + comments[i].content + "</p>" +
                     '</div></div>'
                 $("#endLine").before(comment)
             }

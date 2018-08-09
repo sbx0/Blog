@@ -202,7 +202,7 @@ public class ArticleAction extends BaseAction {
         getJson().element("comments", jsonArray);
 
         // 增加积分
-        user.setUser_integral(user.getUser_integral() + 15L);
+        user.setUser_integral(user.getUser_integral() + 15.0);
         userService.register(user);
 
         // 判断评论的用户是不是文章的发表人
@@ -347,7 +347,11 @@ public class ArticleAction extends BaseAction {
         return "one";
     }
 
-    // 加载评论
+    /**
+     * 加载文章评论
+     *
+     * @return json串
+     */
     public String load() {
         // 是否登陆 js判断是否登陆而显示删除修改
         User user = (User) getSession().get("user");
