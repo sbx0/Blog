@@ -353,6 +353,7 @@ public class ArticleAction extends BaseAction {
      * @return json串
      */
     public String load() {
+
         // 是否登陆 js判断是否登陆而显示删除修改
         User user = (User) getSession().get("user");
         if (user == null) {

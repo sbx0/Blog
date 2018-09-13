@@ -10,7 +10,7 @@
 			<column name="comment_floor" not-null="true"></column>
 		</property>
 		<!-- 配置n-1的关联关系 -->
-		<many-to-one name="comment_user" class="entity.User">
+		<many-to-one name="comment_user" class="entity.User" lazy="false" fetch="join">
 			<!-- 外键列的字段名/列名 -->
 			<column name="user_id" not-null="true"></column>
 		</many-to-one>

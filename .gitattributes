@@ -4,6 +4,6 @@
 *.html linguist-language=java
 
 /src/web/WEB-INF/classes
-google62796719443a5f48.html
 *.class
 /src/db.properties
+.idea/

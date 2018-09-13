@@ -58,6 +58,7 @@ public class Comment {
 		this.comment_content = comment_content;
 		this.comment_time = comment_time;
 	}
+
 	@Override
 	public String toString() {
 		return "Comment{" +

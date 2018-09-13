@@ -143,6 +143,7 @@ public class CommentService {
             cJson.put("com_user_name", comments.get(i).getComment_user().getUser_name());
             cJson.put("article_id", comments.get(i).getComment_article().getArticle_id());
             cJson.put("author_id", comments.get(i).getComment_article().getArticle_author().getUser_id());
+            cJson.put("author_name", comments.get(i).getComment_article().getArticle_author().getUser_name());
             jsonArray.add(cJson);
         }
         return jsonArray;

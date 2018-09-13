@@ -193,7 +193,7 @@
                                 </a>
                             </div>
                             <div class="col-xs-4">
-                                <a id="logout" href="javascript:void(0)" class="btn btn-danger menu-a" role="button">
+                                <a id="logout" class="btn btn-danger menu-a" role="button">
                                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                                     <fmt:message key="logout"/>
                                 </a>
@@ -226,15 +226,15 @@
                 <div class="row margin-bottom-10">
                     <div class="col-xs-12">
                         <div class="col-xs-4">
-                            <a href="javascript:void(0)" name="zh_CN" class="btn btn-success btn-md"
+                            <a name="zh_CN" class="btn btn-success btn-md"
                                role="button">简体中文</a>
                         </div>
                         <div class="col-xs-4">
-                            <a href="javascript:void(0)" name="zh_TW" class="btn btn-danger btn-md"
+                            <a name="zh_TW" class="btn btn-danger btn-md"
                                role="button">繁体中文</a>
                         </div>
                         <div class="col-xs-4">
-                            <a href="javascript:void(0)" name="en_US" class="btn btn-danger btn-md" role="button">English</a>
+                            <a name="en_US" class="btn btn-danger btn-md" role="button">English</a>
                         </div>
                     </div>
                 </div>
